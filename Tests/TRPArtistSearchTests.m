@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 UMiami. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import <libechonest/ENAPI.h>
 #import "TRPConstants.h"
 
@@ -13,9 +14,33 @@ SpecBegin(ArtistSearch)
 
 describe(@"search", ^{
     
+//    CLLocationManager *locationManager = [[CLLocationManager alloc] init];
+//    //There will be a warning from this line of code, ignore it
+//    [locationManager setDelegate:self];
+//    
+//    //And we want it to be as accurate as possible
+//    //regardless of how much time it takes
+//    [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+//    
+//    CLLocation *location = [locationManager location];
+//    
+//    CLGeocoder *gc = [[CLGeocoder alloc] init];
+//    [gc reverseGeocodeLocation:location completionHandler:
+//    
+//    ^(NSArray *placemarks, NSError *error) {
+//        //Get nearby address
+//        CLPlacemark *placemark = [placemarks objectAtIndex:0];
+//        //String to hold address
+//        NSString *locatedAt = [[placemark.addressDictionary valueForKey:@"FormattedAddressLines"] componentsJoinedByString:@", "];
+//        //Print the location to console
+//        NSLog(@"I am currently at %@",locatedAt);
+//    }];
+    
+    
     [ENAPI initWithApiKey:kEchoNestAPIKey
               ConsumerKey:kEchoNestConsumerKey
           AndSharedSecret:kEchoNestSharedSecret];
+    
     
     NSString *endPoint = @"artist/search";
     ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
