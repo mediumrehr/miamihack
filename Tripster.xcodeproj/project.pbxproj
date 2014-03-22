@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		695F6E3B62974431A40C26F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 088DB334FEE94805ABFB5FF7 /* libPods.a */; };
 		A6DF12A8EFA24F0A824F4F4F /* libPods-TripsterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6144545846A4479585161938 /* libPods-TripsterTests.a */; };
+		BC04236018DE211D00B7BFD5 /* TRPRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC04235F18DE211D00B7BFD5 /* TRPRootViewController.m */; };
+		BC04236418DE24E700B7BFD5 /* TRPRootView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC04236318DE24E700B7BFD5 /* TRPRootView.m */; };
 		BC1F687D18DDCCCD00280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
 		BC1F687F18DDCCCD00280899 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687E18DDCCCD00280899 /* CoreGraphics.framework */; };
 		BC1F688118DDCCCD00280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
@@ -31,6 +33,10 @@
 		573EA2C0B84740E0997DC460 /* Pods-TripsterTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripsterTests.xcconfig"; path = "Pods/Pods-TripsterTests.xcconfig"; sourceTree = "<group>"; };
 		6144545846A4479585161938 /* libPods-TripsterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TripsterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73BACBF37A234EE2BE20FEEB /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		BC04235E18DE211D00B7BFD5 /* TRPRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPRootViewController.h; path = Root/TRPRootViewController.h; sourceTree = "<group>"; };
+		BC04235F18DE211D00B7BFD5 /* TRPRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPRootViewController.m; path = Root/TRPRootViewController.m; sourceTree = "<group>"; };
+		BC04236218DE24E700B7BFD5 /* TRPRootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPRootView.h; sourceTree = "<group>"; };
+		BC04236318DE24E700B7BFD5 /* TRPRootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPRootView.m; sourceTree = "<group>"; };
 		BC1F687918DDCCCD00280899 /* Tripster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tripster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC1F687C18DDCCCD00280899 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BC1F687E18DDCCCD00280899 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -79,6 +85,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC04236118DE212000B7BFD5 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				BC04235E18DE211D00B7BFD5 /* TRPRootViewController.h */,
+				BC04235F18DE211D00B7BFD5 /* TRPRootViewController.m */,
+				BC04236218DE24E700B7BFD5 /* TRPRootView.h */,
+				BC04236318DE24E700B7BFD5 /* TRPRootView.m */,
+			);
+			name = Root;
+			sourceTree = "<group>";
+		};
 		BC1F687018DDCCCD00280899 = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +140,7 @@
 				BC1F68AE18DDCEEB00280899 /* TRPAppDelegate.m */,
 				BC1F68C418DDDB6A00280899 /* TRPConstants.h */,
 				BC1F68C518DDDBD700280899 /* TRPConstants.m */,
+				BC04236118DE212000B7BFD5 /* Root */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -317,6 +335,8 @@
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
+				BC04236418DE24E700B7BFD5 /* TRPRootView.m in Sources */,
+				BC04236018DE211D00B7BFD5 /* TRPRootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

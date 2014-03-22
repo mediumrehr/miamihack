@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D0C3BB17C364728905880E3"
+               BlueprintIdentifier = "976AA852467A4662ABB2B626"
                BuildableName = "libPods-TripsterTests-Expecta.a"
                BlueprintName = "Pods-TripsterTests-Expecta"
                ReferencedContainer = "container:Pods.xcodeproj">
