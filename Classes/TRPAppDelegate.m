@@ -11,6 +11,7 @@
 #import <CocoaLibSpotify.h>
 #import <SPPlaybackManager.h>
 #import "TRPRootViewController.h"
+#import "TRPTripCreationViewController.h"
 
 #define kDefaultSpotifyUserCredentials @"DefaultSpotifyUserCredentials"
 
@@ -156,6 +157,11 @@
 
          // go to main UI
          [self.rootViewController dismissViewControllerAnimated:YES completion:nil];
+
+         // if no current trip, create new... logic stuff
+         if (!self.rootViewController.currentViewController) {
+             self.rootViewController.currentViewController = [TRPTripCreationViewController new];
+         }
 
          [SPAsyncLoading waitUntilLoaded:aSession.user timeout:kSPAsyncLoadingDefaultTimeout then:^
           (NSArray *loadedItems, NSArray *notLoadedItems) {
