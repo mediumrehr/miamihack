@@ -10,7 +10,7 @@
 #import <libechonest/ENAPI.h>
 #import "TRPConstants.h"
 
-SpecBegin(ArtistSearch)
+SpecBegin(LocationToPlaylist)
 
 describe(@"search", ^{
     
@@ -45,12 +45,12 @@ describe(@"search", ^{
     NSString *endPoint = @"artist/search";
     ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
     
-    NSString *loc = @"Miami";
+    NSString *loc = @"butthole";
     [request setValue:loc forParameter:@"artist_location"];
     
-    NSArray *bucket = [[NSArray alloc] initWithObjects: @"genre", @"hotttnesss", @"discovery", nil];
+    NSArray *bucket = [[NSArray alloc] initWithObjects: @"genre", @"hotttnesss", @"discovery", @"artist_location", nil];
     [request setValue:bucket forParameter:@"bucket"];
-    [request setIntegerValue:25 forParameter:@"results"];
+    [request setIntegerValue:5 forParameter:@"results"];
     // [request setValue:[NSNumber numberWithInt:25] forParameter:@"results"];
     [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
     [request startSynchronous];
@@ -61,11 +61,17 @@ describe(@"search", ^{
     NSDictionary *response = [[request response] objectForKey:@"response"];
 
     if(request.responseStatusCode == 200){ // Successful query
+        
         NSLog(@"Successful query");
         NSArray *artists = [response objectForKey:@"artists"];
-        
-        for(NSDictionary *artist in artists){
-            NSLog(@"%@", [artist objectForKey:@"name"]);
+        if([artists count] > 0){ // Valid Area
+            for(NSDictionary *artist in artists){
+                NSLog(@"Artist: %@", [artist objectForKey:@"name"]);
+                NSDictionary *location = [artist objectForKey:@"artist_location"];
+                NSLog(@"City: %@", [location objectForKey:@"city"]); // To get the artist's location. may be more specific than search.
+            }
+        } else{
+            NSLog(@"Invalid Area");
         }
 
     }
