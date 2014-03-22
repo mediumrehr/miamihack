@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		695F6E3B62974431A40C26F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 088DB334FEE94805ABFB5FF7 /* libPods.a */; };
 		A6DF12A8EFA24F0A824F4F4F /* libPods-TripsterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6144545846A4479585161938 /* libPods-TripsterTests.a */; };
-		78BAE29A18DDFE4700FE06D3 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78BAE29818DDFE4700FE06D3 /* LoginViewController.m */; };
-		78BAE29B18DDFE4700FE06D3 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BAE29918DDFE4700FE06D3 /* LoginViewController.xib */; };
 		BC1F687D18DDCCCD00280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
 		BC1F687F18DDCCCD00280899 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687E18DDCCCD00280899 /* CoreGraphics.framework */; };
 		BC1F688118DDCCCD00280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
@@ -33,9 +31,6 @@
 		573EA2C0B84740E0997DC460 /* Pods-TripsterTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripsterTests.xcconfig"; path = "Pods/Pods-TripsterTests.xcconfig"; sourceTree = "<group>"; };
 		6144545846A4479585161938 /* libPods-TripsterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TripsterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73BACBF37A234EE2BE20FEEB /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		78BAE29718DDFE4700FE06D3 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		78BAE29818DDFE4700FE06D3 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		78BAE29918DDFE4700FE06D3 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		BC1F687918DDCCCD00280899 /* Tripster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tripster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC1F687C18DDCCCD00280899 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BC1F687E18DDCCCD00280899 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -128,9 +123,6 @@
 				BC1F68AE18DDCEEB00280899 /* TRPAppDelegate.m */,
 				BC1F68C418DDDB6A00280899 /* TRPConstants.h */,
 				BC1F68C518DDDBD700280899 /* TRPConstants.m */,
-				78BAE29718DDFE4700FE06D3 /* LoginViewController.h */,
-				78BAE29818DDFE4700FE06D3 /* LoginViewController.m */,
-				78BAE29918DDFE4700FE06D3 /* LoginViewController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -239,7 +231,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78BAE29B18DDFE4700FE06D3 /* LoginViewController.xib in Resources */,
 				BC1F68BD18DDCEEB00280899 /* InfoPlist.strings in Resources */,
 				BC1F68C018DDCEEB00280899 /* InfoPlist.strings in Resources */,
 				BC1F68BE18DDCEEB00280899 /* Images.xcassets in Resources */,
@@ -323,7 +314,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78BAE29A18DDFE4700FE06D3 /* LoginViewController.m in Sources */,
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,

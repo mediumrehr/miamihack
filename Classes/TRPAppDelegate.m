@@ -7,7 +7,6 @@
 //
 
 #import "TRPAppDelegate.h"
-#import "LoginViewController.h"
 #import "TRPConstants.h"
 #import <CocoaLibSpotify.h>
 #import <SPPlaybackManager.h>
@@ -67,6 +66,7 @@
 
     SPLoginViewController *loginViewController = [SPLoginViewController loginControllerForSession:[SPSession sharedSession]];
     // To allow the user to cancel (i.e., your application doesn't require a logged-in Spotify user, set this to YES.
+    loginViewController.navigationBarHidden = YES;
     loginViewController.allowsCancel = NO;
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -135,11 +135,12 @@
         return;
     }
 
-    SPLoginViewController *controller = [SPLoginViewController loginControllerForSession:[SPSession sharedSession]];
-    controller.allowsCancel = NO;
-    controller.dismissesAfterLogin = YES;
+    SPLoginViewController *loginViewController = [SPLoginViewController loginControllerForSession:[SPSession sharedSession]];
+    loginViewController.allowsCancel = NO;
+    loginViewController.dismissesAfterLogin = YES;
+    loginViewController.navigationBarHidden = YES;
     // ^ To allow the user to cancel (i.e., your application doesn't require a logged-in Spotify user, set this to YES.
-    [self.window.rootViewController presentViewController:controller animated:YES completion:nil];
+    [self.window.rootViewController presentViewController:loginViewController animated:YES completion:nil];
 }
 
 -(void)sessionDidLogOut:(SPSession *)aSession; {
