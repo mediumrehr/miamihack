@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D7C99F4F-F5ED-47DC-9307-6E72AC78D63B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Tripster</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>85D82D25-A494-422B-99F4-76C9F3392AF8</key>
+		<string>ssh://github.com/roB3AR/miamihack.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Tripster.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>85D82D25-A494-422B-99F4-76C9F3392AF8</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/roB3AR/miamihack.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>85D82D25-A494-422B-99F4-76C9F3392AF8</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>85D82D25-A494-422B-99F4-76C9F3392AF8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>miamihack</string>
+		</dict>
+	</array>
+</dict>
+</plist>
