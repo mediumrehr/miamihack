@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ArtistModel.h"
 
-@interface TRPTripCreationView : UIView
+@interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate>{
+    ArtistModel *artistModel;
+}
 
 @end
