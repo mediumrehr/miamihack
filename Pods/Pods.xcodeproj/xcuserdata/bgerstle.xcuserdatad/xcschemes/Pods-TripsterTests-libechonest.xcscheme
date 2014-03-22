@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "95346BFD76EC4CE29CF675D0"
+               BlueprintIdentifier = "C3704ADE7E2B4E7AB0308AAF"
                BuildableName = "libPods-TripsterTests-libechonest.a"
                BlueprintName = "Pods-TripsterTests-libechonest"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -1,0 +1,2 @@
+PODS_LIBSPOTIFY_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/Libspotify/libspotify-12.1.64-iOS-universal"
+PODS_LIBSPOTIFY_OTHER_LDFLAGS = -lstdc++ -framework libspotify

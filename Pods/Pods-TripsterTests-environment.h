@@ -78,6 +78,30 @@
 #define COCOAPODS_VERSION_MINOR_ASIHTTPRequest_S3 8
 #define COCOAPODS_VERSION_PATCH_ASIHTTPRequest_S3 2
 
+// CocoaLibSpotify
+#define COCOAPODS_POD_AVAILABLE_CocoaLibSpotify
+#define COCOAPODS_VERSION_MAJOR_CocoaLibSpotify 2
+#define COCOAPODS_VERSION_MINOR_CocoaLibSpotify 4
+#define COCOAPODS_VERSION_PATCH_CocoaLibSpotify 5
+
+// CocoaLumberjack
+#define COCOAPODS_POD_AVAILABLE_CocoaLumberjack
+#define COCOAPODS_VERSION_MAJOR_CocoaLumberjack 1
+#define COCOAPODS_VERSION_MINOR_CocoaLumberjack 8
+#define COCOAPODS_VERSION_PATCH_CocoaLumberjack 1
+
+// CocoaLumberjack/Core
+#define COCOAPODS_POD_AVAILABLE_CocoaLumberjack_Core
+#define COCOAPODS_VERSION_MAJOR_CocoaLumberjack_Core 1
+#define COCOAPODS_VERSION_MINOR_CocoaLumberjack_Core 8
+#define COCOAPODS_VERSION_PATCH_CocoaLumberjack_Core 1
+
+// CocoaLumberjack/Extensions
+#define COCOAPODS_POD_AVAILABLE_CocoaLumberjack_Extensions
+#define COCOAPODS_VERSION_MAJOR_CocoaLumberjack_Extensions 1
+#define COCOAPODS_VERSION_MINOR_CocoaLumberjack_Extensions 8
+#define COCOAPODS_VERSION_PATCH_CocoaLumberjack_Extensions 1
+
 // Expecta
 #define COCOAPODS_POD_AVAILABLE_Expecta
 #define COCOAPODS_VERSION_MAJOR_Expecta 0
@@ -131,4 +155,10 @@
 #define COCOAPODS_VERSION_MAJOR_libechonest 1
 #define COCOAPODS_VERSION_MINOR_libechonest 0
 #define COCOAPODS_VERSION_PATCH_libechonest 0
+
+// libspotify
+#define COCOAPODS_POD_AVAILABLE_libspotify
+#define COCOAPODS_VERSION_MAJOR_libspotify 12
+#define COCOAPODS_VERSION_MINOR_libspotify 1
+#define COCOAPODS_VERSION_PATCH_libspotify 64
 

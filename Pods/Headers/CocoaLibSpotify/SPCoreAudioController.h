@@ -1,0 +1,1 @@
+../../CocoaLibSpotify/common/SPCoreAudioController.h

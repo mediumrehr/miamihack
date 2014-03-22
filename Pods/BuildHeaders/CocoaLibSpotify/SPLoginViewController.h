@@ -1,0 +1,1 @@
+../../CocoaLibSpotify/iOS Library/View Controllers/SPLoginViewController.h
