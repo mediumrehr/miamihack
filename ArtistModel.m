@@ -41,7 +41,8 @@
     [request setIntegerValue:5 forParameter:@"results"];
     // [request setValue:[NSNumber numberWithInt:25] forParameter:@"results"];
     [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
-    [request startAsynchronous];
+    //[request startAsynchronous]; This should work, and the methods should be here to make it, but it doesn't! Help needed here.
+    [request startSynchronous];
 
 }
 

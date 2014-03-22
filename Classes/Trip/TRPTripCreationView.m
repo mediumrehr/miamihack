@@ -19,6 +19,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         artistModel = [[ArtistModel alloc] init];
+        [artistModel setDelegate:self];
         self.locationField = [[UITextField alloc] init];
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
@@ -46,7 +47,6 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     [artistModel createArtistsModelforLocation:textField.text];
-    [artistModel setDelegate:self];
 }
 
 -(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{
