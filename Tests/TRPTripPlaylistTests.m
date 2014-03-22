@@ -28,7 +28,18 @@ describe(@"creation", ^{
     expect(request.complete).to.equal(YES);
     expect(request.responseStatusCode).to.equal(200);
     NSDictionary *response = [[request response] objectForKey:@"response"];
-    NSDictionary *status   =  [response objectForKey:@"status"];
+    int playingIndex = 0;
+    if(request.responseStatusCode == 200){ // Successful query
+        NSArray *songs = [response objectForKey:@"songs"];
+        
+        // get foreign ids  artist_foreign_id
+        NSDictionary *song = [songs objectAtIndex:playingIndex];
+        NSArray *tracks = [song objectForKey:@"tracks"];
+        NSDictionary *track = [tracks objectAtIndex:0];
+        NSString *spotify_ID = [track objectForKey:@"foreign_id"]; // send this to spotify
+        NSLog(@"Print ID: %@",spotify_ID);
+    }
+    
     NSLog(@"%@",response);
     
     // Get Next Song!
