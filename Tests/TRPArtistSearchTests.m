@@ -12,6 +12,7 @@
 SpecBegin(ArtistSearch)
 
 describe(@"search", ^{
+    
     [ENAPI initWithApiKey:kEchoNestAPIKey
               ConsumerKey:kEchoNestConsumerKey
           AndSharedSecret:kEchoNestSharedSecret];
@@ -23,8 +24,22 @@ describe(@"search", ^{
     [request startSynchronous];
     expect(request.complete).to.equal(YES);
     expect(request.responseStatusCode).to.equal(200);
+    NSDictionary *response = [[request response] objectForKey:@"response"];
+    NSDictionary *status   =  [response objectForKey:@"status"];
+
+    if([[status objectForKey:@"message"]  isEqual: @"Success"]){ // Successful query
+        NSLog(@"Successful query");
+        NSDictionary *artists = [response objectForKey:@"artists"];
+        NSArray *keys = [artists allKeys];
+        for(int i = 0; i < [keys count]; i++){
+            NSLog(@"%@ %@", keys[i], [artists objectForKey:keys[i]]);
+        }
+        
+    }
     NSLog(@"Got data: %@", request.responseString);
+    
     expect([request.responseString length]).to.beGreaterThan(0);
+    
 });
 
 SpecEnd
