@@ -8,12 +8,32 @@
 
 #import "TRPTripCreationViewController.h"
 #import "TRPTripCreationView.h"
+#import "TRPTripLocationStep.h"
+#import "TRPTripArtistSelectionStep.h"
 
 @interface TRPTripCreationViewController ()
-
+@property (nonatomic, strong) TRPTripLocationStep *tripLocationStep;
+@property (nonatomic, strong) TRPTripArtistSelectionStep *tripArtistSelectionStep;
 @end
 
 @implementation TRPTripCreationViewController
+
+- (id)init
+{
+    if (!(self = [super init])) {
+        return nil;
+    }
+
+    _tripLocationStep = [TRPTripLocationStep new];
+    _tripArtistSelectionStep = [TRPTripArtistSelectionStep new];
+
+    return self;
+}
+
+- (TRPTripCreationView*)creationView
+{
+    return (TRPTripCreationView*)self.view;
+}
 
 - (void)loadView
 {
@@ -26,6 +46,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)createStep
+{
+    TRPTripModel *model = TRPTripModelFromSteps([@[_tripArtistSelectionStep, _tripLocationStep] rac_sequence]);
+    NSLog(@"Created a trip! %@", model);
 }
 
 /*
