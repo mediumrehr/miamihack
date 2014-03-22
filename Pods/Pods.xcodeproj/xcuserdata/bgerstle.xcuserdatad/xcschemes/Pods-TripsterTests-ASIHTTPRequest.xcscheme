@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5F970110AFB24220B534482D"
+               BlueprintIdentifier = "F6BC0A09E18A41A4A9ADC57F"
                BuildableName = "libPods-TripsterTests-ASIHTTPRequest.a"
                BlueprintName = "Pods-TripsterTests-ASIHTTPRequest"
                ReferencedContainer = "container:Pods.xcodeproj">

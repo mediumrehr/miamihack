@@ -7,16 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LoginViewController.h"
-#import <CocoaLibSpotify/SPLoginViewController.h>
 
-@interface TRPAppDelegate : UIResponder <UIApplicationDelegate, SPLoginViewControllerDelegate>
-{
-    //LoginViewController *LVC; // Replaced by SPLVC
-    SPLoginViewController *loginViewController; // Login VC
-    SPSession *session;
-}
-
+@interface TRPAppDelegate : UIResponder
 @property (strong, nonatomic) UIWindow *window;
-
 @end

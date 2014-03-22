@@ -1,0 +1,70 @@
+//
+//  TRPRootViewController.m
+//  Tripster
+//
+//  Created by Brian Gerstle on 3/22/14.
+//  Copyright (c) 2014 UMiami. All rights reserved.
+//
+
+#import "TRPRootViewController.h"
+#import "TRPRootView.h"
+
+@interface TRPRootViewController ()
+<TRPRootViewDelegate>
+@property (nonatomic, weak) id<TRPRootViewControllerAuthDelegate> authDelegate;
+@end
+
+@implementation TRPRootViewController
+
+- (instancetype)initWithAuthDelegate:(id<TRPRootViewControllerAuthDelegate>)authDelegate;
+{
+    if (!(self = [super init])) {
+        return nil;
+    }
+    _authDelegate = authDelegate;
+    return self;
+}
+
+- (TRPRootView*)rootView
+{
+    return (TRPRootView*)self.view;
+}
+
+- (void)loadView
+{
+    self.view = [[TRPRootView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.rootView.delegate = self;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    // check for list of trips, and start a new one if empty
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+#pragma mark - TRPRootViewDelegate
+
+- (void)didTouchLogout:(TRPRootView *)rootView
+{
+    [_authDelegate logout];
+}
+
+@end

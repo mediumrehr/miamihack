@@ -53,6 +53,9 @@ PODS:
     - ReactiveCocoa/no-arc
   - ReactiveCocoa/no-arc (2.2.4)
   - SBJson (3.2)
+  - SDWebImage (3.5.4):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.5.4)
   - Specta (0.2.1)
   - TSLibraryImport (0.0.1)
 
@@ -63,6 +66,7 @@ DEPENDENCIES:
   - Expecta (~> 0.2)
   - libechonest (~> 1.0)
   - ReactiveCocoa (~> 2.2)
+  - SDWebImage (~> 3.5)
   - Specta (~> 0.2)
 
 SPEC CHECKSUMS:
@@ -76,6 +80,7 @@ SPEC CHECKSUMS:
   Reachability: be4883bb93f31e38266ae3365e5600a317aae735
   ReactiveCocoa: 953a45dda30674fe704d1d9c77cc874141742f47
   SBJson: abc2bf2baef456d5dae213f9826fe2b6fdf19861
+  SDWebImage: 1a62010700adbba823b621fc217906739dbf6aa5
   Specta: 2d06220591110c6d9757d8be8ecf8e63aa40dc2a
   TSLibraryImport: d491ea11bcd7e7fd04d13255fe6e8f5b9b0eb7d9
 
