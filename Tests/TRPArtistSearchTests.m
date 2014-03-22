@@ -25,30 +25,35 @@ describe(@"search", ^{
     
     NSArray *bucket = [[NSArray alloc] initWithObjects: @"genre", @"hotttnesss", @"discovery", nil];
     [request setValue:bucket forParameter:@"bucket"];
+    [request setIntegerValue:25 forParameter:@"results"];
+  //[request setValue:[NSNumber numberWithInt:25] forParameter:@"results"];
     [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
-    [request startAsynchronous];
+    [request startSynchronous];
     
     expect(request.complete).to.equal(YES);
     expect(request.responseStatusCode).to.equal(200);
     
     NSDictionary *response = [[request response] objectForKey:@"response"];
-    NSDictionary *status   =  [response objectForKey:@"status"];
 
-    if([[status objectForKey:@"message"]  isEqual: @"Success"]){ // Successful query
+
+    if(request.responseStatusCode == 200){ // Successful query
         NSLog(@"Successful query");
         NSArray *artists = [response objectForKey:@"artists"];
+        
         for(NSDictionary *artist in artists){
             NSLog(@"%@", [artist objectForKey:@"name"]);
         }
 
     }
     
-    NSLog(@"Got data: %@", request.responseString);
+    // NSLog(@"Got data: %@", request.responseString);
     
     expect([request.responseString length]).to.beGreaterThan(0);
     
-    // Query Songs
-    endPoint = @"artist/songs";
+    // Query For Static Playlist
+    endPoint = @"playlist/static";
+    
+    
     
 });
 
