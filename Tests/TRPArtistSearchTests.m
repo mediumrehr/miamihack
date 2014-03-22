@@ -19,11 +19,18 @@ describe(@"search", ^{
     
     NSString *endPoint = @"artist/search";
     ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    
     NSString *loc = @"Miami";
     [request setValue:loc forParameter:@"artist_location"];
-    [request startSynchronous];
+    
+    NSArray *bucket = [[NSArray alloc] initWithObjects: @"genre", @"hotttnesss", @"discovery", nil];
+    [request setValue:bucket forParameter:@"bucket"];
+    [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
+    [request startAsynchronous];
+    
     expect(request.complete).to.equal(YES);
     expect(request.responseStatusCode).to.equal(200);
+    
     NSDictionary *response = [[request response] objectForKey:@"response"];
     NSDictionary *status   =  [response objectForKey:@"status"];
 
@@ -39,6 +46,9 @@ describe(@"search", ^{
     NSLog(@"Got data: %@", request.responseString);
     
     expect([request.responseString length]).to.beGreaterThan(0);
+    
+    // Query Songs
+    endPoint = @"artist/songs";
     
 });
 
