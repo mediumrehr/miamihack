@@ -26,7 +26,7 @@ describe(@"search", ^{
     NSArray *bucket = [[NSArray alloc] initWithObjects: @"genre", @"hotttnesss", @"discovery", nil];
     [request setValue:bucket forParameter:@"bucket"];
     [request setIntegerValue:25 forParameter:@"results"];
-  //[request setValue:[NSNumber numberWithInt:25] forParameter:@"results"];
+    // [request setValue:[NSNumber numberWithInt:25] forParameter:@"results"];
     [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
     [request startSynchronous];
     
@@ -34,7 +34,6 @@ describe(@"search", ^{
     expect(request.responseStatusCode).to.equal(200);
     
     NSDictionary *response = [[request response] objectForKey:@"response"];
-
 
     if(request.responseStatusCode == 200){ // Successful query
         NSLog(@"Successful query");
