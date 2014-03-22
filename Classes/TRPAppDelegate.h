@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ENAPIPostRequest.h"
-#import "ENAPIRequest.h"
-#import "ENAPI.h"
+#import "LoginViewController.h"
+#import <CocoaLibSpotify/SPLoginViewController.h>
 
-@interface TRPAppDelegate : UIResponder <UIApplicationDelegate, ENAPIRequestDelegate>
+@interface TRPAppDelegate : UIResponder <UIApplicationDelegate, SPLoginViewControllerDelegate>
+{
+    //LoginViewController *LVC; // Replaced by SPLVC
+    SPLoginViewController *loginViewController; // Login VC
+    SPSession *session;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
