@@ -1,0 +1,18 @@
+//
+//  TripsterTests.pch
+//  Tripster
+//
+//  Created by Brian Gerstle on 3/22/14.
+//  Copyright (c) 2014 UMiami. All rights reserved.
+//
+
+#ifndef Tripster_TripsterTests_pch
+#define Tripster_TripsterTests_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import <Specta/Specta.h>
+#define EXP_SHORTHAND
+#import <Expecta/Expecta.h>
+
+#endif

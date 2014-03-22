@@ -8,32 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		695F6E3B62974431A40C26F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 088DB334FEE94805ABFB5FF7 /* libPods.a */; };
+		A6DF12A8EFA24F0A824F4F4F /* libPods-TripsterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6144545846A4479585161938 /* libPods-TripsterTests.a */; };
 		BC1F687D18DDCCCD00280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
 		BC1F687F18DDCCCD00280899 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687E18DDCCCD00280899 /* CoreGraphics.framework */; };
 		BC1F688118DDCCCD00280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
-		BC1F689618DDCCCD00280899 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F689518DDCCCD00280899 /* XCTest.framework */; };
-		BC1F689718DDCCCD00280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
-		BC1F689818DDCCCD00280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
 		BC1F68BB18DDCEEB00280899 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68AC18DDCEEB00280899 /* main.m */; };
 		BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68AE18DDCEEB00280899 /* TRPAppDelegate.m */; };
 		BC1F68BD18DDCEEB00280899 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC1F68B018DDCEEB00280899 /* InfoPlist.strings */; };
 		BC1F68BE18DDCEEB00280899 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC1F68B218DDCEEB00280899 /* Images.xcassets */; };
 		BC1F68C018DDCEEB00280899 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC1F68B718DDCEEB00280899 /* InfoPlist.strings */; };
-		BC1F68C318DDCEFA00280899 /* TripsterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68BA18DDCEEB00280899 /* TripsterTests.m */; };
 		BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68C518DDDBD700280899 /* TRPConstants.m */; };
-		BC1F68C718DDDC0F00280899 /* TRPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68C518DDDBD700280899 /* TRPConstants.m */; };
-		D399FD04EA9D4E859BDDE016 /* libPods-TripsterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6144545846A4479585161938 /* libPods-TripsterTests.a */; };
+		BC1F68D818DE05A000280899 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F689518DDCCCD00280899 /* XCTest.framework */; };
+		BC1F68D918DE05A000280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
+		BC1F68DA18DE05A000280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
+		BC1F68E018DE05A000280899 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC1F68DE18DE05A000280899 /* InfoPlist.strings */; };
+		BC1F68E218DE05A000280899 /* TripsterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68E118DE05A000280899 /* TripsterTests.m */; };
+		BC1F68E718DE05EC00280899 /* TRPLoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68CC18DDF92800280899 /* TRPLoginTests.m */; };
+		BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */; };
+		BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		BC1F689918DDCCCD00280899 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BC1F687118DDCCCD00280899 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BC1F687818DDCCCD00280899;
-			remoteInfo = Tripster;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		088DB334FEE94805ABFB5FF7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,7 +37,6 @@
 		BC1F687C18DDCCCD00280899 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BC1F687E18DDCCCD00280899 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BC1F688018DDCCCD00280899 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		BC1F689418DDCCCD00280899 /* TripsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC1F689518DDCCCD00280899 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		BC1F68AC18DDCEEB00280899 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BC1F68AD18DDCEEB00280899 /* TRPAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPAppDelegate.h; sourceTree = "<group>"; };
@@ -55,9 +47,16 @@
 		BC1F68B518DDCEEB00280899 /* Tripster-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tripster-Prefix.pch"; sourceTree = "<group>"; };
 		BC1F68B818DDCEEB00280899 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BC1F68B918DDCEEB00280899 /* TripsterTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TripsterTests-Info.plist"; sourceTree = "<group>"; };
-		BC1F68BA18DDCEEB00280899 /* TripsterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripsterTests.m; sourceTree = "<group>"; };
 		BC1F68C418DDDB6A00280899 /* TRPConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TRPConstants.h; sourceTree = "<group>"; };
 		BC1F68C518DDDBD700280899 /* TRPConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPConstants.m; sourceTree = "<group>"; };
+		BC1F68CC18DDF92800280899 /* TRPLoginTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPLoginTests.m; sourceTree = "<group>"; };
+		BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPArtistSearchTests.m; sourceTree = "<group>"; };
+		BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaylistTests.m; sourceTree = "<group>"; };
+		BC1F68D718DE059F00280899 /* TripsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC1F68DD18DE05A000280899 /* TripsterTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TripsterTests-Info.plist"; sourceTree = "<group>"; };
+		BC1F68DF18DE05A000280899 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC1F68E118DE05A000280899 /* TripsterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TripsterTests.m; sourceTree = "<group>"; };
+		BC1F68E318DE05A000280899 /* TripsterTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TripsterTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,14 +71,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BC1F689118DDCCCD00280899 /* Frameworks */ = {
+		BC1F68D418DE059F00280899 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC1F689618DDCCCD00280899 /* XCTest.framework in Frameworks */,
-				BC1F689818DDCCCD00280899 /* UIKit.framework in Frameworks */,
-				BC1F689718DDCCCD00280899 /* Foundation.framework in Frameworks */,
-				D399FD04EA9D4E859BDDE016 /* libPods-TripsterTests.a in Frameworks */,
+				BC1F68D818DE05A000280899 /* XCTest.framework in Frameworks */,
+				BC1F68DA18DE05A000280899 /* UIKit.framework in Frameworks */,
+				BC1F68D918DE05A000280899 /* Foundation.framework in Frameworks */,
+				A6DF12A8EFA24F0A824F4F4F /* libPods-TripsterTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +92,7 @@
 				BC1F68AF18DDCEEB00280899 /* Resources */,
 				BC1F68B318DDCEEB00280899 /* Support */,
 				BC1F68B618DDCEEB00280899 /* Tests */,
+				BC1F68DB18DE05A000280899 /* TripsterTests */,
 				BC1F687B18DDCCCD00280899 /* Frameworks */,
 				BC1F687A18DDCCCD00280899 /* Products */,
 				73BACBF37A234EE2BE20FEEB /* Pods.xcconfig */,
@@ -104,7 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				BC1F687918DDCCCD00280899 /* Tripster.app */,
-				BC1F689418DDCCCD00280899 /* TripsterTests.xctest */,
+				BC1F68D718DE059F00280899 /* TripsterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,9 +157,30 @@
 			children = (
 				BC1F68B718DDCEEB00280899 /* InfoPlist.strings */,
 				BC1F68B918DDCEEB00280899 /* TripsterTests-Info.plist */,
-				BC1F68BA18DDCEEB00280899 /* TripsterTests.m */,
+				BC1F68CC18DDF92800280899 /* TRPLoginTests.m */,
+				BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */,
+				BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		BC1F68DB18DE05A000280899 /* TripsterTests */ = {
+			isa = PBXGroup;
+			children = (
+				BC1F68E118DE05A000280899 /* TripsterTests.m */,
+				BC1F68DC18DE05A000280899 /* Supporting Files */,
+			);
+			path = TripsterTests;
+			sourceTree = "<group>";
+		};
+		BC1F68DC18DE05A000280899 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC1F68DD18DE05A000280899 /* TripsterTests-Info.plist */,
+				BC1F68DE18DE05A000280899 /* InfoPlist.strings */,
+				BC1F68E318DE05A000280899 /* TripsterTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,24 +205,23 @@
 			productReference = BC1F687918DDCCCD00280899 /* Tripster.app */;
 			productType = "com.apple.product-type.application";
 		};
-		BC1F689318DDCCCD00280899 /* TripsterTests */ = {
+		BC1F68D618DE059F00280899 /* TripsterTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BC1F68A818DDCCCD00280899 /* Build configuration list for PBXNativeTarget "TripsterTests" */;
+			buildConfigurationList = BC1F68E418DE05A000280899 /* Build configuration list for PBXNativeTarget "TripsterTests" */;
 			buildPhases = (
-				D710ED4D47894B968BB2F95B /* Check Pods Manifest.lock */,
-				BC1F689018DDCCCD00280899 /* Sources */,
-				BC1F689118DDCCCD00280899 /* Frameworks */,
-				BC1F689218DDCCCD00280899 /* Resources */,
-				43D759B241ED456C8C1D823F /* Copy Pods Resources */,
+				165539842CBD44D9BC732CEC /* Check Pods Manifest.lock */,
+				BC1F68D318DE059F00280899 /* Sources */,
+				BC1F68D418DE059F00280899 /* Frameworks */,
+				BC1F68D518DE059F00280899 /* Resources */,
+				96E981641C864F56B0173CB7 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				BC1F689A18DDCCCD00280899 /* PBXTargetDependency */,
 			);
 			name = TripsterTests;
 			productName = TripsterTests;
-			productReference = BC1F689418DDCCCD00280899 /* TripsterTests.xctest */;
+			productReference = BC1F68D718DE059F00280899 /* TripsterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -227,7 +247,7 @@
 			projectRoot = "";
 			targets = (
 				BC1F687818DDCCCD00280899 /* Tripster */,
-				BC1F689318DDCCCD00280899 /* TripsterTests */,
+				BC1F68D618DE059F00280899 /* TripsterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -243,16 +263,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BC1F689218DDCCCD00280899 /* Resources */ = {
+		BC1F68D518DE059F00280899 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC1F68E018DE05A000280899 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		165539842CBD44D9BC732CEC /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		1E510334A33649558A95D2EC /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -266,21 +302,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		43D759B241ED456C8C1D823F /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-TripsterTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7543FCF20A224766B5869DF4 /* Check Pods Manifest.lock */ = {
@@ -298,19 +319,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		D710ED4D47894B968BB2F95B /* Check Pods Manifest.lock */ = {
+		96E981641C864F56B0173CB7 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Pods-TripsterTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -326,24 +347,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BC1F689018DDCCCD00280899 /* Sources */ = {
+		BC1F68D318DE059F00280899 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC1F68C718DDDC0F00280899 /* TRPConstants.m in Sources */,
-				BC1F68C318DDCEFA00280899 /* TripsterTests.m in Sources */,
+				BC1F68E718DE05EC00280899 /* TRPLoginTests.m in Sources */,
+				BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */,
+				BC1F68E218DE05A000280899 /* TripsterTests.m in Sources */,
+				BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		BC1F689A18DDCCCD00280899 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BC1F687818DDCCCD00280899 /* Tripster */;
-			targetProxy = BC1F689918DDCCCD00280899 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		BC1F68B018DDCEEB00280899 /* InfoPlist.strings */ = {
@@ -358,6 +373,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC1F68B818DDCEEB00280899 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BC1F68DE18DE05A000280899 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC1F68DF18DE05A000280899 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -399,6 +422,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -431,6 +458,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -465,7 +496,7 @@
 			};
 			name = Release;
 		};
-		BC1F68A918DDCCCD00280899 /* Debug */ = {
+		BC1F68E518DE05A000280899 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 573EA2C0B84740E0997DC460 /* Pods-TripsterTests.xcconfig */;
 			buildSettings = {
@@ -475,18 +506,18 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tripster/Tripster-Prefix.pch";
+				GCC_PREFIX_HEADER = "Support/Tripster-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "TripsterTests/TripsterTests-Info.plist";
+				INFOPLIST_FILE = "Tests/TripsterTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
-		BC1F68AA18DDCCCD00280899 /* Release */ = {
+		BC1F68E618DE05A000280899 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 573EA2C0B84740E0997DC460 /* Pods-TripsterTests.xcconfig */;
 			buildSettings = {
@@ -496,8 +527,8 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tripster/Tripster-Prefix.pch";
-				INFOPLIST_FILE = "TripsterTests/TripsterTests-Info.plist";
+				GCC_PREFIX_HEADER = "Support/Tripster-Prefix.pch";
+				INFOPLIST_FILE = "Tests/TripsterTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -524,11 +555,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BC1F68A818DDCCCD00280899 /* Build configuration list for PBXNativeTarget "TripsterTests" */ = {
+		BC1F68E418DE05A000280899 /* Build configuration list for PBXNativeTarget "TripsterTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BC1F68A918DDCCCD00280899 /* Debug */,
-				BC1F68AA18DDCCCD00280899 /* Release */,
+				BC1F68E518DE05A000280899 /* Debug */,
+				BC1F68E618DE05A000280899 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

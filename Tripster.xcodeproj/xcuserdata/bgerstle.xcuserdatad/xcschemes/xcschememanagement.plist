@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>TripsterTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>25</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -18,6 +23,11 @@
 			<true/>
 		</dict>
 		<key>BC1F689318DDCCCD00280899</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BC1F68D618DE059F00280899</key>
 		<dict>
 			<key>primary</key>
 			<true/>
