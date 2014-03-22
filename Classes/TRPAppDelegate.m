@@ -19,20 +19,6 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    /*
-    
-    [ENAPI initWithApiKey:kEchoNestAPIKey];
-    
-    
-    NSString *endPoint = @"artist/search";
-    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
-    NSString *loc = @"Miami";
-    [request setIntegerValue:25 forParameter:@"Results"];
-    [request setValue:loc forKey:@"artist_location"];
-    [request setDelegate:self];
-    [request startSynchronous];
-    // ENAPIPostRequest *request = [[ENAPIPostRequest alloc] init];
-    */
     return YES;
 }
 

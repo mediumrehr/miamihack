@@ -18,9 +18,9 @@ extern const size_t SPOTIFY_APP_KEY_SIZE;
 /**
  EchoNest API
  */
-extern NSString const* kEchoNestAPIKey;
-extern NSString const* kEchoNestConsumerKey;
-extern NSString const* kEchoNestQueryHeading;
-extern NSString const* kEchoNestSharedSecret;
+extern NSString* kEchoNestAPIKey;
+extern NSString* kEchoNestConsumerKey;
+extern NSString* kEchoNestQueryHeading;
+extern NSString* kEchoNestSharedSecret;
 
 #endif

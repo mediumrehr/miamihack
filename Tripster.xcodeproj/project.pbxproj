@@ -21,9 +21,6 @@
 		BC1F68D818DE05A000280899 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F689518DDCCCD00280899 /* XCTest.framework */; };
 		BC1F68D918DE05A000280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
 		BC1F68DA18DE05A000280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
-		BC1F68E018DE05A000280899 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC1F68DE18DE05A000280899 /* InfoPlist.strings */; };
-		BC1F68E218DE05A000280899 /* TripsterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68E118DE05A000280899 /* TripsterTests.m */; };
-		BC1F68E718DE05EC00280899 /* TRPLoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68CC18DDF92800280899 /* TRPLoginTests.m */; };
 		BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */; };
 		BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */; };
 /* End PBXBuildFile section */
@@ -49,14 +46,10 @@
 		BC1F68B918DDCEEB00280899 /* TripsterTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TripsterTests-Info.plist"; sourceTree = "<group>"; };
 		BC1F68C418DDDB6A00280899 /* TRPConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TRPConstants.h; sourceTree = "<group>"; };
 		BC1F68C518DDDBD700280899 /* TRPConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPConstants.m; sourceTree = "<group>"; };
-		BC1F68CC18DDF92800280899 /* TRPLoginTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPLoginTests.m; sourceTree = "<group>"; };
 		BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPArtistSearchTests.m; sourceTree = "<group>"; };
 		BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaylistTests.m; sourceTree = "<group>"; };
 		BC1F68D718DE059F00280899 /* TripsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC1F68DD18DE05A000280899 /* TripsterTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TripsterTests-Info.plist"; sourceTree = "<group>"; };
-		BC1F68DF18DE05A000280899 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		BC1F68E118DE05A000280899 /* TripsterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TripsterTests.m; sourceTree = "<group>"; };
-		BC1F68E318DE05A000280899 /* TripsterTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TripsterTests-Prefix.pch"; sourceTree = "<group>"; };
+		E59DDF4C18DE0CD300381000 /* TripsterTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TripsterTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +85,6 @@
 				BC1F68AF18DDCEEB00280899 /* Resources */,
 				BC1F68B318DDCEEB00280899 /* Support */,
 				BC1F68B618DDCEEB00280899 /* Tests */,
-				BC1F68DB18DE05A000280899 /* TripsterTests */,
 				BC1F687B18DDCCCD00280899 /* Frameworks */,
 				BC1F687A18DDCCCD00280899 /* Products */,
 				73BACBF37A234EE2BE20FEEB /* Pods.xcconfig */,
@@ -155,32 +147,13 @@
 		BC1F68B618DDCEEB00280899 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E59DDF4C18DE0CD300381000 /* TripsterTests-Prefix.pch */,
 				BC1F68B718DDCEEB00280899 /* InfoPlist.strings */,
 				BC1F68B918DDCEEB00280899 /* TripsterTests-Info.plist */,
-				BC1F68CC18DDF92800280899 /* TRPLoginTests.m */,
 				BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */,
 				BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		BC1F68DB18DE05A000280899 /* TripsterTests */ = {
-			isa = PBXGroup;
-			children = (
-				BC1F68E118DE05A000280899 /* TripsterTests.m */,
-				BC1F68DC18DE05A000280899 /* Supporting Files */,
-			);
-			path = TripsterTests;
-			sourceTree = "<group>";
-		};
-		BC1F68DC18DE05A000280899 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				BC1F68DD18DE05A000280899 /* TripsterTests-Info.plist */,
-				BC1F68DE18DE05A000280899 /* InfoPlist.strings */,
-				BC1F68E318DE05A000280899 /* TripsterTests-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,7 +240,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC1F68E018DE05A000280899 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,9 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC1F68E718DE05EC00280899 /* TRPLoginTests.m in Sources */,
 				BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */,
-				BC1F68E218DE05A000280899 /* TripsterTests.m in Sources */,
 				BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,14 +343,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC1F68B818DDCEEB00280899 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		BC1F68DE18DE05A000280899 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BC1F68DF18DE05A000280899 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

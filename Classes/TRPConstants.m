@@ -30,7 +30,7 @@ const uint8_t SPOTIFY_APP_KEY[] = {
 
 const size_t SPOTIFY_APP_KEY_SIZE = sizeof(SPOTIFY_APP_KEY);
 
-NSString const* kEchoNestAPIKey = @"QMT6WYFTWSGPSOQFV";
-NSString const* kEchoNestConsumerKey = @"be329eab49668456821db2f2b55821f1";
-NSString const* kEchoNestSharedSecret = @"GoSk4Az1Sva8qbP+TpnGFA";
-NSString const* kEchoNestQueryHeading = @"http://developer.echonest.com/api/v4/artist/search?api_key=QMT6WYFTWSGPSOQFV&format=json";
+NSString* kEchoNestAPIKey = @"QMT6WYFTWSGPSOQFV";
+NSString* kEchoNestConsumerKey = @"be329eab49668456821db2f2b55821f1";
+NSString* kEchoNestSharedSecret = @"GoSk4Az1Sva8qbP+TpnGFA";
+NSString* kEchoNestQueryHeading = @"http://developer.echonest.com/api/v4/artist/search?api_key=QMT6WYFTWSGPSOQFV&format=json";
