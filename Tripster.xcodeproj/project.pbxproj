@@ -20,6 +20,8 @@
 		BC1F68BE18DDCEEB00280899 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC1F68B218DDCEEB00280899 /* Images.xcassets */; };
 		BC1F68C018DDCEEB00280899 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC1F68B718DDCEEB00280899 /* InfoPlist.strings */; };
 		BC1F68C318DDCEFA00280899 /* TripsterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68BA18DDCEEB00280899 /* TripsterTests.m */; };
+		BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68C518DDDBD700280899 /* TRPConstants.m */; };
+		BC1F68C718DDDC0F00280899 /* TRPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68C518DDDBD700280899 /* TRPConstants.m */; };
 		D399FD04EA9D4E859BDDE016 /* libPods-TripsterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6144545846A4479585161938 /* libPods-TripsterTests.a */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +56,8 @@
 		BC1F68B818DDCEEB00280899 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BC1F68B918DDCEEB00280899 /* TripsterTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TripsterTests-Info.plist"; sourceTree = "<group>"; };
 		BC1F68BA18DDCEEB00280899 /* TripsterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripsterTests.m; sourceTree = "<group>"; };
+		BC1F68C418DDDB6A00280899 /* TRPConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TRPConstants.h; sourceTree = "<group>"; };
+		BC1F68C518DDDBD700280899 /* TRPConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +128,8 @@
 				BC1F68AC18DDCEEB00280899 /* main.m */,
 				BC1F68AD18DDCEEB00280899 /* TRPAppDelegate.h */,
 				BC1F68AE18DDCEEB00280899 /* TRPAppDelegate.m */,
+				BC1F68C418DDDB6A00280899 /* TRPConstants.h */,
+				BC1F68C518DDDBD700280899 /* TRPConstants.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -316,6 +322,7 @@
 			files = (
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,
+				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC1F68C718DDDC0F00280899 /* TRPConstants.m in Sources */,
 				BC1F68C318DDCEFA00280899 /* TripsterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
