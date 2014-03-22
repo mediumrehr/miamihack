@@ -23,8 +23,14 @@ describe(@"search", ^{
     [request startSynchronous];
     expect(request.complete).to.equal(YES);
     expect(request.responseStatusCode).to.equal(200);
+    
+    if([[request.response objectForKey:@"message"]  isEqual: @"Success"]){ // Successful query
+        
+    }
     NSLog(@"Got data: %@", request.responseString);
+    
     expect([request.responseString length]).to.beGreaterThan(0);
+    
 });
 
 SpecEnd
