@@ -17,6 +17,10 @@
 @interface TRPRootViewController : UIViewController
 // TODO: add playback controls view controller
 
+@property (nonatomic, strong) UIViewController *currentViewController;
+
 - (instancetype)initWithAuthDelegate:(id<TRPRootViewControllerAuthDelegate>)authDelegate;
+
+- (void)createNewTrip;
 
 @end
