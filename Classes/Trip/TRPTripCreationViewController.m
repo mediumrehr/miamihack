@@ -7,9 +7,10 @@
 //
 
 #import "TRPTripCreationViewController.h"
+#import "TRPTripCreationView.h"
 
 @interface TRPTripCreationViewController ()
-@property (nonatomic, strong) UITextView *locationField;
+
 @end
 
 @implementation TRPTripCreationViewController
@@ -18,10 +19,7 @@
 {
     [super loadView];
     // Do any additional setup after loading the view.
-    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    self.locationField = [[UITextView alloc] init];
-    [self.view addSubview:self.locationField];
+    self.view = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 }
 
 - (void)didReceiveMemoryWarning

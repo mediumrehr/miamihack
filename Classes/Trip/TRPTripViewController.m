@@ -9,7 +9,6 @@
 #import "TRPTripViewController.h"
 
 @interface TRPTripViewController ()
-
 @end
 
 @implementation TRPTripViewController

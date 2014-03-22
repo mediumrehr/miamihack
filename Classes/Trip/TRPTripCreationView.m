@@ -8,24 +8,31 @@
 
 #import "TRPTripCreationView.h"
 
+@interface TRPTripCreationView ()
+@property (nonatomic, strong) UITextField *locationField;
+@end
+
 @implementation TRPTripCreationView
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        self.locationField = [[UITextField alloc] init];
+        self.locationField.borderStyle = UITextBorderStyleRoundedRect;
+        [self addSubview:self.locationField];
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)layoutSubviews
 {
-    // Drawing code
+    [super layoutSubviews];
+
+    CGRect locationFieldFrame = CGRectInset(self.bounds, 40, 0);
+    locationFieldFrame.size.height = 30;
+    locationFieldFrame.origin.y = 20;
+    self.locationField.frame = locationFieldFrame;
 }
-*/
 
 @end

@@ -49,6 +49,19 @@
     // check for list of trips, and start a new one if empty
 }
 
+- (void)setCurrentViewController:(UIViewController *)currentViewController
+{
+    if ([self.currentViewController isEqual:currentViewController]) {
+        return;
+    }
+
+    // set the new current view controller
+    [self.currentViewController.view removeFromSuperview];
+    _currentViewController = currentViewController;
+    self.currentViewController.view.frame = self.rootView.contentView.bounds;
+    [self.rootView.contentView addSubview:self.currentViewController.view];
+}
+
 /*
 #pragma mark - Navigation
 
