@@ -29,13 +29,13 @@ describe(@"search", ^{
 
     if([[status objectForKey:@"message"]  isEqual: @"Success"]){ // Successful query
         NSLog(@"Successful query");
-        NSDictionary *artists = [response objectForKey:@"artists"];
-        NSArray *keys = [artists allKeys];
-        for(int i = 0; i < [keys count]; i++){
-            NSLog(@"%@ %@", keys[i], [artists objectForKey:keys[i]]);
+        NSArray *artists = [response objectForKey:@"artists"];
+        for(NSDictionary *artist in artists){
+            NSLog(@"%@", [artist objectForKey:@"name"]);
         }
-        
+
     }
+    
     NSLog(@"Got data: %@", request.responseString);
     
     expect([request.responseString length]).to.beGreaterThan(0);

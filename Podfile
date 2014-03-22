@@ -6,6 +6,7 @@ pod 'ReactiveCocoa', '~> 2.2'
 pod 'AFNetworking', '~> 2.2'
 pod 'CocoaLumberjack', '~> 1.8'
 pod 'CocoaLibSpotify', '~> 2.4'
+pod 'SDWebImage', '~> 3.5'
 
 target "TripsterTests" do
   pod 'Specta', '~> 0.2'
