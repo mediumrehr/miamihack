@@ -32,12 +32,13 @@ describe(@"creation", ^{
     if(request.responseStatusCode == 200){ // Successful query
         NSArray *songs = [response objectForKey:@"songs"];
         
-        // get foreign ids  artist_foreign_id
+        // --- EXTRACT SPOTIFY ID ---
         NSDictionary *song = [songs objectAtIndex:playingIndex];
         NSArray *tracks = [song objectForKey:@"tracks"];
         NSDictionary *track = [tracks objectAtIndex:0];
         NSString *spotify_ID = [track objectForKey:@"foreign_id"]; // send this to spotify
         NSLog(@"Print ID: %@",spotify_ID);
+        // --- EXTRACT SPOTIFY ID ---
     }
     
     NSLog(@"%@",response);
