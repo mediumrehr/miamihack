@@ -7,6 +7,8 @@
 //
 
 #import "TRPAppDelegate.h"
+#import "TRPConstants.h"
+
 
 @implementation TRPAppDelegate
 
@@ -16,6 +18,21 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    /*
+    
+    [ENAPI initWithApiKey:kEchoNestAPIKey];
+    
+    
+    NSString *endPoint = @"artist/search";
+    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    NSString *loc = @"Miami";
+    [request setIntegerValue:25 forParameter:@"Results"];
+    [request setValue:loc forKey:@"artist_location"];
+    [request setDelegate:self];
+    [request startSynchronous];
+    // ENAPIPostRequest *request = [[ENAPIPostRequest alloc] init];
+    */
     return YES;
 }
 
@@ -44,6 +61,14 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void) requestFailed:(ENAPIRequest *)request{
+    NSLog(@"Request Failed");
+}
+
+- (void) requestFinished:(ENAPIRequest *)request{
+    NSLog(@"Request Finished");
 }
 
 @end

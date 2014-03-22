@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ENAPIPostRequest.h"
+#import "ENAPIRequest.h"
+#import "ENAPI.h"
 
-@interface TRPAppDelegate : UIResponder <UIApplicationDelegate>
+@interface TRPAppDelegate : UIResponder <UIApplicationDelegate, ENAPIRequestDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
