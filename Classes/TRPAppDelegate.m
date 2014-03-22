@@ -9,18 +9,34 @@
 #import "TRPAppDelegate.h"
 #import "TRPConstants.h"
 
-
 @implementation TRPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    // alloc init SP login VC and send to pop up
+    session = [[SPSession alloc]
+               initWithApplicationKey:[NSData dataWithBytes:SPOTIFY_APP_KEY
+                                                     length:SPOTIFY_APP_KEY_SIZE]
+            userAgent:@"com.umiami.tripster"
+               loadingPolicy:SPAsyncLoadingImmediate
+               error:nil];
+    loginViewController = [SPLoginViewController loginControllerForSession:session];
+    loginViewController.loginDelegate = self;
+    //SPLVC.loginDelegate = self;
+    self.window.rootViewController = loginViewController;
+    //self.window.backgroundColor = [UIColor whiteColor];
+    
     [self.window makeKeyAndVisible];
 
     
     return YES;
+}
+
+-(void)loginViewController:(SPLoginViewController *)controller didCompleteSuccessfully:(BOOL)didLogin
+{
+    NSLog(@"Hello World!");
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -48,14 +64,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (void) requestFailed:(ENAPIRequest *)request{
-    NSLog(@"Request Failed");
-}
-
-- (void) requestFinished:(ENAPIRequest *)request{
-    NSLog(@"Request Finished");
 }
 
 @end
