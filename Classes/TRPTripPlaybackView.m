@@ -16,7 +16,7 @@
 @synthesize volumeSlider = _volumeSlider;
 @synthesize playbackManager = _playbackManager;
 @synthesize currentTrack = _currentTrack;
-@synthesize playButton;
+@synthesize audioControlView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -48,6 +48,9 @@
         self.volumeSlider.value = 1.0;
         [self addSubview:self.volumeSlider];
         
+        self.audioControlView = [[AudioControlsView alloc] initWithFrame:CGRectMake((self.bounds.size.width - 160.0)/2.0, 10.0, 160.0, 66.0)];
+        [self addSubview:self.audioControlView];
+        
         self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
         [[SPSession sharedSession] setDelegate:self];
         trackUrlBuffer = [[NSMutableArray alloc]  init];
@@ -59,10 +62,7 @@
         
         [self.playbackManager setDelegate:self];
         tripModel = [TRPMutableTripModel getTripModel];
-        
-        self.playButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.playButton addTarget:self action:@selector(playButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:self.playButton];
+        trackUrlBufferIndex = 0;
     }
     return self;
 }
@@ -84,13 +84,12 @@
     
     self.volumeSlider.frame = CGRectMake(20.0, 340.0, self.bounds.size.width - 40.0, 20.0);
     
-    self.playButton.frame = CGRectMake((self.bounds.size.width - 150.0)/2.0, 80.0, 50.0, 20.0);
-    [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
-    
     [self createSessionWithArtists:[tripModel chosenSeeds]];
     BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
     if(!didSucceedNewTracks)
         NSLog(@"No new tracks recieved");
+    
+    [self.audioControlView setDelegate:self];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -106,9 +105,6 @@
 		// Only update the slider if the user isn't currently dragging it.
 		if (!self.positionSlider.highlighted)
 			self.positionSlider.value = self.playbackManager.trackPosition;
-        //        if (self.positionSlider.value==self.positionSlider.maximumValue) {
-        //            [self getSongsForCurrentSession];
-        //        }
     }else{
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -116,42 +112,44 @@
 
 - (IBAction)playButtonPressed:(id)sender {
 	// Invoked by clicking the "Play" button in the UI.
-	NSString *trackurlstring = [[trackUrlBuffer objectAtIndex:[trackUrlBuffer count]-1] stringByReplacingOccurrencesOfString:@"-US" withString:@""];
-	if (trackurlstring.length > 0) {
-		
-		NSURL *trackURL = [NSURL URLWithString:trackurlstring];
-		[[SPSession sharedSession] trackForURL:trackURL callback:^(SPTrack *track) {
-			
-			if (track != nil) {
-				
-				[SPAsyncLoading waitUntilLoaded:track timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *tracks, NSArray *notLoadedTracks) {
-					[self.playbackManager playTrack:track callback:^(NSError *error) {
-						
-						if (error) {
-							UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track"
-																			message:[error localizedDescription]
-																		   delegate:nil
-																  cancelButtonTitle:@"OK"
-																  otherButtonTitles:nil];
-							[alert show];
-						} else {
-							self.currentTrack = track;
-						}
-						
-					}];
-				}];
-			}
-		}];
-		
-		return;
-	}
-	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track"
-													message:@"Please enter a track URL"
-												   delegate:nil
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
-	[alert show];
+    if ([trackUrlBuffer count]>0) {
+        NSString *trackurlstring = [[trackUrlBuffer objectAtIndex:trackUrlBufferIndex] stringByReplacingOccurrencesOfString:@"-US" withString:@""];
+        if (trackurlstring.length > 0) {
+            
+            NSURL *trackURL = [NSURL URLWithString:trackurlstring];
+            [[SPSession sharedSession] trackForURL:trackURL callback:^(SPTrack *track) {
+                
+                if (track != nil) {
+                    
+                    [SPAsyncLoading waitUntilLoaded:track timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *tracks, NSArray *notLoadedTracks) {
+                        [self.playbackManager playTrack:track callback:^(NSError *error) {
+                            
+                            if (error) {
+                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track"
+                                                                                message:[error localizedDescription]
+                                                                               delegate:nil
+                                                                      cancelButtonTitle:@"OK"
+                                                                      otherButtonTitles:nil];
+                                [alert show];
+                            } else {
+                                self.currentTrack = track;
+                            }
+                            
+                        }];
+                    }];
+                }
+            }];
+            
+            return;
+        }
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track"
+                                                        message:@"Please enter a track URL"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (IBAction)setTrackPosition:(id)sender {
@@ -162,18 +160,12 @@
 	self.playbackManager.volume = [(UISlider *)sender value];
 }
 
--(void)didReceiveNextSong:(NSString *)urlString{
-    [trackUrlBuffer addObject:urlString];
+-(void)didReceiveNextSong:(NSArray*)urlStrings{
+    for (int i=0; i<[urlStrings count]; i++) {
+        [trackUrlBuffer setObject:[urlStrings objectAtIndex:i] atIndexedSubscript:(i+trackUrlBufferIndex)];
+    }
+    
 }
-
-
-
-
-
-
-//
-
-
 
 - (void) createSessionWithArtists:(NSArray*) artists{
     [ENAPI initWithApiKey:kEchoNestAPIKey
@@ -202,7 +194,7 @@
         ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
         [request setDelegate:self];
         [request setIntegerValue:1 forParameter:@"results"];
-        [request setIntegerValue:0 forParameter:@"lookahead"]; // Look Aheads do anything for us ???
+        [request setIntegerValue:5 forParameter:@"lookahead"]; // Look Aheads do anything for us ???
         [request setValue:sessionID forParameter:@"session_id"];
         [self.positionSlider setValue:0];
         [request startSynchronous];
@@ -216,6 +208,9 @@
     //    if([delegate respondsToSelector:@selector(failedToCreatePlaylist)]){
     //        [delegate failedToCreatePlaylist];
     //    }
+    
+    //We shit the bed on getting more tracks, so we need to eat up one of our lookaheads
+    trackUrlBufferIndex++;
 }
 
 - (void) requestFinished:(ENAPIRequest *)request{
@@ -230,15 +225,35 @@
         //        }
     } else if([requestType isEqualToString:@"NextSong"]){
         response = [[request response] objectForKey:@"response"]; // contains Song and Look Ahead
+        NSMutableArray *spotifyIDs = [[NSMutableArray alloc] init];
         NSArray *songs = [response objectForKey:@"songs"];
         if([songs count] > 0){
-            NSString *spotifyID = [[[[songs objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"foreign_id"];
-            [self didReceiveNextSong:spotifyID];
-            
-            
+            for (NSDictionary *song in songs){
+                if ([[song objectForKey:@"tracks"]  count] > 0) {
+                    NSString *spotifyID = [[[song objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"foreign_id"];
+                    if (spotifyID) {
+                        [spotifyIDs addObject:spotifyID];
+                    }
+                }
+            }
         }
-        // NSArray *lookAhead = [response objectForKey:@"lookahead"];
         
+        NSArray *lookaheads = [response objectForKey:@"lookahead"];
+        if ([lookaheads count] > 0) {
+            for (NSDictionary *song in lookaheads) {
+                if ([[song objectForKey:@"tracks"]  count] > 0) {
+                    NSString *spotifyID = [[[song objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"foreign_id"];
+                    if (spotifyID) {
+                        [spotifyIDs addObject:spotifyID];
+                    }
+                }
+            }
+        }
+        
+        
+        [self didReceiveNextSong:spotifyIDs];
+        // NSArray *lookAhead = [response objectForKey:@"lookahead"];
+        trackUrlBufferIndex ++;
     }
 }
 -(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager{
@@ -252,6 +267,45 @@
         // Error handling?
     }
     [self playButtonPressed:nil];
+}
+-(void)audioButtonPressed:(int)state{
+    if (state == 0) { //previous pressed
+        [self.playbackManager setIsPlaying:FALSE];
+        if (trackUrlBufferIndex>1) {
+            trackUrlBufferIndex--;
+        }
+        [self playButtonPressed:nil];
+    }else if(state == 1 && ![self.playbackManager isPlaying]){ //play
+        if(self.positionSlider.value==0.0)
+            [self playButtonPressed:nil];
+        else
+            [self.playbackManager setIsPlaying:TRUE];
+        [self.audioControlView setPlayPauseButton:TRUE];
+    }else if(state == 1 && [self.playbackManager isPlaying]){ //pause
+        [self.playbackManager setIsPlaying:FALSE];
+        [self.audioControlView setPlayPauseButton:FALSE];
+    }else if(state == 2){ // next pressed
+        [self.playbackManager setIsPlaying:FALSE];
+        [self getSongsForCurrentSession];
+        [self playButtonPressed:nil];
+        
+    }
+}
+
+- (void) getGenreRadioPlaylistWithGenres:(NSArray*)genres{
+    [ENAPI initWithApiKey:kEchoNestAPIKey
+              ConsumerKey:kEchoNestConsumerKey
+          AndSharedSecret:kEchoNestSharedSecret];
+    
+    requestType = @"genrePlaylist";
+    NSString *endPoint = @"playlist/static";
+    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
+    [request setIntegerValue:100 forParameter:@"results"];
+    [request setValue:genres forParameter:@"genre"];
+    [request setValue:@"genre-radio" forParameter:@"type"];
+    [request setValue:bucket forParameter:@"bucket"];
+    [request startAsynchronous];
 }
 
 

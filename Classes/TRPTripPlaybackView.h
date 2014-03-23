@@ -11,8 +11,9 @@
 #import <CocoaLibSpotify/CocoaLibSpotify.h>
 #import <libechonest/ENAPI.h>
 #import "TRPConstants.h"
+#import "AudioControlsView.h"
 
-@interface TRPTripPlaybackView : UIView <SPSessionDelegate, SPSessionPlaybackDelegate,ENAPIRequestDelegate,SPPlaybackManagerDelegate>
+@interface TRPTripPlaybackView : UIView <SPSessionDelegate, SPSessionPlaybackDelegate,ENAPIRequestDelegate,SPPlaybackManagerDelegate, AudioControlViewDelegate>
 {
     TRPTripModel *tripModel;
     UILabel *_trackTitle;
@@ -24,6 +25,7 @@
     SPPlaybackManager *_playbackManager;
     SPTrack *_currentTrack;
     NSMutableArray *trackUrlBuffer;
+    int trackUrlBufferIndex;
     
     NSString *sessionID;
     NSString *requestType;
@@ -41,7 +43,7 @@
 @property (nonatomic, strong) IBOutlet UIImageView *coverView;
 @property (nonatomic, strong) IBOutlet UISlider *positionSlider;
 @property (nonatomic, strong) IBOutlet UISlider *volumeSlider;
-@property (nonatomic, strong) IBOutlet UIButton *playButton;
+@property (nonatomic, strong) IBOutlet AudioControlsView *audioControlView;
 
 @property (nonatomic, strong) SPTrack *currentTrack;
 @property (nonatomic, strong) SPPlaybackManager *playbackManager;
