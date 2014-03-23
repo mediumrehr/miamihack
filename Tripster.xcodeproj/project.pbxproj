@@ -35,6 +35,13 @@
 		BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */; };
 		BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */; };
 		DE238D6318DE1399008E33CA /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
+		E5B17DAA18DE9EF200FFBFE6 /* UINavigationController+GZDrawer.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DA918DE9EF200FFBFE6 /* UINavigationController+GZDrawer.m */; };
+		E5B17DB118DEA44600FFBFE6 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAC18DEA44600FFBFE6 /* stop@2x.png */; };
+		E5B17DB218DEA44600FFBFE6 /* previous@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAD18DEA44600FFBFE6 /* previous@2x.png */; };
+		E5B17DB318DEA44600FFBFE6 /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAE18DEA44600FFBFE6 /* pause@2x.png */; };
+		E5B17DB418DEA44600FFBFE6 /* next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAF18DEA44600FFBFE6 /* next@2x.png */; };
+		E5B17DB518DEA44600FFBFE6 /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DB018DEA44600FFBFE6 /* play@2x.png */; };
+		E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +94,15 @@
 		E59DDF5218DE3E8B00381000 /* TRPLocationToPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPLocationToPlaylistTests.m; sourceTree = "<group>"; };
 		E59DDF5518DE578700381000 /* TRPPlaylistModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPPlaylistModel.h; sourceTree = "<group>"; };
 		E59DDF5618DE578700381000 /* TRPPlaylistModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPPlaylistModel.m; sourceTree = "<group>"; };
+		E5B17DA818DE9EF200FFBFE6 /* UINavigationController+GZDrawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+GZDrawer.h"; sourceTree = "<group>"; };
+		E5B17DA918DE9EF200FFBFE6 /* UINavigationController+GZDrawer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+GZDrawer.m"; sourceTree = "<group>"; };
+		E5B17DAC18DEA44600FFBFE6 /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop@2x.png"; sourceTree = "<group>"; };
+		E5B17DAD18DEA44600FFBFE6 /* previous@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "previous@2x.png"; sourceTree = "<group>"; };
+		E5B17DAE18DEA44600FFBFE6 /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
+		E5B17DAF18DEA44600FFBFE6 /* next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next@2x.png"; sourceTree = "<group>"; };
+		E5B17DB018DEA44600FFBFE6 /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
+		E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioControlsView.m; sourceTree = "<group>"; };
+		E5B17DB818DEA46E00FFBFE6 /* AudioControlsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioControlsView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +212,7 @@
 		BC1F68AB18DDCEEB00280899 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E5B17DA718DE9EE400FFBFE6 /* Drawer */,
 				E59DDF5518DE578700381000 /* TRPPlaylistModel.h */,
 				E59DDF5618DE578700381000 /* TRPPlaylistModel.m */,
 				6BDFE77318DE49310017A4A6 /* ArtistModel.h */,
@@ -205,6 +222,8 @@
 				BC1F68AE18DDCEEB00280899 /* TRPAppDelegate.m */,
 				BC1F68C418DDDB6A00280899 /* TRPConstants.h */,
 				BC1F68C518DDDBD700280899 /* TRPConstants.m */,
+				E5B17DB818DEA46E00FFBFE6 /* AudioControlsView.h */,
+				E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */,
 				BC04236118DE212000B7BFD5 /* Root */,
 				BC04236818DE2BE100B7BFD5 /* Trip */,
 			);
@@ -214,6 +233,7 @@
 		BC1F68AF18DDCEEB00280899 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E5B17DAB18DEA40100FFBFE6 /* audio controls */,
 				BC1F68B018DDCEEB00280899 /* InfoPlist.strings */,
 				BC1F68B218DDCEEB00280899 /* Images.xcassets */,
 			);
@@ -241,6 +261,27 @@
 				E59DDF5218DE3E8B00381000 /* TRPLocationToPlaylistTests.m */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		E5B17DA718DE9EE400FFBFE6 /* Drawer */ = {
+			isa = PBXGroup;
+			children = (
+				E5B17DA818DE9EF200FFBFE6 /* UINavigationController+GZDrawer.h */,
+				E5B17DA918DE9EF200FFBFE6 /* UINavigationController+GZDrawer.m */,
+			);
+			name = Drawer;
+			sourceTree = "<group>";
+		};
+		E5B17DAB18DEA40100FFBFE6 /* audio controls */ = {
+			isa = PBXGroup;
+			children = (
+				E5B17DAC18DEA44600FFBFE6 /* stop@2x.png */,
+				E5B17DAD18DEA44600FFBFE6 /* previous@2x.png */,
+				E5B17DAE18DEA44600FFBFE6 /* pause@2x.png */,
+				E5B17DAF18DEA44600FFBFE6 /* next@2x.png */,
+				E5B17DB018DEA44600FFBFE6 /* play@2x.png */,
+			);
+			name = "audio controls";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,9 +359,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC1F68BD18DDCEEB00280899 /* InfoPlist.strings in Resources */,
+				E5B17DB218DEA44600FFBFE6 /* previous@2x.png in Resources */,
+				E5B17DB518DEA44600FFBFE6 /* play@2x.png in Resources */,
 				BC1F68C018DDCEEB00280899 /* InfoPlist.strings in Resources */,
 				6B66BA6318DE722C003CD16F /* TRPTripViewController.xib in Resources */,
 				BC1F68BE18DDCEEB00280899 /* Images.xcassets in Resources */,
+				E5B17DB118DEA44600FFBFE6 /* stop@2x.png in Resources */,
+				E5B17DB318DEA44600FFBFE6 /* pause@2x.png in Resources */,
+				E5B17DB418DEA44600FFBFE6 /* next@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BDFE77518DE49310017A4A6 /* ArtistModel.m in Sources */,
+				E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */,
 				BC04237B18DE3EA200B7BFD5 /* TRPTripArtistSelectionStep.m in Sources */,
 				BC04237818DE3E6400B7BFD5 /* TRPTripLocationStep.m in Sources */,
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
@@ -409,10 +456,10 @@
 				BC04236B18DE2C0E00B7BFD5 /* TRPTripModel.m in Sources */,
 				6B66BA6218DE722C003CD16F /* TRPTripViewController.m in Sources */,
 				BC04236E18DE2EF900B7BFD5 /* TRPTripCreationViewController.m in Sources */,
-				E59DDF5718DE578700381000 /* TRPPlaylistModel.m in Sources */,
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
 				BC04236418DE24E700B7BFD5 /* TRPRootView.m in Sources */,
+				E5B17DAA18DE9EF200FFBFE6 /* UINavigationController+GZDrawer.m in Sources */,
 				BC04236018DE211D00B7BFD5 /* TRPRootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,8 +471,6 @@
 				DE238D6318DE1399008E33CA /* TRPGenreSearchTests.m in Sources */,
 				BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */,
 				BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */,
-				E59DDF5418DE3EEC00381000 /* TRPLocationToPlaylistTests.m in Sources */,
-				E59DDF4D18DE0DAB00381000 /* TRPConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
