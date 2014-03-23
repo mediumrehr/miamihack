@@ -93,7 +93,7 @@
     [tripmodel setLocation:textField.text];
 }
 
--(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{
+-(void)didReceiveArtistModel:(NSArray *)artists AndGeneratedGenres:(NSArray *)genres withMessage:(NSString *)message{
     NSLog(@" Artist Array %@",artists);
     [tripmodel setArtistIDs:nil];
     [tripmodel setArtistIDs:[artists mutableCopy]];

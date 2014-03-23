@@ -14,7 +14,7 @@
 @protocol ArtistModelDelegate <NSObject>
 
 @optional
--(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message;
+-(void)didReceiveArtistModel:(NSArray *)artists AndGeneratedGenres:(NSArray*)genres withMessage:(NSString *)message;
 
 @end
 
