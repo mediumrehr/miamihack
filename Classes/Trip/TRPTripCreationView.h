@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ArtistModel.h"
 #import "TRPTripModel.h"
+@protocol TripCreationViewDelegate <NSObject>
+-(void)pushNextVC;
+
+@end
+
 
 @interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate>{
     ArtistModel *artistModel;
@@ -16,6 +21,7 @@
 }
 
 @property (nonatomic, retain) UITableView *tabView;
+@property id delegate;
 
 -(IBAction)createPlaylist:(id)sender;
 

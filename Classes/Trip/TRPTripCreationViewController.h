@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "TRPTripCreationStep.h"
 #import "TRPTripModel.h"
+#import "TRPTripCreationView.h"
+
 
 @class TRPTripCreationViewController;
-@protocol TRPTripCreationViewControllerDelegate <NSObject>
+@protocol TRPTripCreationViewControllerDelegate <NSObject,TripCreationViewDelegate>
 
 - (void)controller:(TRPTripCreationViewController*)controller
      didCreateTrip:(TRPTripModel*)tripModel;
+
 
 @end
 
