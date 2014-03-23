@@ -12,12 +12,12 @@
 {
     @protected
     NSString *_location;
-    NSSet *_artistIDs;
+    NSMutableArray *_artistIDs;
     NSURL *_spotifyPlaylistURL;
     NSURL *_currentSpotifyTrackID;
 }
 @property (nonatomic, strong, readonly) NSString *location;
-@property (nonatomic, strong, readonly) NSSet *artistIDs;
+@property (nonatomic, strong, readonly) NSMutableArray *artistIDs;
 @property (nonatomic, strong, readonly) NSURL *spotifyPlaylistURL;
 @property (nonatomic, strong, readonly) NSURL *currentSpotifyTrackID;
 @end
@@ -26,7 +26,7 @@
 @interface TRPMutableTripModel : TRPTripModel
 + (TRPTripModel*) getTripModel;
 - (void)setLocation:(NSString*)location;
-- (void)setArtistIDs:(NSSet*)artistIDs;
+- (void)setArtistIDs:(NSMutableArray*)artistIDs;
 - (void)setSpotifyPlaylistURL:(NSURL*)spotifyPlaylistURL;
 - (void)setCurrentSpotifyTrackID:(NSURL*)currentSpotifyTrackID;
 
