@@ -7,6 +7,7 @@
 //
 
 #import "TRPTripPlaybackView.h"
+#import "TRPColorPicker.h"
 
 @implementation TRPTripPlaybackView
 @synthesize trackTitle = _trackTitle;
@@ -160,8 +161,10 @@
     } else if ([keyPath isEqualToString:@"currentTrack.album.name"]) {
         self.trackAlbum.text = self.currentTrack.album.name;
 	} else if ([keyPath isEqualToString:@"currentTrack.album.cover.image"]) {
+            // TODO: get color
 		self.coverView.image = self.currentTrack.album.cover.image;
-	} else if ([keyPath isEqualToString:@"currentTrack.duration"]) {
+        UIColor *mainColor = [TRPColorPicker getMainColorFromImage:self.coverView.image];
+    } else if ([keyPath isEqualToString:@"currentTrack.duration"]) {
 		self.positionSlider.maximumValue = self.currentTrack.duration;
 	}else if ([keyPath isEqualToString:@"playbackManager.isPlaying"]) {
 		[self.audioControlView setPlayPauseButton:FALSE];

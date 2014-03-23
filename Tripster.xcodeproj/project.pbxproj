@@ -33,6 +33,8 @@
 		BC1F68D918DE05A000280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
 		BC1F68DA18DE05A000280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
 		E530220118DEB37900A24706 /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
+		E530220418DF14CF00A24706 /* TRPTripPlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */; };
+		E530220718DF160100A24706 /* TRPColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E530220618DF160100A24706 /* TRPColorPicker.m */; };
 		E5B17DB118DEA44600FFBFE6 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAC18DEA44600FFBFE6 /* stop@2x.png */; };
 		E5B17DB218DEA44600FFBFE6 /* previous@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAD18DEA44600FFBFE6 /* previous@2x.png */; };
 		E5B17DB318DEA44600FFBFE6 /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAE18DEA44600FFBFE6 /* pause@2x.png */; };
@@ -87,6 +89,10 @@
 		BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaylistTests.m; sourceTree = "<group>"; };
 		BC1F68D718DE059F00280899 /* TripsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenreSearchTests.m; sourceTree = "<group>"; };
+		E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
+		E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
+		E530220518DF160100A24706 /* TRPColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPColorPicker.h; sourceTree = "<group>"; };
+		E530220618DF160100A24706 /* TRPColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPColorPicker.m; sourceTree = "<group>"; };
 		E59DDF4C18DE0CD300381000 /* TripsterTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TripsterTests-Prefix.pch"; sourceTree = "<group>"; };
 		E59DDF5218DE3E8B00381000 /* TRPLocationToPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPLocationToPlaylistTests.m; sourceTree = "<group>"; };
 		E59DDF5518DE578700381000 /* TRPPlaylistModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPPlaylistModel.h; sourceTree = "<group>"; };
@@ -207,6 +213,8 @@
 		BC1F68AB18DDCEEB00280899 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */,
+				E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */,
 				E59DDF5518DE578700381000 /* TRPPlaylistModel.h */,
 				E59DDF5618DE578700381000 /* TRPPlaylistModel.m */,
 				6BDFE77318DE49310017A4A6 /* ArtistModel.h */,
@@ -220,6 +228,8 @@
 				E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */,
 				BC04236118DE212000B7BFD5 /* Root */,
 				BC04236818DE2BE100B7BFD5 /* Trip */,
+				E530220518DF160100A24706 /* TRPColorPicker.h */,
+				E530220618DF160100A24706 /* TRPColorPicker.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -437,10 +447,12 @@
 				BC04237B18DE3EA200B7BFD5 /* TRPTripArtistSelectionStep.m in Sources */,
 				BC04237818DE3E6400B7BFD5 /* TRPTripLocationStep.m in Sources */,
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
+				E530220418DF14CF00A24706 /* TRPTripPlaybackView.m in Sources */,
 				BC04238218DE451600B7BFD5 /* TRPTripCreationView.m in Sources */,
 				BC04236B18DE2C0E00B7BFD5 /* TRPTripModel.m in Sources */,
 				6B66BA6218DE722C003CD16F /* TRPTripViewController.m in Sources */,
 				BC04236E18DE2EF900B7BFD5 /* TRPTripCreationViewController.m in Sources */,
+				E530220718DF160100A24706 /* TRPColorPicker.m in Sources */,
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
 				BC04236418DE24E700B7BFD5 /* TRPRootView.m in Sources */,
