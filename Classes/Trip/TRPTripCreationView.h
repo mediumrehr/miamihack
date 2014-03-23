@@ -18,8 +18,9 @@
 @interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate>{
     ArtistModel *artistModel;
     TRPMutableTripModel *tripmodel;
-    NSMutableArray *selectedArtists, *selectedGenres;
+    NSMutableArray *selectedArtistsOrGenres;
     NSMutableArray *queriedGenres;
+    bool isGenre;
 }
 
 @property (nonatomic, retain) UITableView *tabView;

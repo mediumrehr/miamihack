@@ -21,6 +21,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
+        isGenre = false;
+        
         artistModel = [[ArtistModel alloc] init];
         [artistModel setDelegate:self];
         tripmodel = [TRPMutableTripModel getTripModel];
@@ -40,8 +43,7 @@
         [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.createPlaylistButton];
         
-        selectedArtists = [[NSMutableArray alloc] init];
-        selectedGenres = [[NSMutableArray alloc] init];
+        selectedArtistsOrGenres = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -93,14 +95,14 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         
         // remove from selectedArtists
-        [selectedArtists removeObjectIdenticalTo:[cell.textLabel text]];
+        [selectedArtistsOrGenres removeObjectIdenticalTo:[cell.textLabel text]];
         
     } else {
-        if ([selectedArtists count]<5) {
+        if ([selectedArtistsOrGenres count] < 5) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             
             // add to selectedArtists
-            [selectedArtists addObject:[cell.textLabel text]];
+            [selectedArtistsOrGenres addObject:[cell.textLabel text]];
         }
     }
     [cell setSelected:NO];
@@ -148,6 +150,7 @@
 
 - (void)changeFilterType:(UISegmentedControl *)sender
 {
+    isGenre = !isGenre;
     [tabView reloadData];
 }
 
@@ -161,7 +164,9 @@
 }
 
 -(void)createPlaylist:(id)sender{
-    [tripmodel setChosenSeeds:[selectedArtists copy]];
+    // TODO: Genres.
+    [tripmodel setIsGenre:isGenre];
+    [tripmodel setChosenSeeds:[selectedArtistsOrGenres copy]];
 //    for (NSString *string in [tripmodel chosenSeeds]) {
 //        NSLog(@"Copied: %@",string);
 //    }

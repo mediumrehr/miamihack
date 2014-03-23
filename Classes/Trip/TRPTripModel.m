@@ -21,11 +21,13 @@ static TRPTripModel *tripModelCache;
 @end
 
 @implementation TRPMutableTripModel
-@synthesize chosenSeeds;
+@synthesize chosenSeeds, isGenre;
+
 +(TRPTripModel *) getTripModel
 {
-    if (!tripModelCache)
+    if (!tripModelCache){
         tripModelCache = [[super alloc] init];
+    }
     return tripModelCache;
     
 }
@@ -38,7 +40,14 @@ static TRPTripModel *tripModelCache;
 
 - (void)setArtistIDs:(NSMutableArray*)artistIDs
 {
+    isGenre = false;
     _artistIDs = artistIDs;
+}
+
+- (void) setGenreIDs:(NSMutableArray *)genreIDs
+{
+    isGenre = true;
+    _genreIDs = genreIDs;
 }
 
 - (void)setSpotifyPlaylistURL:(NSURL*)spotifyPlaylistURL
