@@ -328,10 +328,10 @@
             [self playButtonPressed:nil];
         else
             [self.playbackManager setIsPlaying:TRUE];
-        [audioControlView setPlayPauseButton:TRUE];
+        [audioControlView setPlayPauseButton:FALSE];
     }else if(state == 1 && [self.playbackManager isPlaying]){ //pause
         [self.playbackManager setIsPlaying:FALSE];
-        [audioControlView setPlayPauseButton:FALSE];
+        [audioControlView setPlayPauseButton:TRUE];
     }else if(state == 2){ // next pressed
         [self.playbackManager setIsPlaying:FALSE];
         if (![tripModel isGenre]) {
