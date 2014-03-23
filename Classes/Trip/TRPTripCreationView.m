@@ -38,6 +38,8 @@
         self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.createPlaylistButton];
+        
+        selectedArtists = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -68,6 +70,29 @@
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)path {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:path];
+    
+
+    if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        // remove from selectedArtists
+        [selectedArtists removeObjectIdenticalTo:[cell.textLabel text]];
+    } else {
+        if ([selectedArtists count]<5) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            
+            // add to selectedArtists
+            [selectedArtists addObject:[cell.textLabel text]];
+        }
+        else {
+            [cell setSelected:NO];
+        }
+    }
+    
 }
 
 - (void)layoutSubviews
@@ -109,7 +134,7 @@
     [tripmodel setLocation:textField.text];
 }
 
--(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{
+-(void)didReceiveArtistModel:(NSArray *)artists AndGeneratedGenres:(NSArray *)genres withMessage:(NSString *)message{
     NSLog(@" Artist Array %@",artists);
     [tripmodel setArtistIDs:nil];
     [tripmodel setArtistIDs:[artists mutableCopy]];
