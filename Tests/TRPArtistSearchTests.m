@@ -45,12 +45,12 @@ describe(@"search", ^{
     NSString *endPoint = @"artist/search";
     ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
     
-    NSString *loc = @"butthole";
+    NSString *loc = @"Nashville";
     [request setValue:loc forParameter:@"artist_location"];
     
     NSArray *bucket = [[NSArray alloc] initWithObjects: @"genre", @"hotttnesss", @"discovery", @"artist_location", nil];
     [request setValue:bucket forParameter:@"bucket"];
-    [request setIntegerValue:5 forParameter:@"results"];
+    [request setIntegerValue:25 forParameter:@"results"];
     // [request setValue:[NSNumber numberWithInt:25] forParameter:@"results"];
     [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
     [request startSynchronous];
@@ -60,8 +60,9 @@ describe(@"search", ^{
     
     NSDictionary *response = [[request response] objectForKey:@"response"];
 
+    NSMutableDictionary *allGenres = [[NSMutableDictionary alloc] init];
+    
     if(request.responseStatusCode == 200){ // Successful query
-        
         NSLog(@"Successful query");
         NSArray *artists = [response objectForKey:@"artists"];
         if([artists count] > 0){ // Valid Area
@@ -69,12 +70,38 @@ describe(@"search", ^{
                 NSLog(@"Artist: %@", [artist objectForKey:@"name"]);
                 NSDictionary *location = [artist objectForKey:@"artist_location"];
                 NSLog(@"City: %@", [location objectForKey:@"city"]); // To get the artist's location. may be more specific than search.
+                NSDictionary *genresForArtist = [artist objectForKey:@"genres"];
+                for(NSDictionary *genre in genresForArtist){
+                    NSString *genr = [genre objectForKey:@"name"];
+                    if([allGenres objectForKey:genr]){
+                        int count = [[allGenres objectForKey:genr] integerValue];
+                        [allGenres setObject:[NSNumber numberWithInt:++count] forKey:genr];
+                    } else{ // add it
+                        [allGenres setObject:[NSNumber numberWithInt:1] forKey:genr];
+                    }
+                }
             }
         } else{
             NSLog(@"Invalid Area");
         }
 
     }
+    
+    NSArray *topGenres;
+    
+    topGenres = [allGenres keysSortedByValueUsingComparator: ^(id obj1, id obj2) {
+        
+        if ([obj1 integerValue] < [obj2 integerValue]) {
+            
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        if ([obj1 integerValue] > [obj2 integerValue]) {
+            
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        
+        return (NSComparisonResult)NSOrderedSame;
+    }];
     
     // NSLog(@"Got data: %@", request.responseString);
     

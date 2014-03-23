@@ -92,21 +92,24 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    
+    CGFloat width = self.bounds.size.width;
+    CGFloat height = self.bounds.size.height;
 
     CGRect locationFieldFrame = CGRectInset(self.bounds, 40, 0);
     locationFieldFrame.size.height = 30;
     locationFieldFrame.origin.y = 20;
     self.locationField.frame = locationFieldFrame;
     
+    self.createPlaylistButton.frame = CGRectMake(0.0, height - 50.0, width, locationFieldFrame.size.height);
+    [self.createPlaylistButton setTitle:@"Create Playlist" forState:UIControlStateNormal];
+    
     tabView = [[UITableView alloc] init];
     tabView.dataSource = self;
     tabView.delegate = self;
-    tabView.frame = CGRectMake(40, 70, locationFieldFrame.size.width, 300);
+    CGFloat bottomOfLocField = self.locationField.frame.origin.y + self.locationField.frame.size.height + 10;
+    tabView.frame = CGRectMake(0.0, bottomOfLocField, width, self.createPlaylistButton.frame.origin.y - bottomOfLocField - 10);
     [self addSubview:tabView];
-    
-    self.createPlaylistButton.frame = CGRectMake(40, 400, locationFieldFrame.size.width, 30);
-    [self.createPlaylistButton setTitle:@"Create Playlist" forState:UIControlStateNormal];
-    [self.createPlaylistButton setBackgroundColor:[UIColor whiteColor]];
 }
 
 //when clicking the return button in the keybaord
@@ -122,7 +125,7 @@
     [tripmodel setLocation:textField.text];
 }
 
--(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{
+-(void)didReceiveArtistModel:(NSArray *)artists AndGeneratedGenres:(NSArray *)genres withMessage:(NSString *)message{
     NSLog(@" Artist Array %@",artists);
     [tripmodel setArtistIDs:nil];
     [tripmodel setArtistIDs:[artists mutableCopy]];
