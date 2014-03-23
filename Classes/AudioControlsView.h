@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol AudioControlViewDelegate <NSObject>
+@optional
+
+-(void)audioButtonPressed:(int)state;
+
+@end
 
 @interface AudioControlsView : UIView
 {
@@ -17,5 +23,7 @@
 @property (nonatomic, strong) UIButton *button_Previous;
 @property (nonatomic, strong) UILabel  *label_SongTitle;
 @property (nonatomic, strong) UILabel  *label_SongArtist;
+@property id delegate;
+- (void) setPlayPauseButton:(bool) showPlayImage;
 - (void) buttonPressed:(id)sender;
 @end
