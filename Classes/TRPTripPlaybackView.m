@@ -83,7 +83,6 @@
         [self addSubview:self.thumbsDown];
         
         self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
-        [[SPSession sharedSession] setDelegate:self];
         trackUrlBuffer = [[NSMutableArray alloc]  init];
         [self addObserver:self forKeyPath:@"currentTrack.name" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.artists" options:0 context:nil];
