@@ -19,11 +19,13 @@
     ArtistModel *artistModel;
     TRPMutableTripModel *tripmodel;
     NSMutableArray *selectedArtists;
+    NSMutableArray *queriedGenres;
 }
 
 @property (nonatomic, retain) UITableView *tabView;
 @property id delegate;
 
 -(IBAction)createPlaylist:(id)sender;
+-(IBAction)changeFilterType:(UISegmentedControl *)sender;
 
 @end

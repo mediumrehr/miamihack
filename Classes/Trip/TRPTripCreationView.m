@@ -33,6 +33,7 @@
         NSArray *itemArray = [NSArray arrayWithObjects:@"Artist", @"Genre", nil];
         self.filterTypeSelect = [[UISegmentedControl alloc] initWithItems:itemArray];
         self.filterTypeSelect.selectedSegmentIndex = 0;
+        [self.filterTypeSelect addTarget:self action:@selector(changeFilterType:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:self.filterTypeSelect];
         
         self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -46,7 +47,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[tripmodel artistIDs] count];
+    if (self.filterTypeSelect.selectedSegmentIndex == 0)
+        return [[tripmodel artistIDs] count];
+    else if (self.filterTypeSelect.selectedSegmentIndex == 1)
+        return [queriedGenres count];
+    else
+        return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -61,7 +67,13 @@
     // If there is no reusable cell of this type, create a new one
     if (!cell)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    cellText = [[[tripmodel artistIDs] objectAtIndex:indexPath.row] objectForKey:@"name"];
+    
+    if (self.filterTypeSelect.selectedSegmentIndex == 0)
+        cellText = [[[tripmodel artistIDs] objectAtIndex:indexPath.row] objectForKey:@"name"];
+    else if (self.filterTypeSelect.selectedSegmentIndex == 1)
+        cellText = [queriedGenres objectAtIndex:indexPath.row];
+    else
+        cellText = @"";
     
     [[cell textLabel] setText:cellText];
     return cell;
@@ -128,16 +140,23 @@
     return NO; // We do not want UITextField to insert line-breaks.
 }
 
--(void)textFieldDidEndEditing:(UITextField *)textField{
+- (void)textFieldDidEndEditing:(UITextField *)textField{
 
     [artistModel createArtistsModelforLocation:textField.text];
     [tripmodel setLocation:textField.text];
+}
+
+- (void)changeFilterType:(UISegmentedControl *)sender
+{
+    [tabView reloadData];
 }
 
 -(void)didReceiveArtistModel:(NSArray *)artists AndGeneratedGenres:(NSArray *)genres withMessage:(NSString *)message{
     NSLog(@" Artist Array %@",artists);
     [tripmodel setArtistIDs:nil];
     [tripmodel setArtistIDs:[artists mutableCopy]];
+    [queriedGenres removeAllObjects];
+    queriedGenres = [genres mutableCopy];
     [tabView reloadData];
 }
 
