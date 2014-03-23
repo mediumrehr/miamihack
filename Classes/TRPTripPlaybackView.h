@@ -12,6 +12,7 @@
 #import <libechonest/ENAPI.h>
 #import "TRPConstants.h"
 #import "AudioControlsView.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface TRPTripPlaybackView : UIView <SPSessionDelegate, SPSessionPlaybackDelegate,ENAPIRequestDelegate,SPPlaybackManagerDelegate, AudioControlViewDelegate>
 {
@@ -33,6 +34,7 @@
     
     BOOL canRequestTrack;
     BOOL *isPlaying;
+    
 }
 
 - (IBAction)playButtonPressed:(id)sender;

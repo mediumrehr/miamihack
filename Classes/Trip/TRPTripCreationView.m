@@ -56,6 +56,24 @@
     return self;
 }
 
+- (void) locationManager:(CLLocationManager*)manager didUpdateToLocation:(CLLocation*)newLocation fromLocation:(CLLocation*) oldLocation
+{
+    // This will be called every time the device has any new location information.
+    CLLocation *loc = newLocation;
+    if (loc) {
+        [geocoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemark, NSError *error) {
+            CLPlacemark *topResult = [placemark objectAtIndex:0];
+            NSString *title = [NSString stringWithFormat:@"%@ %@ %@ %@", topResult.country, topResult.locality, topResult.subLocality, topResult.thoroughfare];
+            NSLog(@"%@",title);
+            [self.locationField setText:topResult.locality];
+            [self textFieldDidEndEditing:self.locationField];
+        }];
+        
+    }
+    //[locManager stopUpdatingLocation];
+    [locManager setDistanceFilter:80000];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (self.filterTypeSelect.selectedSegmentIndex == 0)
@@ -200,7 +218,7 @@
 }
 
 -(void)createPlaylist:(id)sender{
-    [tripmodel setChosenSeeds:[selectedArtists copy]];
+    [tripmodel setChosenSeeds:[selectedArtistsOrGenres copy]];
     [tripmodel setIsGenre:self.filterTypeSelect.selectedSegmentIndex];
     [delegate pushPlaybackVC];
 }

@@ -75,8 +75,17 @@
         [self.playbackManager setDelegate:self];
         tripModel = [TRPMutableTripModel getTripModel];
         trackUrlBufferIndex = 0;
+        // Turn on remote control event delivery
+        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+        // Set itself as the first responder
+        [self becomeFirstResponder];
+        
     }
     return self;
+}
+
+- (BOOL)canBecomeFirstResponder{
+    return YES;
 }
 
 - (void)layoutSubviews
@@ -100,12 +109,20 @@
     
     self.volumeSlider.frame = CGRectMake(20.0, 425.0, self.bounds.size.width - 40.0, 20.0);
     
-    [self createSessionWithArtists:[tripModel chosenSeeds]];
-    BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
-    if(!didSucceedNewTracks)
-        NSLog(@"No new tracks recieved");
+    if ([tripModel isGenre]) {
+        [self getGenreRadioPlaylistWithGenres:[tripModel chosenSeeds]];
+    }else{
+        [self createSessionWithArtists:[tripModel chosenSeeds]];
+        BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
+        if(!didSucceedNewTracks){
+            NSLog(@"No new tracks recieved");
+            // Error handling?
+        }
+    }
+    [audioControlView setDelegate:self];
     
-    [self.audioControlView setDelegate:self];
+
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -150,6 +167,12 @@
                                                                       otherButtonTitles:nil];
                                 [alert show];
                             } else {
+                                // Set "Now Playing" info on the iOS remote control
+                                MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
+                                NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+                                [dic setValue:track.name forKey:MPMediaItemPropertyTitle];
+                                [dic setValue:track.artists forKey:MPMediaItemPropertyArtist];
+                                infoCenter.nowPlayingInfo = dic;
                                 self.currentTrack = track;
                             }
                             
@@ -270,8 +293,29 @@
         
         
         [self didReceiveNextSong:spotifyIDs];
-        // NSArray *lookAhead = [response objectForKey:@"lookahead"];
-        trackUrlBufferIndex ++;
+        if (trackUrlBufferIndex == 0) {
+            [self playButtonPressed:nil];
+        }else
+            trackUrlBufferIndex ++;
+    }else if([requestType isEqualToString:@"genrePlaylist"]){
+        NSMutableArray *genrePlaylist = [[NSMutableArray alloc] init];
+        response = [[request response] objectForKey:@"response"];
+        if(request.responseStatusCode == 200){ // Successful query
+            NSArray *songs = [response objectForKey:@"songs"];
+            // --- EXTRACT SPOTIFY ID ---
+            for(int i = 0; i < [songs count]; i++){
+                NSDictionary *song = [songs objectAtIndex:i];
+                NSArray *tracks = [song objectForKey:@"tracks"];
+                if ([tracks count]>0) {
+                    NSDictionary *track = [tracks objectAtIndex:0];
+                    NSString *spotify_ID = [track objectForKey:@"foreign_id"]; // send this to spotify
+                    [trackUrlBuffer addObject:spotify_ID];
+                    NSLog(@"Print ID: %@",spotify_ID);
+                }
+            }
+            [self playButtonPressed:nil];
+            // --- EXTRACT SPOTIFY ID ---
+        }
     }
 }
 -(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager{
@@ -279,11 +323,15 @@
 }
 
 -(void)sessionDidEndPlayback{
-    BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
-    if(!didSucceedNewTracks){
-        NSLog(@"No new tracks recieved");
-        // Error handling?
-    }
+    if (![tripModel isGenre]) {
+        BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
+        if(!didSucceedNewTracks){
+            NSLog(@"No new tracks recieved");
+            // Error handling?
+        }
+    }else
+        trackUrlBufferIndex++;
+    
     [self playButtonPressed:nil];
 }
 -(void)audioButtonPressed:(int)state{
@@ -298,13 +346,17 @@
             [self playButtonPressed:nil];
         else
             [self.playbackManager setIsPlaying:TRUE];
-        [self.audioControlView setPlayPauseButton:TRUE];
+        [audioControlView setPlayPauseButton:FALSE];
     }else if(state == 1 && [self.playbackManager isPlaying]){ //pause
         [self.playbackManager setIsPlaying:FALSE];
-        [self.audioControlView setPlayPauseButton:FALSE];
+        [audioControlView setPlayPauseButton:TRUE];
     }else if(state == 2){ // next pressed
         [self.playbackManager setIsPlaying:FALSE];
-        [self getSongsForCurrentSession];
+        if (![tripModel isGenre]) {
+            [self getSongsForCurrentSession];
+        }else
+            trackUrlBufferIndex++;
+        
         [self playButtonPressed:nil];
         
     }
@@ -318,12 +370,32 @@
     requestType = @"genrePlaylist";
     NSString *endPoint = @"playlist/static";
     ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    [request setDelegate:self];
     NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
     [request setIntegerValue:100 forParameter:@"results"];
     [request setValue:genres forParameter:@"genre"];
     [request setValue:@"genre-radio" forParameter:@"type"];
     [request setValue:bucket forParameter:@"bucket"];
-    [request startAsynchronous];
+    [request startSynchronous];
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
+    if (receivedEvent.type == UIEventTypeRemoteControl) {
+        switch (receivedEvent.subtype) {
+            case UIEventSubtypeRemoteControlTogglePlayPause:
+                [self audioButtonPressed:0];
+                break;
+            case UIEventSubtypeRemoteControlPreviousTrack:
+                [self audioButtonPressed:1];
+                break;
+            case UIEventSubtypeRemoteControlNextTrack:
+                [self audioButtonPressed:2];
+                break;
+            default:
+                break;
+                
+        }
+    }
 }
 
 

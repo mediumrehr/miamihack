@@ -96,6 +96,7 @@
 
     self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     self.window.rootViewController = self.rootViewController;
     [self.window makeKeyAndVisible];
 
