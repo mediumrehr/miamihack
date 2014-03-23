@@ -26,6 +26,8 @@
 
     _tripLocationStep = [TRPTripLocationStep new];
     _tripArtistSelectionStep = [TRPTripArtistSelectionStep new];
+    TRPTC = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    TRPTP = [[TRPTripPlaybackView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     return self;
 }
@@ -38,10 +40,10 @@
 - (void)loadView
 {
     [super loadView];
+    tripmodel = [TRPMutableTripModel getTripModel];
     // Do any additional setup after loading the view.
-    TRPTripCreationView* trpview = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [trpview setDelegate:self];
-    self.view = trpview;  
+    [TRPTC setDelegate:self];
+    self.view = TRPTC;
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,14 +70,25 @@
 */
 -(void)pushPlaybackVC{
     //[self presentViewController:[[TRPTripViewController alloc] init] animated:YES completion:nil];
-    TRPTripPlaybackView *trpview = [[TRPTripPlaybackView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [trpview setDelegate:self];
-    self.view = trpview;
+    
+    [TRPTP setDelegate:self];
+    if([tripmodel needsNewPlaylist]){
+        if ([tripmodel isGenre]) {
+            [TRPTP getGenreRadioPlaylistWithGenres:[tripmodel chosenSeeds]];
+        }else{
+            [TRPTP createSessionWithArtists:[tripmodel chosenSeeds]];
+            BOOL didSucceedNewTracks = [TRPTP getSongsForCurrentSession];
+            if(!didSucceedNewTracks){
+                NSLog(@"No new tracks recieved");
+                // Error handling?
+            }
+    }
+    }
+    self.view = TRPTP;
 }
 -(void)pushCreationVC{
-    TRPTripCreationView *trcview = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [trcview setDelegate:self];
-    self.view = trcview;
+    [TRPTC setDelegate:self];
+    self.view = TRPTC;
 }
 
 @end

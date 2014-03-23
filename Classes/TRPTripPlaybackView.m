@@ -72,6 +72,7 @@
         [self addObserver:self forKeyPath:@"currentTrack.duration" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.album.cover.image" options:0 context:nil];
         [self addObserver:self forKeyPath:@"playbackManager.trackPosition" options:0 context:nil];
+        [self addObserver:self forKeyPath:@"playbackManager.isPlaying" options:0 context:nil];
         
         [self.playbackManager setDelegate:self];
         tripModel = [TRPMutableTripModel getTripModel];
@@ -145,6 +146,8 @@
 		self.coverView.image = self.currentTrack.album.cover.image;
 	} else if ([keyPath isEqualToString:@"currentTrack.duration"]) {
 		self.positionSlider.maximumValue = self.currentTrack.duration;
+	}else if ([keyPath isEqualToString:@"playbackManager.isPlaying"]) {
+		[self.audioControlView setPlayPauseButton:FALSE];
 	} else if ([keyPath isEqualToString:@"playbackManager.trackPosition"]) {
 		// Only update the slider if the user isn't currently dragging it.
 		if (!self.positionSlider.highlighted)
@@ -264,7 +267,7 @@
 }
 
 - (void) requestFinished:(ENAPIRequest *)request{
-    
+    [tripModel setNeedsNewPlaylist:FALSE];
     NSDictionary *response;
     if([requestType isEqualToString:@"StartSession"]){
         response = [[request response] objectForKey:@"response"];
@@ -304,8 +307,8 @@
         [self didReceiveNextSong:spotifyIDs];
         if (trackUrlBufferIndex == 0) {
             [self playButtonPressed:nil];
-        }else
-            trackUrlBufferIndex ++;
+        }
+        
     }else if([requestType isEqualToString:@"genrePlaylist"]){
         NSMutableArray *genrePlaylist = [[NSMutableArray alloc] init];
         response = [[request response] objectForKey:@"response"];
@@ -363,6 +366,7 @@
         [self.playbackManager setIsPlaying:FALSE];
         if (![tripModel isGenre]) {
             [self getSongsForCurrentSession];
+            trackUrlBufferIndex ++;
         }else
             trackUrlBufferIndex++;
         

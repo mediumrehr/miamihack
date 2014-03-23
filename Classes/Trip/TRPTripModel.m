@@ -21,12 +21,13 @@ static TRPTripModel *tripModelCache;
 @end
 
 @implementation TRPMutableTripModel
-@synthesize chosenSeeds, isGenre;
+@synthesize chosenSeeds, isGenre, needsNewPlaylist;
 
 +(TRPTripModel *) getTripModel
 {
     if (!tripModelCache){
         tripModelCache = [[super alloc] init];
+
     }
     return tripModelCache;
     

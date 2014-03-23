@@ -22,7 +22,11 @@
 
 @end
 
-@interface TRPTripCreationViewController : UIViewController
+@interface TRPTripCreationViewController : UIViewController{
+    TRPTripCreationView *TRPTC;
+    TRPTripPlaybackView *TRPTP;
+    TRPMutableTripModel *tripmodel;
+}
 @property (nonatomic, weak) id<TRPTripCreationViewControllerDelegate> delegate;
 @property (strong, nonatomic) UITableView *tableView;
 @end

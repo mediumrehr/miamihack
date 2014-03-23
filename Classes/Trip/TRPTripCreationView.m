@@ -71,7 +71,7 @@
         [locManager setDesiredAccuracy:kCLLocationAccuracyBest];
         
         //Tell our manager to start looking for its location immediately
-        [locManager startUpdatingLocation];
+        //[locManager startUpdatingLocation];
         placemark = [[CLPlacemark alloc] init];
         geocoder = [[CLGeocoder alloc] init];
         
@@ -101,11 +101,11 @@
             NSLog(@"%@",title);
             [self.locationField setText:topResult.locality];
             [self textFieldDidEndEditing:self.locationField];
+            [locManager stopUpdatingLocation];
         }];
         
     }
-    //[locManager stopUpdatingLocation];
-    [locManager setDistanceFilter:80000];
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -215,6 +215,9 @@
     [self addSubview:tabView];
 }
 
+-(void)getLocation:(id)sender{
+    [locManager startUpdatingLocation];
+}
 - (void) textFieldDidBeginEditing:(UITextField *)textField{
     self.locationField.placeholder = nil;
 }
@@ -240,7 +243,11 @@
 
 -(void)didReceiveArtistModel:(NSArray *)artists AndGeneratedGenres:(NSArray *)genres withMessage:(NSString *)message{
     NSLog(@" Artist Array %@",artists);
+    [tripmodel setNeedsNewPlaylist:YES];
     [tripmodel setArtistIDs:nil];
+    [selectedArtists removeAllObjects];
+    [selectedGenres removeAllObjects];
+    [tripmodel setChosenSeeds:nil];
     [tripmodel setArtistIDs:[artists mutableCopy]];
     [queriedGenres removeAllObjects];
     queriedGenres = [genres mutableCopy];
