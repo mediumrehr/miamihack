@@ -41,6 +41,7 @@
         [self addSubview:self.createPlaylistButton];
         
         selectedArtists = [[NSMutableArray alloc] init];
+        selectedGenres = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -164,6 +165,9 @@
 //    for (NSString *string in [tripmodel chosenSeeds]) {
 //        NSLog(@"Copied: %@",string);
 //    }
+//    
+//    NSLog(@"filterTypeSelect shows: %d", [[self filterTypeSelect] selectedSegmentIndex]);
+    
     [delegate pushNextVC];
 }
 @end

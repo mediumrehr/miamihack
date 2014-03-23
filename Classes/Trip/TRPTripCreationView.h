@@ -18,7 +18,7 @@
 @interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate>{
     ArtistModel *artistModel;
     TRPMutableTripModel *tripmodel;
-    NSMutableArray *selectedArtists;
+    NSMutableArray *selectedArtists, *selectedGenres;
     NSMutableArray *queriedGenres;
 }
 
