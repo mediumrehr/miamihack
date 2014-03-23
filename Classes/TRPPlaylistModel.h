@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <libechonest/ENAPI.h>
+#import <CocoaLibSpotify/CocoaLibSpotify.h>
 #import "TRPConstants.h"
 @protocol PlaylistModelDelegate <NSObject>
 
 @optional
 -(void) successfullyCreatedPlaylist;
 -(void)failedToCreatePlaylist;
--(void)didReceivePlaylist:(NSArray *)songs withLookAhead:(NSArray *)lookAhead;
+-(void)didReceiveNextSong:(SPTrack *) track;
 
 @end
 @interface TRPPlaylistModel : NSObject <ENAPIRequestDelegate>
