@@ -34,9 +34,7 @@
 		BC1F68DA18DE05A000280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
 		BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */; };
 		BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */; };
-		E59DDF4D18DE0DAB00381000 /* TRPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68C518DDDBD700280899 /* TRPConstants.m */; };
-		E59DDF5418DE3EEC00381000 /* TRPLocationToPlaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E59DDF5218DE3E8B00381000 /* TRPLocationToPlaylistTests.m */; };
-		E59DDF5718DE578700381000 /* TRPPlaylistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E59DDF5618DE578700381000 /* TRPPlaylistModel.m */; };
+		DE238D6318DE1399008E33CA /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +82,7 @@
 		BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPArtistSearchTests.m; sourceTree = "<group>"; };
 		BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaylistTests.m; sourceTree = "<group>"; };
 		BC1F68D718DE059F00280899 /* TripsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenreSearchTests.m; sourceTree = "<group>"; };
 		E59DDF4C18DE0CD300381000 /* TripsterTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TripsterTests-Prefix.pch"; sourceTree = "<group>"; };
 		E59DDF5218DE3E8B00381000 /* TRPLocationToPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPLocationToPlaylistTests.m; sourceTree = "<group>"; };
 		E59DDF5518DE578700381000 /* TRPPlaylistModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPPlaylistModel.h; sourceTree = "<group>"; };
@@ -237,6 +236,7 @@
 				BC1F68B718DDCEEB00280899 /* InfoPlist.strings */,
 				BC1F68B918DDCEEB00280899 /* TripsterTests-Info.plist */,
 				BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */,
+				DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */,
 				BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */,
 				E59DDF5218DE3E8B00381000 /* TRPLocationToPlaylistTests.m */,
 			);
@@ -421,6 +421,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE238D6318DE1399008E33CA /* TRPGenreSearchTests.m in Sources */,
 				BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */,
 				BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */,
 				E59DDF5418DE3EEC00381000 /* TRPLocationToPlaylistTests.m in Sources */,
