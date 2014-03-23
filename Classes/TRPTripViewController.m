@@ -140,15 +140,6 @@
 
 }
 
-
-
-
-
-
-//
-
-
-
 - (void) createSessionWithArtists:(NSArray*) artists{
     [ENAPI initWithApiKey:kEchoNestAPIKey
               ConsumerKey:kEchoNestConsumerKey
@@ -272,6 +263,22 @@
         [self playButtonPressed:nil];
         
     }
+}
+
+- (void) getGenreRadioPlaylistWithGenres:(NSArray*)genres{
+    [ENAPI initWithApiKey:kEchoNestAPIKey
+              ConsumerKey:kEchoNestConsumerKey
+          AndSharedSecret:kEchoNestSharedSecret];
+    
+    requestType = @"genrePlaylist";
+    NSString *endPoint = @"playlist/static";
+    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
+    [request setIntegerValue:100 forParameter:@"results"];
+    [request setValue:genres forParameter:@"genre"];
+    [request setValue:@"genre-radio" forParameter:@"type"];
+    [request setValue:bucket forParameter:@"bucket"];
+    [request startAsynchronous];
 }
 
 @end
