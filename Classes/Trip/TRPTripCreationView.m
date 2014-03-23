@@ -23,6 +23,7 @@
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
         [self addSubview:self.locationField];
+        [artistModel setDelegate:self];
     }
     return self;
 }
@@ -45,12 +46,14 @@
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
+
     [artistModel createArtistsModelforLocation:textField.text];
-    [artistModel setDelegate:self];
+
 }
 
 -(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{
     NSLog(@" Artist Array %@",artists);
+    
 }
 
 @end
