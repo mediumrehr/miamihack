@@ -14,7 +14,7 @@
 @end
 
 @implementation TRPTripCreationView
-@synthesize tabView;
+@synthesize tabView, delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -28,6 +28,10 @@
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
         [self addSubview:self.locationField];
+        
+        self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.createPlaylistButton];
     }
     return self;
 }
@@ -100,4 +104,7 @@
     [tabView reloadData];
 }
 
+-(void)createPlaylist:(id)sender{
+    [delegate pushNextVC];
+}
 @end

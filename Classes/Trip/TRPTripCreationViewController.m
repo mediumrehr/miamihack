@@ -7,9 +7,9 @@
 //
 
 #import "TRPTripCreationViewController.h"
-#import "TRPTripCreationView.h"
 #import "TRPTripLocationStep.h"
 #import "TRPTripArtistSelectionStep.h"
+#import "TRPTripViewController.h"
 
 @interface TRPTripCreationViewController ()
 @property (nonatomic, strong) TRPTripLocationStep *tripLocationStep;
@@ -39,7 +39,13 @@
 {
     [super loadView];
     // Do any additional setup after loading the view.
-    self.view = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    TRPTripCreationView* trpview = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [trpview setDelegate:self];
+    self.view = trpview;
+    
+
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,5 +70,8 @@
     // Pass the selected object to the new view controller.
 }
 */
+-(void)pushNextVC{
+    [self presentViewController:[[TRPTripViewController alloc] init] animated:YES completion:nil];
+}
 
 @end
