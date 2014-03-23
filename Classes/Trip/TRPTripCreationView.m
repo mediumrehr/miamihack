@@ -14,7 +14,7 @@
 @end
 
 @implementation TRPTripCreationView
-@synthesize tabView;
+@synthesize tabView, delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -104,4 +104,7 @@
     [tabView reloadData];
 }
 
+-(void)createPlaylist:(id)sender{
+    [delegate pushNextVC];
+}
 @end

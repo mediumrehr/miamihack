@@ -12,8 +12,9 @@
 #import <CocoaLibSpotify/CocoaLibSpotify.h>
 
 @interface TRPTripViewController : UIViewController{
-    
+    SPTrack *_track;
     IBOutlet UIButton *playButton;
+    SPPlaybackManager *plManager;
 }
 - (IBAction)playButtonPressed:(id)sender;
 

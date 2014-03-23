@@ -20,6 +20,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        plManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
+
     }
     return self;
 }
@@ -29,13 +31,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    SPSession *aSession = [SPSession sharedSession];
-    SPPlaybackManager *plManager = [[SPPlaybackManager alloc] initWithPlaybackSession:aSession];
-    [SPTrack trackForTrackURL:[NSURL URLWithString:@"spotify:track:6q0f0zpByDs4Zk0heXZ3cO"] inSession:[SPSession sharedSession] callback:^(SPTrack *track) {
-        if (track != nil) {
-            [plManager playTrack:track callback:nil];
-        }
-    }];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,5 +41,24 @@
 }
 
 - (IBAction)playButtonPressed:(id)sender {
+    [[SPSession sharedSession] trackForURL:[NSURL URLWithString:@"spotify-US:artist:7qG3b048QCHVRO5Pv1T5lw"] callback:^(SPTrack *track) {
+     if (track != nil) {
+        [SPAsyncLoading waitUntilLoaded:track timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *tracks, NSArray *notLoadedTracks) {
+            [plManager playTrack:track callback:^(NSError *error) {
+                if (error) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track"
+                                                                             message:[error localizedDescription]
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:@"OK"
+                                                                   otherButtonTitles:nil];
+                             [alert show];
+                         } else {
+                             _track = track;
+                         }
+                         
+                     }];
+                 }];
+             }
+         }];
 }
 @end
