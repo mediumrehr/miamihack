@@ -148,9 +148,6 @@
         }
     }
     [audioControlView setDelegate:self];
-    
-
-    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -163,7 +160,6 @@
 	} else if ([keyPath isEqualToString:@"currentTrack.album.cover.image"]) {
             // TODO: get color
 		self.coverView.image = self.currentTrack.album.cover.image;
-        UIColor *mainColor = [TRPColorPicker getMainColorFromImage:self.coverView.image];
     } else if ([keyPath isEqualToString:@"currentTrack.duration"]) {
 		self.positionSlider.maximumValue = self.currentTrack.duration;
 	}else if ([keyPath isEqualToString:@"playbackManager.isPlaying"]) {
@@ -205,7 +201,7 @@
                                 [dic setValue:track.name forKey:MPMediaItemPropertyTitle];
                                 [dic setValue:track.artists forKey:MPMediaItemPropertyArtist];
                                 infoCenter.nowPlayingInfo = dic;
-                                self.currentTrack = track;
+                                self.currentTrack = track;                                
                             }
                             
                         }];
@@ -261,7 +257,6 @@
 
 /* returns true if songs can be requested. returns false if songs cannot be requested. */
 - (bool) getSongsForCurrentSession{
-    
     if(canRequestTrack){
         requestType = @"NextSong";
         // Get Next Song!
@@ -288,7 +283,7 @@
     trackUrlBufferIndex++;
 }
 
-- (void) requestFinished:(ENAPIRequest *)request{
+- (void) requestFinished:(ENAPIRequest *)request {
     [tripModel setNeedsNewPlaylist:FALSE];
     NSDictionary *response;
     if([requestType isEqualToString:@"StartSession"]){
@@ -371,6 +366,7 @@
     [self.thumbsUp setImage:[UIImage imageNamed:@"thumbUp.png"] forState:UIControlStateNormal];
     [self playButtonPressed:nil];
 }
+
 -(void)audioButtonPressed:(int)state{
     if (state == 0) { //previous pressed
         [self.playbackManager setIsPlaying:FALSE];
@@ -417,6 +413,7 @@
     [request setValue:bucket forParameter:@"bucket"];
     [request startSynchronous];
 }
+
 -(void)favoriteSong:(NSString *)songID{
     [ENAPI initWithApiKey:kEchoNestAPIKey
               ConsumerKey:kEchoNestConsumerKey
