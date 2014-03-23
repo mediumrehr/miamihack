@@ -75,6 +75,7 @@
         
         // remove from selectedArtists
         [selectedArtists removeObjectIdenticalTo:[cell.textLabel text]];
+        
     } else {
         if ([selectedArtists count]<5) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -82,10 +83,8 @@
             // add to selectedArtists
             [selectedArtists addObject:[cell.textLabel text]];
         }
-        else {
-            [cell setSelected:NO];
-        }
     }
+    [cell setSelected:NO];
     
 }
 
