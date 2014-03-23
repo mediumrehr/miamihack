@@ -40,6 +40,7 @@
         self.filterTypeSelect.selectedSegmentIndex = 0;
         [self.filterTypeSelect addTarget:self action:@selector(changeFilterType:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:self.filterTypeSelect];
+        [tripmodel setIsGenre:NO];
         
         self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
@@ -77,10 +78,22 @@
     if (!cell)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     
-    if (self.filterTypeSelect.selectedSegmentIndex == 0)
+    if (self.filterTypeSelect.selectedSegmentIndex == 0) {
         cellText = [[[tripmodel artistIDs] objectAtIndex:indexPath.row] objectForKey:@"name"];
-    else if (self.filterTypeSelect.selectedSegmentIndex == 1)
+        for (NSString *string in selectedArtists) {
+            if ([cellText isEqualToString:string]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+        }
+    }
+    else if (self.filterTypeSelect.selectedSegmentIndex == 1) {
         cellText = [queriedGenres objectAtIndex:indexPath.row];
+        for (NSString *string in selectedGenres) {
+            if ([cellText isEqualToString:string]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
+        }
+    }
     else
         cellText = @"";
     
@@ -96,24 +109,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)path {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:path];
     
-
-    if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        
-        // remove from selectedArtists
-        [selectedArtistsOrGenres removeObjectIdenticalTo:[cell.textLabel text]];
-        
-    } else {
-        if ([selectedArtistsOrGenres count] < 5) {
+    if (self.filterTypeSelect.selectedSegmentIndex == 0) {
+        if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [selectedArtists removeObjectForKey:[cell.textLabel text]];
+        }
+        else if ([selectedArtists count]<5) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            
-            // add to selectedArtists
-            [selectedArtistsOrGenres addObject:[cell.textLabel text]];
+            [selectedArtists setObject:[cell.textLabel text] forKey:[cell.textLabel text]];
         }
     }
-    [cell setSelected:NO];
+    else if (self.filterTypeSelect.selectedSegmentIndex == 1) {
+        if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [selectedGenres removeObjectForKey:[cell.textLabel text]];
+        }
+        else if ([selectedGenres count]<5) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            [selectedGenres setObject:[cell.textLabel text] forKey:[cell.textLabel text]];
+        }
+    }
     
+    [cell setSelected:NO];
+
 }
+
 
 - (void)layoutSubviews
 {
@@ -179,12 +199,8 @@
 }
 
 -(void)createPlaylist:(id)sender{
-    // TODO: Genres.
-    [tripmodel setIsGenre:isGenre];
-    [tripmodel setChosenSeeds:[selectedArtistsOrGenres copy]];
-//    for (NSString *string in [tripmodel chosenSeeds]) {
-//        NSLog(@"Copied: %@",string);
-//    }
+    [tripmodel setChosenSeeds:[selectedArtists copy]];
+    [tripmodel setIsGenre:self.filterTypeSelect.selectedSegmentIndex];
     [delegate pushPlaybackVC];
 }
 @end

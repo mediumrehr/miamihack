@@ -50,11 +50,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
    // [plModel createSessionWithArtists:[tripModel chosenSeeds]];
+    if ([tripModel isGenre]) {
+        [self getGenreRadioPlaylistWithGenres:[tripModel chosenSeeds]];
+    }else{
     [self createSessionWithArtists:[tripModel chosenSeeds]];
-   BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
+    BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
     if(!didSucceedNewTracks){
         NSLog(@"No new tracks recieved");
         // Error handling?
+    }
     }
     [audioControlView setDelegate:self];
 }
@@ -223,22 +227,45 @@
             }
         }
         
-        
-        [self didReceiveNextSong:spotifyIDs];
-        // NSArray *lookAhead = [response objectForKey:@"lookahead"];
-        trackUrlBufferIndex ++;
+            
+            [self didReceiveNextSong:spotifyIDs];
+            trackUrlBufferIndex ++;
+            
+        } else if([requestType isEqualToString:@"genrePlaylist"]){
+            NSMutableArray *genrePlaylist = [[NSMutableArray alloc] init];
+            response = [[request response] objectForKey:@"response"];
+            if(request.responseStatusCode == 200){ // Successful query
+                NSArray *songs = [response objectForKey:@"songs"];
+                // --- EXTRACT SPOTIFY ID ---
+                for(int i = 0; i < [songs count]; i++){
+                    NSDictionary *song = [songs objectAtIndex:i];
+                    NSArray *tracks = [song objectForKey:@"tracks"];
+                    if ([tracks count]>0) {
+                        NSDictionary *track = [tracks objectAtIndex:0];
+                        NSString *spotify_ID = [track objectForKey:@"foreign_id"]; // send this to spotify
+                        [trackUrlBuffer addObject:spotify_ID];
+                        NSLog(@"Print ID: %@",spotify_ID);
+                    }
+                }
+                // --- EXTRACT SPOTIFY ID ---
+            }
+        }
     }
-}
+
 -(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager{
     //bullshit people writing delegate methods that don't check for implementation before sending unrecognized selectors making me do shit like leave empty implementations of methods :)
 }
 
 -(void)sessionDidEndPlayback{
-    BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
-    if(!didSucceedNewTracks){
-        NSLog(@"No new tracks recieved");
-        // Error handling?
-    }
+    if (![tripModel isGenre]) {
+        BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
+        if(!didSucceedNewTracks){
+            NSLog(@"No new tracks recieved");
+            // Error handling?
+        }
+    }else
+        trackUrlBufferIndex++;
+
     [self playButtonPressed:nil];
 }
 -(void)audioButtonPressed:(int)state{
@@ -259,7 +286,11 @@
         [audioControlView setPlayPauseButton:FALSE];
     }else if(state == 2){ // next pressed
         [self.playbackManager setIsPlaying:FALSE];
-        [self getSongsForCurrentSession];
+        if (![tripModel isGenre]) {
+            [self getSongsForCurrentSession];
+        }else
+            trackUrlBufferIndex++;
+        
         [self playButtonPressed:nil];
         
     }
@@ -273,12 +304,13 @@
     requestType = @"genrePlaylist";
     NSString *endPoint = @"playlist/static";
     ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    [request setDelegate:self];
     NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
     [request setIntegerValue:100 forParameter:@"results"];
     [request setValue:genres forParameter:@"genre"];
     [request setValue:@"genre-radio" forParameter:@"type"];
     [request setValue:bucket forParameter:@"bucket"];
-    [request startAsynchronous];
+    [request startSynchronous];
 }
 
 @end
