@@ -47,7 +47,6 @@
 -(void) createSessionWithArtists:(NSArray*) artists;
 -(void)getGenreRadioPlaylistWithGenres:(NSArray*)genre;
 
-
 @property (nonatomic, strong) IBOutlet UILabel *trackTitle;
 @property (nonatomic, strong) IBOutlet UILabel *trackArtist;
 @property (nonatomic, strong) IBOutlet UILabel *trackAlbum;
@@ -55,6 +54,8 @@
 @property (nonatomic, strong) IBOutlet UISlider *positionSlider;
 @property (nonatomic, strong) IBOutlet UISlider *volumeSlider;
 @property (nonatomic, strong) IBOutlet AudioControlsView *audioControlView;
+@property (nonatomic, strong) IBOutlet UIButton *thumbsUp;
+@property (nonatomic, strong) IBOutlet UIButton *thumbsDown;
 
 @property (nonatomic, strong) SPTrack *currentTrack;
 @property (nonatomic, strong) SPPlaybackManager *playbackManager;

@@ -28,9 +28,13 @@
         self.coverView =[[UIImageView alloc] init];
         [self addSubview:self.coverView];
         
-        UIImageView *trackBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 300.0, self.bounds.size.width, 100.0)];
+        UIImageView *trackBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 300.0, self.bounds.size.width, 210.0)];
         [trackBG setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7]];
         [self addSubview:trackBG];
+        
+        UIImageView *trackNavBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.bounds.size.width, 70.0)];
+        [trackNavBG setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7]];
+        [self addSubview:trackNavBG];
         
         self.trackTitle = [[UILabel alloc] init];
         self.trackTitle.textColor = [UIColor whiteColor];
@@ -50,6 +54,7 @@
         self.positionSlider.maximumValue = 1.0;
         self.positionSlider.continuous = YES;
         self.positionSlider.value = 0.0;
+        [self.positionSlider setThumbImage:[UIImage imageNamed:@"sliderthumb"] forState:UIControlStateNormal];
         [self addSubview:self.positionSlider];
         
         self.volumeSlider = [[UISlider alloc] init];
@@ -58,9 +63,10 @@
         self.volumeSlider.maximumValue = 1.0;
         self.volumeSlider.continuous = YES;
         self.volumeSlider.value = 1.0;
-        [self addSubview:self.volumeSlider];
+        //[self addSubview:self.volumeSlider];
         
-        self.audioControlView = [[AudioControlsView alloc] initWithFrame:CGRectMake((self.bounds.size.width - 160.0)/2.0, 10.0, 160.0, 66.0)];
+        self.audioControlView = [[AudioControlsView alloc] initWithFrame:CGRectMake((self.bounds.size.width - 160.0)/2.0, 15.0, 160.0, 40.0)];
+        self.audioControlView.alpha = 0.8;
         [self addSubview:self.audioControlView];
         
         self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
@@ -100,7 +106,7 @@
 
 - (void)layoutSubviews
 {
-    self.coverView.frame = CGRectMake((self.bounds.size.width - 400.0)/2.0, 0.0, 400.0, 400.0);
+    self.coverView.frame = CGRectMake((self.bounds.size.width - 510.0)/2.0, 0.0, 510.0, 510.0);
     [self.coverView setBackgroundColor:[UIColor grayColor]];
     
     [self.trackTitle setText:@"Track Title"];
