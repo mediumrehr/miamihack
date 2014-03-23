@@ -26,7 +26,6 @@
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
         [self addSubview:self.locationField];
-        [artistModel setDelegate:self];
     }
     return self;
 }
@@ -97,7 +96,7 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField{
 
     [artistModel createArtistsModelforLocation:textField.text];
-
+    [tripmodel setLocation:textField.text];
 }
 
 -(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{
