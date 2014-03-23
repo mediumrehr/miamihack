@@ -15,7 +15,7 @@
 @optional
 -(void) successfullyCreatedPlaylist;
 -(void)failedToCreatePlaylist;
--(void)didReceiveNextSong:(SPTrack *) track;
+-(void)didReceiveNextSong:(NSString *)urlString;
 
 @end
 @interface TRPPlaylistModel : NSObject <ENAPIRequestDelegate>

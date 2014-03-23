@@ -8,18 +8,26 @@
 
 #import <UIKit/UIKit.h>
 #import "TRPTripModel.h"
-#import "TRPPlaylistModel.h"
+//#import "TRPPlaylistModel.h"
 #import <CocoaLibSpotify/CocoaLibSpotify.h>
+#import <libechonest/ENAPI.h>
+#import "TRPConstants.h"
 
-@interface TRPTripViewController : UIViewController<SPSessionDelegate, SPSessionPlaybackDelegate>{
+@interface TRPTripViewController : UIViewController<SPSessionDelegate, SPSessionPlaybackDelegate,ENAPIRequestDelegate,SPPlaybackManagerDelegate>{
     IBOutlet UIButton *playButton;
-    TRPPlaylistModel *plModel;
+    //TRPPlaylistModel *plModel;
+    TRPTripModel *tripModel;
     UILabel *_trackTitle;
 	UILabel *_trackArtist;
 	UIImageView *_coverView;
 	UISlider *_positionSlider;
 	SPPlaybackManager *_playbackManager;
 	SPTrack *_currentTrack;
+    NSMutableArray *trackUrlBuffer;
+    NSString *sessionID;
+    BOOL canRequestTrack;
+    NSString *requestType;
+    BOOL *isPlaying;
 }
 - (IBAction)playButtonPressed:(id)sender;
 - (IBAction)setTrackPosition:(id)sender;

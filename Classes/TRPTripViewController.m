@@ -29,12 +29,16 @@
         // Custom initialization
         self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
         [[SPSession sharedSession] setDelegate:self];
-        
+        trackUrlBuffer = [[NSMutableArray alloc]  init];
         [self addObserver:self forKeyPath:@"currentTrack.name" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.artists" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.duration" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.album.cover.image" options:0 context:nil];
         [self addObserver:self forKeyPath:@"playbackManager.trackPosition" options:0 context:nil];
+        
+        [self.playbackManager setDelegate:self];
+        tripModel = [TRPMutableTripModel getTripModel];
+        //plModel = [[TRPPlaylistModel alloc] init];
 
     }
     return self;
@@ -44,8 +48,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-
+   // [plModel createSessionWithArtists:[tripModel chosenSeeds]];
+    [self createSessionWithArtists:[tripModel chosenSeeds]];
+   BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
+    if(!didSucceedNewTracks){
+        NSLog(@"No new tracks recieved");
+        // Error handling?
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,16 +76,17 @@
 		// Only update the slider if the user isn't currently dragging it.
 		if (!self.positionSlider.highlighted)
 			self.positionSlider.value = self.playbackManager.trackPosition;
-        
-    } else {
+//        if (self.positionSlider.value==self.positionSlider.maximumValue) {
+//            [self getSongsForCurrentSession];
+//        }
+    }else{
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
 - (IBAction)playButtonPressed:(id)sender {
-	
 	// Invoked by clicking the "Play" button in the UI.
-	NSString *trackurlstring = @"spotify:track:489K1qunRVBm2OpS4XGLNd";
+	NSString *trackurlstring = [[trackUrlBuffer objectAtIndex:[trackUrlBuffer count]-1] stringByReplacingOccurrencesOfString:@"-US" withString:@""];
 	if (trackurlstring.length > 0) {
 		
 		NSURL *trackURL = [NSURL URLWithString:trackurlstring];
@@ -121,4 +131,97 @@
 - (IBAction)setVolume:(id)sender {
 	self.playbackManager.volume = [(UISlider *)sender value];
 }
+
+-(void)didReceiveNextSong:(NSString *)urlString{
+    [trackUrlBuffer addObject:urlString];
+}
+
+
+
+
+
+
+//
+
+
+
+- (void) createSessionWithArtists:(NSArray*) artists{
+    [ENAPI initWithApiKey:kEchoNestAPIKey
+              ConsumerKey:kEchoNestConsumerKey
+          AndSharedSecret:kEchoNestSharedSecret];
+    
+    canRequestTrack = false;
+    requestType = @"StartSession";
+    
+    NSString *endPoint = @"playlist/dynamic/create";
+    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    [request setDelegate:self];
+    NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
+    [request setValue:artists forParameter:@"artist"];
+    [request setValue:bucket forParameter:@"bucket"];
+    [request startSynchronous];
+}
+
+/* returns true if songs can be requested. returns false if songs cannot be requested. */
+- (bool) getSongsForCurrentSession{
+    
+    if(canRequestTrack){
+        requestType = @"NextSong";
+        // Get Next Song!
+        NSString *endPoint = @"playlist/dynamic/next";
+        ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+        [request setDelegate:self];
+        [request setIntegerValue:1 forParameter:@"results"];
+        [request setIntegerValue:0 forParameter:@"lookahead"]; // Look Aheads do anything for us ???
+        [request setValue:sessionID forParameter:@"session_id"];
+        [self.positionSlider setValue:0];
+        [request startSynchronous];
+        return true;
+    }
+    
+    return false;
+}
+
+- (void) requestFailed:(ENAPIRequest *)request{
+//    if([delegate respondsToSelector:@selector(failedToCreatePlaylist)]){
+//        [delegate failedToCreatePlaylist];
+//    }
+}
+
+- (void) requestFinished:(ENAPIRequest *)request{
+    
+    NSDictionary *response;
+    if([requestType isEqualToString:@"StartSession"]){
+        response = [[request response] objectForKey:@"response"];
+        sessionID = [response objectForKey:@"session_id"];
+        canRequestTrack = true;
+//        if([delegate respondsToSelector:@selector(successfullyCreatedPlaylist)]){
+//            [delegate successfullyCreatedPlaylist];
+//        }
+    } else if([requestType isEqualToString:@"NextSong"]){
+        response = [[request response] objectForKey:@"response"]; // contains Song and Look Ahead
+        NSArray *songs = [response objectForKey:@"songs"];
+        if([songs count] > 0){
+            NSString *spotifyID = [[[[songs objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"foreign_id"];
+            [self didReceiveNextSong:spotifyID];
+            
+            
+        }
+        // NSArray *lookAhead = [response objectForKey:@"lookahead"];
+        
+    }
+}
+-(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager{
+    //bullshit people writing delegate methods that don't check for implementation before sending unrecognized selectors making me do shit like leave empty implementations of methods :)
+}
+
+-(void)sessionDidEndPlayback{
+    BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
+    if(!didSucceedNewTracks){
+        NSLog(@"No new tracks recieved");
+        // Error handling?
+    }
+    [self playButtonPressed:nil];
+}
+
 @end
