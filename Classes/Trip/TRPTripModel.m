@@ -40,13 +40,11 @@ static TRPTripModel *tripModelCache;
 
 - (void)setArtistIDs:(NSMutableArray*)artistIDs
 {
-    isGenre = false;
     _artistIDs = artistIDs;
 }
 
 - (void) setGenreIDs:(NSMutableArray *)genreIDs
 {
-    isGenre = true;
     _genreIDs = genreIDs;
 }
 
