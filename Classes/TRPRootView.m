@@ -21,7 +21,9 @@
                                                                      style:UIBarButtonItemStylePlain
                                                                     target:self
                                                                     action:@selector(touchedLogout:)];
+    [logoutButton setTintColor:[UIColor whiteColor]];
     [_topToolbar setItems:@[logoutButton]];
+    [_topToolbar setBarStyle:UIBarStyleBlack];
     [self addSubview:_topToolbar];
 
     _contentView = [[UIView alloc] init];

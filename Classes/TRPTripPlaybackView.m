@@ -71,20 +71,19 @@
         
         self.thumbsUp = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.thumbsUp addTarget:self action:@selector(favoriteSong:) forControlEvents:UIControlEventTouchUpInside];
-        self.thumbsUp.frame = CGRectMake(20.0, 420.0, 50.0, 50.0);
+        self.thumbsUp.frame = CGRectMake((self.bounds.size.width - 110.0)/2.0, 420.0, 50.0, 50.0);
         [self.thumbsUp setImage:[UIImage imageNamed:@"thumbUp.png"] forState:UIControlStateNormal];
         self.thumbsUp.alpha = 0.8;
         [self addSubview:self.thumbsUp];
         
         self.thumbsDown = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.thumbsDown addTarget:self action:@selector(banSong:) forControlEvents:UIControlEventTouchUpInside];
-        self.thumbsDown.frame = CGRectMake(80.0, 420.0, 50.0, 50.0);
+        self.thumbsDown.frame = CGRectMake((self.bounds.size.width - 110.0)/2.0 + 60.0, 420.0, 50.0, 50.0);
         [self.thumbsDown setImage:[UIImage imageNamed:@"thumbDown.png"] forState:UIControlStateNormal];
-        self.thumbsUp.alpha = 0.8;
+        self.thumbsDown.alpha = 0.8;
         [self addSubview:self.thumbsDown];
         
         self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
-        [[SPSession sharedSession] setDelegate:self];
         trackUrlBuffer = [[NSMutableArray alloc]  init];
         [self addObserver:self forKeyPath:@"currentTrack.name" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.artists" options:0 context:nil];

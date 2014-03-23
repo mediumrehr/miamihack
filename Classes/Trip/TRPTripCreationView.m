@@ -73,9 +73,6 @@
         //[locManager startUpdatingLocation];
         placemark = [[CLPlacemark alloc] init];
         geocoder = [[CLGeocoder alloc] init];
-        
-        
-        
     }
     UISwipeGestureRecognizer* swipeRightGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRightFrom:)];
     swipeRightGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -217,6 +214,7 @@
 }
 
 -(void)getLocation:(id)sender{
+    [self.locationField resignFirstResponder];
     [locManager startUpdatingLocation];
 }
 - (void) textFieldDidBeginEditing:(UITextField *)textField{
