@@ -157,8 +157,7 @@
     ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
     [request setDelegate:self];
     NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
-    NSArray *artists2 = [[NSArray alloc] initWithObjects:@"Pitbull",@"Enrique Iglesias",@"Flo Rida",@"Young Money",@"DJ Khaled", nil];
-    [request setValue:artists2 forParameter:@"artist"];
+    [request setValue:artists forParameter:@"artist"];
     [request setValue:bucket forParameter:@"bucket"];
     [request startSynchronous];
 }
