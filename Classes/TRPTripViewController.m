@@ -136,15 +136,6 @@
     [trackUrlBuffer addObject:urlString];
 }
 
-
-
-
-
-
-//
-
-
-
 - (void) createSessionWithArtists:(NSArray*) artists{
     [ENAPI initWithApiKey:kEchoNestAPIKey
               ConsumerKey:kEchoNestConsumerKey
@@ -206,9 +197,24 @@
             [self didReceiveNextSong:spotifyID];
             
             
+        } else if([requestType isEqualToString:@"genrePlaylist"]){
+            NSMutableArray *genrePlaylist = [[NSMutableArray alloc] init];
+            response = [[request response] objectForKey:@"response"];
+            if(request.responseStatusCode == 200){ // Successful query
+                NSArray *songs = [response objectForKey:@"songs"];
+                // --- EXTRACT SPOTIFY ID ---
+                for(int i = 0; i < [songs count]; i++){
+                    NSDictionary *song = [songs objectAtIndex:i];
+                    NSArray *tracks = [song objectForKey:@"tracks"];
+                    NSDictionary *track = [tracks objectAtIndex:0];
+                    NSString *spotify_ID = [track objectForKey:@"foreign_id"]; // send this to spotify
+                    [genrePlaylist addObject:spotify_ID];
+                    NSLog(@"Print ID: %@",spotify_ID);
+                }
+                // --- EXTRACT SPOTIFY ID ---
+            }
+
         }
-        // NSArray *lookAhead = [response objectForKey:@"lookahead"];
-        
     }
 }
 -(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager{
@@ -222,6 +228,22 @@
         // Error handling?
     }
     [self playButtonPressed:nil];
+}
+
+- (void) getGenreRadioPlaylistWithGenres:(NSArray*)genres{
+    [ENAPI initWithApiKey:kEchoNestAPIKey
+              ConsumerKey:kEchoNestConsumerKey
+          AndSharedSecret:kEchoNestSharedSecret];
+    
+    requestType = @"genrePlaylist";
+    NSString *endPoint = @"playlist/static";
+    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
+    [request setIntegerValue:100 forParameter:@"results"];
+    [request setValue:genres forParameter:@"genre"];
+    [request setValue:@"genre-radio" forParameter:@"type"];
+    [request setValue:bucket forParameter:@"bucket"];
+    [request startAsynchronous];
 }
 
 @end
