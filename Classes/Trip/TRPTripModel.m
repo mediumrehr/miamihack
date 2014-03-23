@@ -7,7 +7,7 @@
 //
 
 #import "TRPTripModel.h"
-
+static TRPTripModel *tripModelCache;
 @interface TRPTripModel ()
 @end
 
@@ -21,6 +21,14 @@
 @end
 
 @implementation TRPMutableTripModel
++(TRPTripModel *) getTripModel
+{
+    if (!tripModelCache)
+        tripModelCache = [[super alloc] init];
+    return tripModelCache;
+    
+}
+
 
 - (void)setLocation:(NSString*)location
 {

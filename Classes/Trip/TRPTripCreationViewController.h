@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TRPTripCreationStep.h"
+#import "TRPTripModel.h"
 
 @class TRPTripCreationViewController;
 @protocol TRPTripCreationViewControllerDelegate <NSObject>

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "ArtistModel.h"
+#import "TRPTripModel.h"
 
 @interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate>{
     ArtistModel *artistModel;
+    TRPMutableTripModel *tripmodel;
 }
 
 @end

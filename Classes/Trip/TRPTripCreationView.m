@@ -20,6 +20,7 @@
     if (self) {
         artistModel = [[ArtistModel alloc] init];
         [artistModel setDelegate:self];
+        tripmodel = [TRPMutableTripModel getTripModel];
         self.locationField = [[UITextField alloc] init];
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
@@ -47,6 +48,7 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     [artistModel createArtistsModelforLocation:textField.text];
+    [tripmodel setLocation:textField.text];
 }
 
 -(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{

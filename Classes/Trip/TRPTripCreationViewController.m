@@ -16,8 +16,8 @@
 @property (nonatomic, strong) TRPTripArtistSelectionStep *tripArtistSelectionStep;
 @end
 
-@implementation TRPTripCreationViewController
 
+@implementation TRPTripCreationViewController
 - (id)init
 {
     if (!(self = [super init])) {

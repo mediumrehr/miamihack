@@ -32,7 +32,7 @@
     
     
     NSString *endPoint = @"artist/search";
-    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    request = [ENAPIRequest requestWithEndpoint:endPoint];
     [request setDelegate:self];
     [request setValue:location forParameter:@"artist_location"];
     
@@ -42,7 +42,7 @@
     // [request setValue:[NSNumber numberWithInt:25] forParameter:@"results"];
     [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
     //[request startAsynchronous]; This should work, and the methods should be here to make it, but it doesn't! Help needed here.
-    [request startSynchronous];
+    [request startAsynchronous];
 
 }
 
