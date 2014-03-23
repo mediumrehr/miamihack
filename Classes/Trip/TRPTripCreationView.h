@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "ArtistModel.h"
+#import "TRPTripModel.h"
 
-@interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate>{
+@interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate>{
     ArtistModel *artistModel;
+    TRPMutableTripModel *tripmodel;
 }
+
+@property (nonatomic, retain) UITableView *tabView;
 
 @end

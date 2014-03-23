@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TRPTripCreationStep.h"
+#import "TRPTripModel.h"
 
 @class TRPTripCreationViewController;
 @protocol TRPTripCreationViewControllerDelegate <NSObject>
@@ -19,4 +20,5 @@
 
 @interface TRPTripCreationViewController : UIViewController
 @property (nonatomic, weak) id<TRPTripCreationViewControllerDelegate> delegate;
+@property (strong, nonatomic) UITableView *tableView;
 @end

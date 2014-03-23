@@ -22,6 +22,7 @@
 @interface ArtistModel : NSObject <ENAPIRequestDelegate>{
 //    NSString *location;
 //    NSMutableArray *artists;
+    ENAPIRequest *request;
 }
 
 -(void)createArtistsModelforLocation:(NSString *)location;

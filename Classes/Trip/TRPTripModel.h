@@ -24,7 +24,7 @@
 
 
 @interface TRPMutableTripModel : TRPTripModel
-
++ (TRPTripModel*) getTripModel;
 - (void)setLocation:(NSString*)location;
 - (void)setArtistIDs:(NSSet*)artistIDs;
 - (void)setSpotifyPlaylistURL:(NSURL*)spotifyPlaylistURL;
