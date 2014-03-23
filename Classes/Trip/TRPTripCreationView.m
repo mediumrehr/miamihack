@@ -52,6 +52,7 @@
         
         selectedArtists = [[NSMutableDictionary alloc] initWithCapacity:5];
         selectedGenres = [[NSMutableDictionary alloc] initWithCapacity:5];
+        
         //Create location manager object
         locManager = [[CLLocationManager alloc] init];
         
