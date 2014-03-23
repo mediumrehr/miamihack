@@ -10,6 +10,7 @@
 
 @interface TRPTripCreationView ()
 @property (nonatomic, strong) UITextField *locationField;
+@property (nonatomic, strong) UIButton *createPlaylistButton;
 @end
 
 @implementation TRPTripCreationView
@@ -22,17 +23,22 @@
         artistModel = [[ArtistModel alloc] init];
         [artistModel setDelegate:self];
         tripmodel = [TRPMutableTripModel getTripModel];
+        
         self.locationField = [[UITextField alloc] init];
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
         [self addSubview:self.locationField];
+        
+        self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.createPlaylistButton];
     }
     return self;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return [[tripmodel artistIDs] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -41,25 +47,13 @@
     NSString *identifier;
     NSString *cellText;
     
-//    if(indexPath.section == 0){
-//        identifier = @"Patient Cell";
-//        cellText = [patientsNameArray objectAtIndex:[indexPath row]];
-//        
-//    } else if(indexPath.section == 1){
-//        identifier = @"Activity Cell";
-//        cellText = [activityArray objectAtIndex:[indexPath row]];
-//        
-//    } else if(indexPath.section == 2){
-//        identifier = @"Deviation Cell";
-//        cellText = [deviationArray objectAtIndex:[indexPath row]];
-//    }
-    
     // Check for a reusable cell first, use that if it exists
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     // If there is no reusable cell of this type, create a new one
     if (!cell)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    cellText = [[[tripmodel artistIDs] objectAtIndex:indexPath.row] objectForKey:@"name"];
     
     [[cell textLabel] setText:cellText];
     return cell;
@@ -79,11 +73,15 @@
     locationFieldFrame.origin.y = 20;
     self.locationField.frame = locationFieldFrame;
     
-    UITableView *table = [[UITableView alloc] init];
-    table.dataSource = self;
-    table.delegate = self;
-    table.frame = CGRectMake(40, 70, locationFieldFrame.size.width, 300);
-    [self addSubview:table];
+    tabView = [[UITableView alloc] init];
+    tabView.dataSource = self;
+    tabView.delegate = self;
+    tabView.frame = CGRectMake(40, 70, locationFieldFrame.size.width, 300);
+    [self addSubview:tabView];
+    
+    self.createPlaylistButton.frame = CGRectMake(40, 400, locationFieldFrame.size.width, 30);
+    [self.createPlaylistButton setTitle:@"Create Playlist" forState:UIControlStateNormal];
+    [self.createPlaylistButton setBackgroundColor:[UIColor whiteColor]];
 }
 
 //when clicking the return button in the keybaord
@@ -100,6 +98,9 @@
 
 -(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{
     NSLog(@" Artist Array %@",artists);
+    [tripmodel setArtistIDs:nil];
+    [tripmodel setArtistIDs:[artists mutableCopy]];
+    [tabView reloadData];
 }
 
 @end
