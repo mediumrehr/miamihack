@@ -132,6 +132,10 @@
 }
 
 -(void)createPlaylist:(id)sender{
+    [tripmodel setChosenSeeds:[selectedArtists copy]];
+//    for (NSString *string in [tripmodel chosenSeeds]) {
+//        NSLog(@"Copied: %@",string);
+//    }
     [delegate pushNextVC];
 }
 @end
