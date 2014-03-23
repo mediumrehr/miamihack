@@ -26,8 +26,8 @@
 
     _tripLocationStep = [TRPTripLocationStep new];
     _tripArtistSelectionStep = [TRPTripArtistSelectionStep new];
-    TRPTC = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    TRPTP = [[TRPTripPlaybackView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    _creationView = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    _playbackView = [[TRPTripPlaybackView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     return self;
 }
@@ -40,10 +40,10 @@
 - (void)loadView
 {
     [super loadView];
-    tripmodel = [TRPMutableTripModel getTripModel];
+    _tripmodel = [TRPMutableTripModel getTripModel];
     // Do any additional setup after loading the view.
-    [TRPTC setDelegate:self];
-    self.view = TRPTC;
+    [_creationView setDelegate:self];
+    self.view = _creationView;
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,24 +80,24 @@
 -(void)pushPlaybackVC{
     //[self presentViewController:[[TRPTripViewController alloc] init] animated:YES completion:nil];
     
-    [TRPTP setDelegate:self];
-    if([tripmodel needsNewPlaylist]){
-        if ([tripmodel isGenre]) {
-            [TRPTP getGenreRadioPlaylistWithGenres:[tripmodel chosenSeeds]];
+    [_playbackView setDelegate:self];
+    if([_tripmodel needsNewPlaylist]){
+        if ([_tripmodel isGenre]) {
+            [_playbackView getGenreRadioPlaylistWithGenres:[_tripmodel chosenSeeds]];
         }else{
-            [TRPTP createSessionWithArtists:[tripmodel chosenSeeds]];
-            BOOL didSucceedNewTracks = [TRPTP getSongsForCurrentSession];
+            [_playbackView createSessionWithArtists:[_tripmodel chosenSeeds]];
+            BOOL didSucceedNewTracks = [_playbackView getSongsForCurrentSession];
             if(!didSucceedNewTracks){
                 NSLog(@"No new tracks recieved");
                 // Error handling?
             }
     }
     }
-    self.view = TRPTP;
+    self.view = _playbackView;
 }
 -(void)pushCreationVC{
-    [TRPTC setDelegate:self];
-    self.view = TRPTC;
+    [_creationView setDelegate:self];
+    self.view = _creationView;
 }
 
 @end

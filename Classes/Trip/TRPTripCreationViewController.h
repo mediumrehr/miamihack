@@ -19,14 +19,13 @@
 - (void)controller:(TRPTripCreationViewController*)controller
      didCreateTrip:(TRPTripModel*)tripModel;
 
-
 @end
 
 @interface TRPTripCreationViewController : UIViewController{
-    TRPTripCreationView *TRPTC;
-    TRPTripPlaybackView *TRPTP;
-    TRPMutableTripModel *tripmodel;
 }
+@property (strong, nonatomic) TRPTripCreationView *creationView;
+@property (strong, nonatomic) TRPTripPlaybackView *playbackView;
+@property (strong, nonatomic) TRPMutableTripModel *tripmodel;
 @property (nonatomic, weak) id<TRPTripCreationViewControllerDelegate> delegate;
 @property (strong, nonatomic) UITableView *tableView;
 @end
