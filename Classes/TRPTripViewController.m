@@ -223,12 +223,29 @@
             }
         }
         
-        
-        [self didReceiveNextSong:spotifyIDs];
-        // NSArray *lookAhead = [response objectForKey:@"lookahead"];
-        trackUrlBufferIndex ++;
+            
+            [self didReceiveNextSong:spotifyIDs];
+            trackUrlBufferIndex ++;
+            
+        } else if([requestType isEqualToString:@"genrePlaylist"]){
+            NSMutableArray *genrePlaylist = [[NSMutableArray alloc] init];
+            response = [[request response] objectForKey:@"response"];
+            if(request.responseStatusCode == 200){ // Successful query
+                NSArray *songs = [response objectForKey:@"songs"];
+                // --- EXTRACT SPOTIFY ID ---
+                for(int i = 0; i < [songs count]; i++){
+                    NSDictionary *song = [songs objectAtIndex:i];
+                    NSArray *tracks = [song objectForKey:@"tracks"];
+                    NSDictionary *track = [tracks objectAtIndex:0];
+                    NSString *spotify_ID = [track objectForKey:@"foreign_id"]; // send this to spotify
+                    [genrePlaylist addObject:spotify_ID];
+                    NSLog(@"Print ID: %@",spotify_ID);
+                }
+                // --- EXTRACT SPOTIFY ID ---
+            }
+        }
     }
-}
+
 -(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager{
     //bullshit people writing delegate methods that don't check for implementation before sending unrecognized selectors making me do shit like leave empty implementations of methods :)
 }
