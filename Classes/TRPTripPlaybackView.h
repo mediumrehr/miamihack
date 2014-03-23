@@ -22,6 +22,7 @@
     TRPTripModel *tripModel;
     UILabel *_trackTitle;
     UILabel *_trackArtist;
+    UILabel *_trackAlbum;
     UIImageView *_coverView;
     UISlider *_positionSlider;
     UISlider *_volumeSlider;
@@ -49,6 +50,7 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *trackTitle;
 @property (nonatomic, strong) IBOutlet UILabel *trackArtist;
+@property (nonatomic, strong) IBOutlet UILabel *trackAlbum;
 @property (nonatomic, strong) IBOutlet UIImageView *coverView;
 @property (nonatomic, strong) IBOutlet UISlider *positionSlider;
 @property (nonatomic, strong) IBOutlet UISlider *volumeSlider;

@@ -11,6 +11,7 @@
 @implementation TRPTripPlaybackView
 @synthesize trackTitle = _trackTitle;
 @synthesize trackArtist = _trackArtist;
+@synthesize trackAlbum = _trackAlbum;
 @synthesize coverView = _coverView;
 @synthesize positionSlider = _positionSlider;
 @synthesize volumeSlider = _volumeSlider;
@@ -24,14 +25,24 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.coverView =[[UIImageView alloc] init];
+        [self addSubview:self.coverView];
+        
+        UIImageView *trackBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 300.0, self.bounds.size.width, 100.0)];
+        [trackBG setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7]];
+        [self addSubview:trackBG];
+        
         self.trackTitle = [[UILabel alloc] init];
+        self.trackTitle.textColor = [UIColor whiteColor];
         [self addSubview:self.trackTitle];
         
         self.trackArtist = [[UILabel alloc] init];
+        self.trackArtist.textColor = [UIColor whiteColor];
         [self addSubview:self.trackArtist];
-        
-        self.coverView =[[UIImageView alloc] init];
-        [self addSubview:self.coverView];
+
+        self.trackAlbum = [[UILabel alloc] init];
+        self.trackAlbum.textColor = [UIColor whiteColor];
+        [self addSubview:self.trackAlbum];
         
         self.positionSlider = [[UISlider alloc] init];
         [self.positionSlider addTarget:self action:@selector(setTrackPosition:) forControlEvents:UIControlEventValueChanged];
@@ -57,6 +68,7 @@
         trackUrlBuffer = [[NSMutableArray alloc]  init];
         [self addObserver:self forKeyPath:@"currentTrack.name" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.artists" options:0 context:nil];
+        [self addObserver:self forKeyPath:@"currentTrack.album.name" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.duration" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.album.cover.image" options:0 context:nil];
         [self addObserver:self forKeyPath:@"playbackManager.trackPosition" options:0 context:nil];
@@ -87,20 +99,24 @@
 
 - (void)layoutSubviews
 {
+    self.coverView.frame = CGRectMake((self.bounds.size.width - 400.0)/2.0, 0.0, 400.0, 400.0);
+    [self.coverView setBackgroundColor:[UIColor grayColor]];
+    
     [self.trackTitle setText:@"Track Title"];
     self.trackTitle.textAlignment = NSTextAlignmentCenter;
-    self.trackTitle.frame = CGRectMake(0.0, 100.0, self.bounds.size.width, 20.0);
+    self.trackTitle.frame = CGRectMake(0.0, 310.0, self.bounds.size.width, 20.0);
     
     [self.trackArtist setText:@"Track Artist"];
     self.trackArtist.textAlignment = NSTextAlignmentCenter;
-    self.trackArtist.frame = CGRectMake(0.0, 120.0, self.bounds.size.width, 20.0);
+    self.trackArtist.frame = CGRectMake(0.0, 330.0, self.bounds.size.width, 20.0);
     
-    self.coverView.frame = CGRectMake((self.bounds.size.width - 150.0)/2.0, 140.0, 150.0, 150.0);
-    [self.coverView setBackgroundColor:[UIColor grayColor]];
+    [self.trackAlbum setText:@"Track Album"];
+    self.trackAlbum.textAlignment = NSTextAlignmentCenter;
+    self.trackAlbum.frame = CGRectMake(0.0, 350.0, self.bounds.size.width, 20.0);
     
-    self.positionSlider.frame = CGRectMake(20.0, 310.0, self.bounds.size.width - 40.0, 20.0);
+    self.positionSlider.frame = CGRectMake(20.0, 375.0, self.bounds.size.width - 40.0, 20.0);
     
-    self.volumeSlider.frame = CGRectMake(20.0, 340.0, self.bounds.size.width - 40.0, 20.0);
+    self.volumeSlider.frame = CGRectMake(20.0, 425.0, self.bounds.size.width - 40.0, 20.0);
     
     if ([tripModel isGenre]) {
         [self getGenreRadioPlaylistWithGenres:[tripModel chosenSeeds]];
@@ -123,6 +139,8 @@
         self.trackTitle.text = self.currentTrack.name;
 	} else if ([keyPath isEqualToString:@"currentTrack.artists"]) {
 		self.trackArtist.text = [[self.currentTrack.artists valueForKey:@"name"] componentsJoinedByString:@","];
+    } else if ([keyPath isEqualToString:@"currentTrack.album.name"]) {
+        self.trackAlbum.text = self.currentTrack.album.name;
 	} else if ([keyPath isEqualToString:@"currentTrack.album.cover.image"]) {
 		self.coverView.image = self.currentTrack.album.cover.image;
 	} else if ([keyPath isEqualToString:@"currentTrack.duration"]) {

@@ -12,6 +12,7 @@
 @property (nonatomic, strong) UITextField *locationField;
 @property (nonatomic, strong) UIButton *createPlaylistButton;
 @property (nonatomic, strong) UISegmentedControl *filterTypeSelect;
+@property (nonatomic, strong) UIButton *locButton;
 @end
 
 @implementation TRPTripCreationView
@@ -31,7 +32,7 @@
         self.locationField = [[UITextField alloc] init];
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
-        self.locationField.placeholder = @"Enter Location";
+        self.locationField.placeholder = @"Location";
         [self addSubview:self.locationField];
         
         NSArray *itemArray = [NSArray arrayWithObjects:@"Artist", @"Genre", nil];
@@ -44,6 +45,10 @@
         self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.createPlaylistButton];
+        
+        self.locButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.locButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.locButton];
         
         selectedArtists = [[NSMutableDictionary alloc] initWithCapacity:5];
         selectedGenres = [[NSMutableDictionary alloc] initWithCapacity:5];
@@ -183,16 +188,21 @@
     CGFloat width = self.bounds.size.width;
     CGFloat height = self.bounds.size.height;
 
-    CGRect locationFieldFrame = CGRectInset(self.bounds, 40, 0);
-    locationFieldFrame.size.height = 30;
-    locationFieldFrame.origin.y = 20;
+    //CGRect locationFieldFrame = CGRectInset(self.bounds, 20, 0);
+    CGRect locationFieldFrame = CGRectMake(40.0, 20.0, 200.0, 30.0);
+    //locationFieldFrame.size.height = 30;
+    //locationFieldFrame.origin.y = 20;
     self.locationField.frame = locationFieldFrame;
     
     self.createPlaylistButton.frame = CGRectMake(0.0, height - 50.0, width, locationFieldFrame.size.height);
     [self.createPlaylistButton setTitle:@"Create Playlist" forState:UIControlStateNormal];
     
+    self.locButton.frame = CGRectMake(250.0, 20.0, 30.0, 30.0);
+    [self.locButton setBackgroundColor:[UIColor blueColor]];
+    [self.locButton setTitle:@"df" forState:UIControlStateNormal];
+    
     CGFloat bottomOfLocField = self.locationField.frame.origin.y + self.locationField.frame.size.height + 10;
-    self.filterTypeSelect.frame = CGRectMake((width - self.locationField.frame.size.width)/2.0, bottomOfLocField, self.locationField.frame.size.width, 30);
+    self.filterTypeSelect.frame = CGRectMake(20.0, bottomOfLocField, self.bounds.size.width - 40.0, 30);
     
     tabView = [[UITableView alloc] init];
     tabView.dataSource = self;

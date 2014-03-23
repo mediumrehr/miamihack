@@ -34,5 +34,6 @@
 
 -(IBAction)createPlaylist:(id)sender;
 -(IBAction)changeFilterType:(UISegmentedControl *)sender;
+-(IBAction)getLocation:(id)sender;
 
 @end
