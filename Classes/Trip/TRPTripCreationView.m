@@ -45,7 +45,8 @@
         [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.createPlaylistButton];
         
-        selectedArtistsOrGenres = [[NSMutableArray alloc] init];
+        selectedArtists = [[NSMutableDictionary alloc] initWithCapacity:5];
+        selectedGenres = [[NSMutableDictionary alloc] initWithCapacity:5];
         
         //Create location manager object
         locManager = [[CLLocationManager alloc] init];
@@ -62,8 +63,19 @@
         placemark = [[CLPlacemark alloc] init];
         geocoder = [[CLGeocoder alloc] init];
         
+        
+        
     }
+    UISwipeGestureRecognizer* swipeRightGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRightFrom:)];
+    swipeRightGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self addGestureRecognizer:swipeRightGestureRecognizer];
+    
+
     return self;
+}
+
+- (void)handleSwipeRightFrom:(UIGestureRecognizer*)recognizer {
+    [delegate pushPlaybackVC];
 }
 
 - (void) locationManager:(CLLocationManager*)manager didUpdateToLocation:(CLLocation*)newLocation fromLocation:(CLLocation*) oldLocation
@@ -223,7 +235,11 @@
 }
 
 -(void)createPlaylist:(id)sender{
-    [tripmodel setChosenSeeds:[selectedArtistsOrGenres copy]];
+    if (isGenre) {
+        [tripmodel setChosenSeeds:[[selectedGenres allKeys] mutableCopy]];
+    }else
+        [tripmodel setChosenSeeds:[[selectedArtists allKeys] mutableCopy]];
+    
     [tripmodel setIsGenre:self.filterTypeSelect.selectedSegmentIndex];
     [delegate pushPlaybackVC];
 }
