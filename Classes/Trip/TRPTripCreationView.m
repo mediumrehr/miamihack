@@ -42,6 +42,7 @@
         [self addSubview:self.createPlaylistButton];
         
         selectedArtists = [[NSMutableArray alloc] init];
+        selectedGenres = [[NSMutableArray alloc] init];
     }
     return self;
 }

@@ -73,14 +73,11 @@
         }
     } else if([requestType isEqualToString:@"NextSong"]){
         response = [[request response] objectForKey:@"response"]; // contains Song and Look Ahead
-        if([delegate respondsToSelector:@selector(didReceiveNextSong:)]){
             NSArray *songs = [response objectForKey:@"songs"];
             if([songs count] > 0){
                 NSString *spotifyID = [[[[songs objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"foreign_id"];
-                SPTrack *track = [[SPTrack alloc] init];
-                
-                // [track
-                //[delegate didReceiveNextSong:
+                [self didReceiveNextSong:spotifyID];
+
                 
             }
             // NSArray *lookAhead = [response objectForKey:@"lookahead"];
@@ -88,5 +85,13 @@
         }
     }
 }
+
+-(void)didReceiveNextSong:(urlString *)urlString{
+    if ([delegate respondsToSelector:@selector(didReceiveNextSong:)]) {
+        [delegate didReceiveNextSong:urlString];
+    }
+}
+
+
 
 @end
