@@ -18,7 +18,7 @@
 
 @end
 
-static TRPTripModel* TRPTripModelFromSteps(RACSequence *steps) {
+static TRPMutableTripModel* TRPTripModelFromSteps(RACSequence *steps) {
     return [steps foldLeftWithStart:[TRPMutableTripModel new]
                              reduce:^id(TRPMutableTripModel *mutableModel, id<TRPTripCreationStep> step) {
                                  [mutableModel setValue:[step tripModelValue] forKey:[step tripModelKey]];

@@ -7,25 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TRPTripCreationStep.h"
 #import "TRPTripModel.h"
-#import "TRPTripCreationView.h"
-#import "TRPTripPlaybackView.h"
-
 
 @class TRPTripCreationViewController;
-@protocol TRPTripCreationViewControllerDelegate <NSObject,TripCreationViewDelegate,TripCreationViewDelegate>
+@protocol TRPTripCreationViewControllerDelegate <NSObject>
 
 - (void)controller:(TRPTripCreationViewController*)controller
      didCreateTrip:(TRPTripModel*)tripModel;
 
 @end
 
-@interface TRPTripCreationViewController : UIViewController{
-}
-@property (strong, nonatomic) TRPTripCreationView *creationView;
-@property (strong, nonatomic) TRPTripPlaybackView *playbackView;
-@property (strong, nonatomic) TRPMutableTripModel *tripmodel;
+@interface TRPTripCreationViewController : UIViewController
 @property (nonatomic, weak) id<TRPTripCreationViewControllerDelegate> delegate;
-@property (strong, nonatomic) UITableView *tableView;
+@property (nonatomic, assign) BOOL isValid;
+
+- (RACSignal*)createTrip;
+
 @end

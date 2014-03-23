@@ -17,7 +17,8 @@
 #import "TRPConstants.h"
 #import "AudioControlsView.h"
 
-@interface TRPTripViewController : UIViewController<SPSessionDelegate, SPSessionPlaybackDelegate,ENAPIRequestDelegate,SPPlaybackManagerDelegate,AudioControlViewDelegate>{
+@interface TRPTripViewController : UIViewController
+<SPSessionDelegate, SPSessionPlaybackDelegate,ENAPIRequestDelegate,SPPlaybackManagerDelegate,AudioControlViewDelegate>{
     IBOutlet UIButton *playButton;
     //TRPPlaylistModel *plModel;
     TRPTripModel *tripModel;

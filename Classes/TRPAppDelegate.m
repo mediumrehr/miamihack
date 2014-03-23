@@ -12,6 +12,7 @@
 #import <SPPlaybackManager.h>
 #import "TRPRootViewController.h"
 #import "TRPTripCreationViewController.h"
+#import <libechonest/ENAPI.h>
 
 #define kDefaultSpotifyUserCredentials @"DefaultSpotifyUserCredentials"
 
@@ -37,6 +38,13 @@
 		NSLog(@"CocoaLibSpotify init failed: %@", error);
 		abort();
 	}
+}
+
++ (void)configureEchoNestAPI
+{
+    [ENAPI initWithApiKey:kEchoNestAPIKey
+              ConsumerKey:kEchoNestConsumerKey
+          AndSharedSecret:kEchoNestSharedSecret];
 }
 
 - (BOOL)maybeAutologin
@@ -91,6 +99,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[self class] configureSharedSpotifySession];
+    [[self class] configureEchoNestAPI];
 
     [[SPSession sharedSession] setDelegate:self];
 
@@ -163,9 +172,7 @@
          [self.rootViewController dismissViewControllerAnimated:YES completion:nil];
 
          // if no current trip, create new... logic stuff
-         if (!self.rootViewController.currentViewController) {
-             self.rootViewController.currentViewController = [TRPTripCreationViewController new];
-         }
+         [self.rootViewController createNewTrip];
 
          [SPAsyncLoading waitUntilLoaded:aSession.user timeout:kSPAsyncLoadingDefaultTimeout then:^
           (NSArray *loadedItems, NSArray *notLoadedItems) {

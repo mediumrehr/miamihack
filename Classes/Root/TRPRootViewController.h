@@ -14,6 +14,7 @@
 
 @end
 
+@class TRPTripModel;
 @interface TRPRootViewController : UIViewController
 // TODO: add playback controls view controller
 
@@ -22,5 +23,7 @@
 - (instancetype)initWithAuthDelegate:(id<TRPRootViewControllerAuthDelegate>)authDelegate;
 
 - (void)createNewTrip;
+
+- (void)startTrip:(TRPTripModel*)model;
 
 @end

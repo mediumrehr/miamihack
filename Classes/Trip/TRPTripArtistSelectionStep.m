@@ -14,6 +14,18 @@
 
 @implementation TRPTripArtistSelectionStep
 
+- (id)init
+{
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _artistModels = [NSMutableSet new];
+
+    return self;
+}
+
 - (NSSet*)artists
 {
     return [_artistModels copy];
@@ -27,6 +39,11 @@
 - (void)removeArtist:(id)artistModel
 {
     [_artistModels removeObject:artistModel];
+}
+
+- (void)removeAllArtists
+{
+    [_artistModels removeAllObjects];
 }
 
 - (BOOL)isValid

@@ -33,6 +33,7 @@
 		BC1F68D918DE05A000280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
 		BC1F68DA18DE05A000280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
 		BCD214DF18DF1F380015E172 /* TRPTripPlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214DE18DF1F380015E172 /* TRPTripPlaybackView.m */; };
+		BCD214E818DF360B0015E172 /* ENAPI+RAC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214E718DF360B0015E172 /* ENAPI+RAC.m */; };
 		E530220118DEB37900A24706 /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
 		E530220418DF14CF00A24706 /* TRPTripPlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */; };
 		E530220718DF160100A24706 /* TRPColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E530220618DF160100A24706 /* TRPColorPicker.m */; };
@@ -91,6 +92,8 @@
 		BC1F68D718DE059F00280899 /* TripsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD214DD18DF1F380015E172 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
 		BCD214DE18DF1F380015E172 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
+		BCD214E618DF360B0015E172 /* ENAPI+RAC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ENAPI+RAC.h"; sourceTree = "<group>"; };
+		BCD214E718DF360B0015E172 /* ENAPI+RAC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ENAPI+RAC.m"; sourceTree = "<group>"; };
 		DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenreSearchTests.m; sourceTree = "<group>"; };
 		E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
 		E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
@@ -146,10 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				BC04237C18DE408300B7BFD5 /* Steps */,
-				BC04236C18DE2EF900B7BFD5 /* TRPTripCreationViewController.h */,
-				BC04236D18DE2EF900B7BFD5 /* TRPTripCreationViewController.m */,
-				BC04238018DE451600B7BFD5 /* TRPTripCreationView.h */,
-				BC04238118DE451600B7BFD5 /* TRPTripCreationView.m */,
+				BCD214E018DF22710015E172 /* Creation */,
 				6B66BA5F18DE722C003CD16F /* TRPTripViewController.h */,
 				6B66BA6018DE722C003CD16F /* TRPTripViewController.m */,
 				6B66BA6118DE722C003CD16F /* TRPTripViewController.xib */,
@@ -215,6 +215,7 @@
 			children = (
 				E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */,
 				E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */,
+				BCD214E518DF360B0015E172 /* EN+RAC */,
 				E59DDF5518DE578700381000 /* TRPPlaylistModel.h */,
 				E59DDF5618DE578700381000 /* TRPPlaylistModel.m */,
 				6BDFE77318DE49310017A4A6 /* ArtistModel.h */,
@@ -264,6 +265,26 @@
 				E59DDF5218DE3E8B00381000 /* TRPLocationToPlaylistTests.m */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		BCD214E018DF22710015E172 /* Creation */ = {
+			isa = PBXGroup;
+			children = (
+				BC04236C18DE2EF900B7BFD5 /* TRPTripCreationViewController.h */,
+				BC04236D18DE2EF900B7BFD5 /* TRPTripCreationViewController.m */,
+				BC04238018DE451600B7BFD5 /* TRPTripCreationView.h */,
+				BC04238118DE451600B7BFD5 /* TRPTripCreationView.m */,
+			);
+			name = Creation;
+			sourceTree = "<group>";
+		};
+		BCD214E518DF360B0015E172 /* EN+RAC */ = {
+			isa = PBXGroup;
+			children = (
+				BCD214E618DF360B0015E172 /* ENAPI+RAC.h */,
+				BCD214E718DF360B0015E172 /* ENAPI+RAC.m */,
+			);
+			path = "EN+RAC";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -438,6 +459,7 @@
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
 				BC04236418DE24E700B7BFD5 /* TRPRootView.m in Sources */,
+				BCD214E818DF360B0015E172 /* ENAPI+RAC.m in Sources */,
 				BC04236018DE211D00B7BFD5 /* TRPRootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

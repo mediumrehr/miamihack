@@ -9,14 +9,16 @@
 #import "TRPTripCreationView.h"
 
 @interface TRPTripCreationView ()
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UITextField *locationField;
 @property (nonatomic, strong) UIButton *createPlaylistButton;
 @property (nonatomic, strong) UISegmentedControl *filterTypeSelect;
 @property (nonatomic, strong) UIButton *locButton;
+@property (nonatomic, strong) NSArray *artists;
+@property (nonatomic, strong) NSArray *genres;
 @end
 
 @implementation TRPTripCreationView
-@synthesize tabView, delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -24,10 +26,10 @@
     if (self) {
         
         isGenre = false;
-        
-        artistModel = [[ArtistModel alloc] init];
-        [artistModel setDelegate:self];
-        tripmodel = [TRPMutableTripModel getTripModel];
+
+        _tableView = [[UITableView alloc] init];
+        _tableView.dataSource = self;
+        _tableView.delegate = self;
         
         self.locationField = [[UITextField alloc] init];
         [self.locationField setDelegate:self];
@@ -41,9 +43,11 @@
         [self.filterTypeSelect addTarget:self action:@selector(changeFilterType:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:self.filterTypeSelect];
         [tripmodel setIsGenre:NO];
-        
-        self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
+
+        self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.createPlaylistButton addTarget:self
+                                      action:@selector(createPlaylist:)
+                            forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.createPlaylistButton];
         
         self.locButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -55,9 +59,6 @@
         [self.locButton setBackgroundImage:locSearchNormal forState:UIControlStateNormal];
         [self.locButton setBackgroundImage:locSearchPressed forState:UIControlStateHighlighted];
         [self addSubview:self.locButton];
-        
-        selectedArtists = [[NSMutableDictionary alloc] initWithCapacity:5];
-        selectedGenres = [[NSMutableDictionary alloc] initWithCapacity:5];
         
         //Create location manager object
         locManager = [[CLLocationManager alloc] init];
@@ -82,10 +83,17 @@
     return self;
 }
 
+- (void)setPossibleArtists:(NSArray*)artists genres:(NSArray *)genres
+{
+    _artists = artists;
+    _genres = genres;
+    [self.tableView reloadData];
+}
+
 - (void)handleSwipeRightFrom:(UIGestureRecognizer*)recognizer {
-    if ([[tripmodel chosenSeeds] count]>0) {
-        [delegate pushPlaybackVC];
-    }
+//    if ([[tripmodel chosenSeeds] count]>0) {
+//        [delegate pushPlaybackVC];
+//    }
 }
 
 - (void) locationManager:(CLLocationManager*)manager didUpdateToLocation:(CLLocation*)newLocation fromLocation:(CLLocation*) oldLocation
@@ -109,9 +117,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (self.filterTypeSelect.selectedSegmentIndex == 0)
-        return [[tripmodel artistIDs] count];
+        return [_artists count];
     else if (self.filterTypeSelect.selectedSegmentIndex == 1)
-        return [queriedGenres count];
+        return [_genres count];
     else
         return 0;
 }
@@ -130,25 +138,24 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     
     if (self.filterTypeSelect.selectedSegmentIndex == 0) {
-        cellText = [[[tripmodel artistIDs] objectAtIndex:indexPath.row] objectForKey:@"name"];
-        for (NSString *string in selectedArtists) {
-            if ([cellText isEqualToString:string]) {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            }
+        NSDictionary *artist = _artists[indexPath.row];
+        cell.textLabel.text = artist[@"name"];
+        if ([_delegate isArtistSelected:artist[@"id"]]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
         }
     }
     else if (self.filterTypeSelect.selectedSegmentIndex == 1) {
-        cellText = [queriedGenres objectAtIndex:indexPath.row];
-        for (NSString *string in selectedGenres) {
-            if ([cellText isEqualToString:string]) {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            }
+        NSString *genre = nil;
+        cell.textLabel.text = genre;
+        if ([_delegate isGenreSelected:genre]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
         }
     }
-    else
-        cellText = @"";
-    
-    [[cell textLabel] setText:cellText];
+
     return cell;
 }
 
@@ -163,26 +170,23 @@
     if (self.filterTypeSelect.selectedSegmentIndex == 0) {
         if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
             cell.accessoryType = UITableViewCellAccessoryNone;
-            [selectedArtists removeObjectForKey:[cell.textLabel text]];
+            [_delegate creationView:self didRemoveArtist:_artists[path.row]];
         }
-        else if ([selectedArtists count]<5) {
+        else {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [selectedArtists setObject:[cell.textLabel text] forKey:[cell.textLabel text]];
+            [_delegate creationView:self didAddArtist:_artists[path.row]];
         }
     }
     else if (self.filterTypeSelect.selectedSegmentIndex == 1) {
         if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
             cell.accessoryType = UITableViewCellAccessoryNone;
-            [selectedGenres removeObjectForKey:[cell.textLabel text]];
         }
-        else if ([selectedGenres count]<5) {
+        else {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [selectedGenres setObject:[cell.textLabel text] forKey:[cell.textLabel text]];
         }
     }
     
     [cell setSelected:NO];
-
 }
 
 
@@ -207,13 +211,10 @@
     [self.createPlaylistButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     CGFloat bottomOfLocField = self.locationField.frame.origin.y + self.locationField.frame.size.height + 10;
     self.filterTypeSelect.frame = CGRectMake(40.0, bottomOfLocField, self.bounds.size.width - 80.0, 30);
-    
-    tabView = [[UITableView alloc] init];
-    tabView.dataSource = self;
-    tabView.delegate = self;
+
     CGFloat bottomOfTypeSel = self.filterTypeSelect.frame.origin.y + self.filterTypeSelect.frame.size.height + 10;
-    tabView.frame = CGRectMake(0.0, bottomOfTypeSel, width, self.createPlaylistButton.frame.origin.y - bottomOfTypeSel - 10);
-    [self addSubview:tabView];
+    _tableView.frame = CGRectMake(0.0, bottomOfTypeSel, width, self.createPlaylistButton.frame.origin.y - bottomOfTypeSel - 10);
+    [self addSubview:_tableView];
 }
 
 -(void)getLocation:(id)sender{
@@ -240,7 +241,7 @@
 - (void)changeFilterType:(UISegmentedControl *)sender
 {
     isGenre = !isGenre;
-    [tabView reloadData];
+    [self.tableView reloadData];
 }
 
 -(void)didReceiveArtistModel:(NSArray *)artists AndGeneratedGenres:(NSArray *)genres withMessage:(NSString *)message{
@@ -253,7 +254,7 @@
     [tripmodel setArtistIDs:[artists mutableCopy]];
     [queriedGenres removeAllObjects];
     queriedGenres = [genres mutableCopy];
-    [tabView reloadData];
+    [self.tableView reloadData];
 }
 
 -(void)createPlaylist:(id)sender{
@@ -265,6 +266,15 @@
         return;
     
     [tripmodel setIsGenre:self.filterTypeSelect.selectedSegmentIndex];
-    [delegate pushPlaybackVC];
+//    [delegate pushPlaybackVC];
 }
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    [self.delegate creationView:self didUpdateLocation:textField.text];
+    return YES;
+}
+
 @end

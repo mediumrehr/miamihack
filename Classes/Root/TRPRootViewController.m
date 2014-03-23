@@ -8,9 +8,11 @@
 
 #import "TRPRootViewController.h"
 #import "TRPRootView.h"
+#import "TRPTripCreationViewController.h"
+#import "TRPTripViewController.h"
 
 @interface TRPRootViewController ()
-<TRPRootViewDelegate>
+<TRPRootViewDelegate, TRPTripCreationViewControllerDelegate>
 @property (nonatomic, weak) id<TRPRootViewControllerAuthDelegate> authDelegate;
 @end
 
@@ -67,6 +69,19 @@
     [self.rootView.contentView addSubview:self.currentViewController.view];
 }
 
+- (void)createNewTrip
+{
+    TRPTripCreationViewController *creationViewController = [TRPTripCreationViewController new];
+    creationViewController.delegate = self;
+    self.currentViewController = creationViewController;
+}
+
+- (void)startTrip:(TRPTripModel *)model
+{
+    TRPTripViewController *tripViewController = [[TRPTripViewController alloc] init];
+    self.currentViewController = tripViewController;
+}
+
 /*
 #pragma mark - Navigation
 
@@ -77,6 +92,13 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - TRPTripCreationViewController
+
+- (void)controller:(TRPTripCreationViewController *)controller didCreateTrip:(TRPTripModel *)tripModel
+{
+    [self startTrip:tripModel];
+}
 
 #pragma mark - TRPRootViewDelegate
 

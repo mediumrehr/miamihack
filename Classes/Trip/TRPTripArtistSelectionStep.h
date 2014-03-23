@@ -17,4 +17,6 @@
 - (void)addArtist:(id)artistModel;
 - (void)removeArtist:(id)artistModel;
 
+- (void)removeAllArtists;
+
 @end

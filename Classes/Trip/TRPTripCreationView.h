@@ -11,13 +11,29 @@
 #import "TRPTripModel.h"
 #import <CoreLocation/CoreLocation.h>
 
+@class TRPTripCreationView;
 @protocol TripCreationViewDelegate <NSObject>
--(void)pushPlaybackVC;
+
+- (void)creationView:(TRPTripCreationView*)view
+   didUpdateLocation:(NSString*)location;
+
+
+- (void)creationView:(TRPTripCreationView*)view
+        didAddArtist:(id)artist;
+
+- (void)creationView:(TRPTripCreationView*)view
+     didRemoveArtist:(id)artist;
+
+- (BOOL)isArtistSelected:(NSString*)artistID;
+
+- (BOOL)isGenreSelected:(NSString*)genreID;
 
 @end
 
 
-@interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate,CLLocationManagerDelegate>{
+@interface TRPTripCreationView : UIView
+<UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate,CLLocationManagerDelegate>
+{
     ArtistModel *artistModel;
     TRPMutableTripModel *tripmodel;
     NSMutableDictionary *selectedArtists, *selectedGenres;
@@ -26,11 +42,10 @@
     CLLocationManager *locManager;
     CLPlacemark *placemark;
     CLGeocoder *geocoder;
-
 }
+@property (nonatomic, weak) id delegate;
 
-@property (nonatomic, retain) UITableView *tabView;
-@property id delegate;
+- (void)setPossibleArtists:(NSArray*)artists genres:(NSArray*)genres;
 
 -(IBAction)createPlaylist:(id)sender;
 -(IBAction)changeFilterType:(UISegmentedControl *)sender;
