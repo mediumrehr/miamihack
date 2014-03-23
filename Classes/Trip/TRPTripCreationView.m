@@ -31,6 +31,7 @@
         self.locationField = [[UITextField alloc] init];
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
+        self.locationField.placeholder = @"Location";
         [self addSubview:self.locationField];
         
         NSArray *itemArray = [NSArray arrayWithObjects:@"Artist", @"Genre", nil];
@@ -133,6 +134,10 @@
     CGFloat bottomOfTypeSel = self.filterTypeSelect.frame.origin.y + self.filterTypeSelect.frame.size.height + 10;
     tabView.frame = CGRectMake(0.0, bottomOfTypeSel, width, self.createPlaylistButton.frame.origin.y - bottomOfTypeSel - 10);
     [self addSubview:tabView];
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField{
+    self.locationField.placeholder = nil;
 }
 
 //when clicking the return button in the keybaord
