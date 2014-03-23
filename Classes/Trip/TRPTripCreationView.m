@@ -11,6 +11,7 @@
 @interface TRPTripCreationView ()
 @property (nonatomic, strong) UITextField *locationField;
 @property (nonatomic, strong) UIButton *createPlaylistButton;
+@property (nonatomic, strong) UISegmentedControl *filterTypeSelect;
 @end
 
 @implementation TRPTripCreationView
@@ -28,6 +29,11 @@
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
         [self addSubview:self.locationField];
+        
+        NSArray *itemArray = [NSArray arrayWithObjects:@"Artist", @"Genre", nil];
+        self.filterTypeSelect = [[UISegmentedControl alloc] initWithItems:itemArray];
+        self.filterTypeSelect.selectedSegmentIndex = 0;
+        [self addSubview:self.filterTypeSelect];
         
         self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
@@ -79,11 +85,14 @@
     self.createPlaylistButton.frame = CGRectMake(0.0, height - 50.0, width, locationFieldFrame.size.height);
     [self.createPlaylistButton setTitle:@"Create Playlist" forState:UIControlStateNormal];
     
+    CGFloat bottomOfLocField = self.locationField.frame.origin.y + self.locationField.frame.size.height + 10;
+    self.filterTypeSelect.frame = CGRectMake((width - self.locationField.frame.size.width)/2.0, bottomOfLocField, self.locationField.frame.size.width, 30);
+    
     tabView = [[UITableView alloc] init];
     tabView.dataSource = self;
     tabView.delegate = self;
-    CGFloat bottomOfLocField = self.locationField.frame.origin.y + self.locationField.frame.size.height + 10;
-    tabView.frame = CGRectMake(0.0, bottomOfLocField, width, self.createPlaylistButton.frame.origin.y - bottomOfLocField - 10);
+    CGFloat bottomOfTypeSel = self.filterTypeSelect.frame.origin.y + self.filterTypeSelect.frame.size.height + 10;
+    tabView.frame = CGRectMake(0.0, bottomOfTypeSel, width, self.createPlaylistButton.frame.origin.y - bottomOfTypeSel - 10);
     [self addSubview:tabView];
 }
 
