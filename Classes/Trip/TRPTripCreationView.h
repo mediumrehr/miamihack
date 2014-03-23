@@ -10,7 +10,7 @@
 #import "ArtistModel.h"
 #import "TRPTripModel.h"
 @protocol TripCreationViewDelegate <NSObject>
--(void)pushNextVC;
+-(void)pushPlaybackVC;
 
 @end
 
@@ -18,8 +18,9 @@
 @interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate>{
     ArtistModel *artistModel;
     TRPMutableTripModel *tripmodel;
-    NSMutableArray *selectedArtists, *selectedGenres;
+    NSMutableArray *selectedArtistsOrGenres;
     NSMutableArray *queriedGenres;
+    bool isGenre;
 }
 
 @property (nonatomic, retain) UITableView *tabView;

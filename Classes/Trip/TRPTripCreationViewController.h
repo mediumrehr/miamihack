@@ -10,6 +10,7 @@
 #import "TRPTripCreationStep.h"
 #import "TRPTripModel.h"
 #import "TRPTripCreationView.h"
+#import "TRPTripPlaybackView.h"
 
 
 @class TRPTripCreationViewController;

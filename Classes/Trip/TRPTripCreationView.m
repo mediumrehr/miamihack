@@ -21,6 +21,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
+        isGenre = false;
+        
         artistModel = [[ArtistModel alloc] init];
         [artistModel setDelegate:self];
         tripmodel = [TRPMutableTripModel getTripModel];
@@ -28,6 +31,7 @@
         self.locationField = [[UITextField alloc] init];
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
+        self.locationField.placeholder = @"Enter Location";
         [self addSubview:self.locationField];
         
         NSArray *itemArray = [NSArray arrayWithObjects:@"Artist", @"Genre", nil];
@@ -40,8 +44,7 @@
         [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.createPlaylistButton];
         
-        selectedArtists = [[NSMutableArray alloc] init];
-        selectedGenres = [[NSMutableArray alloc] init];
+        selectedArtistsOrGenres = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -93,14 +96,14 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         
         // remove from selectedArtists
-        [selectedArtists removeObjectIdenticalTo:[cell.textLabel text]];
+        [selectedArtistsOrGenres removeObjectIdenticalTo:[cell.textLabel text]];
         
     } else {
-        if ([selectedArtists count]<5) {
+        if ([selectedArtistsOrGenres count] < 5) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             
             // add to selectedArtists
-            [selectedArtists addObject:[cell.textLabel text]];
+            [selectedArtistsOrGenres addObject:[cell.textLabel text]];
         }
     }
     [cell setSelected:NO];
@@ -133,6 +136,10 @@
     [self addSubview:tabView];
 }
 
+- (void) textFieldDidBeginEditing:(UITextField *)textField{
+    self.locationField.placeholder = nil;
+}
+
 //when clicking the return button in the keybaord
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -148,6 +155,7 @@
 
 - (void)changeFilterType:(UISegmentedControl *)sender
 {
+    isGenre = !isGenre;
     [tabView reloadData];
 }
 
@@ -166,9 +174,6 @@
 //    for (NSString *string in [tripmodel chosenSeeds]) {
 //        NSLog(@"Copied: %@",string);
 //    }
-//    
-//    NSLog(@"filterTypeSelect shows: %d", [[self filterTypeSelect] selectedSegmentIndex]);
-    
-    [delegate pushNextVC];
+    [delegate pushPlaybackVC];
 }
 @end
