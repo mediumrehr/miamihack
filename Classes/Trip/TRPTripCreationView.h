@@ -18,12 +18,14 @@
 @interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate>{
     ArtistModel *artistModel;
     TRPMutableTripModel *tripmodel;
-    NSMutableArray *selectedArtists;
+    NSMutableArray *selectedArtists, *selectedGenres;
+    NSMutableArray *queriedGenres;
 }
 
 @property (nonatomic, retain) UITableView *tabView;
 @property id delegate;
 
 -(IBAction)createPlaylist:(id)sender;
+-(IBAction)changeFilterType:(UISegmentedControl *)sender;
 
 @end
