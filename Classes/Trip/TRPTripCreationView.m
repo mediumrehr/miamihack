@@ -46,8 +46,15 @@
         [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.createPlaylistButton];
         
-        self.locButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.locButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.locButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
+        self.locButton.frame = CGRectMake(250.0, 20.0, 30.0, 30.0);
+        //self.locButton.adjustsImageWhenHighlighted = NO;
+        UIImage *locSearchNormal = [UIImage imageNamed:@"locsearch_normal.png"];
+        UIImage *locSearchPressed = [UIImage imageNamed:@"locsearch_pressed.png"];
+        [self.locButton setBackgroundImage:locSearchNormal forState:UIControlStateNormal];
+        //[self.locButton setBackgroundImage:locSearchPressed forState:UIControlStateSelected];
+        [self.locButton setBackgroundImage:locSearchPressed forState:UIControlStateHighlighted];
         [self addSubview:self.locButton];
         
         selectedArtists = [[NSMutableDictionary alloc] initWithCapacity:5];
@@ -189,7 +196,7 @@
     CGFloat height = self.bounds.size.height;
 
     //CGRect locationFieldFrame = CGRectInset(self.bounds, 20, 0);
-    CGRect locationFieldFrame = CGRectMake(40.0, 20.0, 200.0, 30.0);
+    CGRect locationFieldFrame = CGRectMake(40.0, 20.0, 215.0, 30.0);
     //locationFieldFrame.size.height = 30;
     //locationFieldFrame.origin.y = 20;
     self.locationField.frame = locationFieldFrame;
@@ -197,12 +204,8 @@
     self.createPlaylistButton.frame = CGRectMake(0.0, height - 50.0, width, locationFieldFrame.size.height);
     [self.createPlaylistButton setTitle:@"Create Playlist" forState:UIControlStateNormal];
     
-    self.locButton.frame = CGRectMake(250.0, 20.0, 30.0, 30.0);
-    [self.locButton setBackgroundColor:[UIColor blueColor]];
-    [self.locButton setTitle:@"df" forState:UIControlStateNormal];
-    
     CGFloat bottomOfLocField = self.locationField.frame.origin.y + self.locationField.frame.size.height + 10;
-    self.filterTypeSelect.frame = CGRectMake(20.0, bottomOfLocField, self.bounds.size.width - 40.0, 30);
+    self.filterTypeSelect.frame = CGRectMake(40.0, bottomOfLocField, self.bounds.size.width - 80.0, 30);
     
     tabView = [[UITableView alloc] init];
     tabView.dataSource = self;
