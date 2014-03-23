@@ -20,7 +20,7 @@
 @interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate,CLLocationManagerDelegate>{
     ArtistModel *artistModel;
     TRPMutableTripModel *tripmodel;
-    NSMutableArray *selectedArtistsOrGenres;
+    NSMutableDictionary *selectedArtists, *selectedGenres;
     NSMutableArray *queriedGenres;
     bool isGenre;
     CLLocationManager *locManager;
