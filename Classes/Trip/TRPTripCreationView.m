@@ -162,6 +162,7 @@
 
 -(void)createPlaylist:(id)sender{
     [tripmodel setChosenSeeds:[selectedArtists copy]];
+    [tripmodel setIsGenre:self.filterTypeSelect.selectedSegmentIndex];
 //    for (NSString *string in [tripmodel chosenSeeds]) {
 //        NSLog(@"Copied: %@",string);
 //    }
