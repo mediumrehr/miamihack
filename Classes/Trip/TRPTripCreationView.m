@@ -53,7 +53,6 @@
         UIImage *locSearchNormal = [UIImage imageNamed:@"locsearch_normal.png"];
         UIImage *locSearchPressed = [UIImage imageNamed:@"locsearch_pressed.png"];
         [self.locButton setBackgroundImage:locSearchNormal forState:UIControlStateNormal];
-        //[self.locButton setBackgroundImage:locSearchPressed forState:UIControlStateSelected];
         [self.locButton setBackgroundImage:locSearchPressed forState:UIControlStateHighlighted];
         [self addSubview:self.locButton];
         

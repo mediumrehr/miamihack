@@ -17,8 +17,7 @@
 @synthesize volumeSlider = _volumeSlider;
 @synthesize playbackManager = _playbackManager;
 @synthesize currentTrack = _currentTrack;
-@synthesize audioControlView;
-@synthesize delegate;
+@synthesize audioControlView, delegate, thumbsUp, thumbsDown;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -69,6 +68,20 @@
         self.audioControlView.alpha = 0.8;
         [self addSubview:self.audioControlView];
         
+        self.thumbsUp = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.thumbsUp addTarget:self action:@selector(favoriteSong:) forControlEvents:UIControlEventTouchUpInside];
+        self.thumbsUp.frame = CGRectMake(20.0, 420.0, 50.0, 50.0);
+        [self.thumbsUp setImage:[UIImage imageNamed:@"thumbUp.png"] forState:UIControlStateNormal];
+        self.thumbsUp.alpha = 0.8;
+        [self addSubview:self.thumbsUp];
+        
+        self.thumbsDown = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.thumbsDown addTarget:self action:@selector(banSong:) forControlEvents:UIControlEventTouchUpInside];
+        self.thumbsDown.frame = CGRectMake(80.0, 420.0, 50.0, 50.0);
+        [self.thumbsDown setImage:[UIImage imageNamed:@"thumbDown.png"] forState:UIControlStateNormal];
+        self.thumbsUp.alpha = 0.8;
+        [self addSubview:self.thumbsDown];
+        
         self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
         [[SPSession sharedSession] setDelegate:self];
         trackUrlBuffer = [[NSMutableArray alloc]  init];
@@ -91,8 +104,6 @@
         UISwipeGestureRecognizer* swipeRightGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRightFrom:)];
         swipeRightGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
         [self addGestureRecognizer:swipeRightGestureRecognizer];
-
-        
     }
     return self;
 }
@@ -354,6 +365,7 @@
     }else
         trackUrlBufferIndex++;
     
+    [self.thumbsUp setImage:[UIImage imageNamed:@"thumbUp.png"] forState:UIControlStateNormal];
     [self playButtonPressed:nil];
 }
 -(void)audioButtonPressed:(int)state{
@@ -373,6 +385,7 @@
         [self.playbackManager setIsPlaying:FALSE];
         [audioControlView setPlayPauseButton:TRUE];
     }else if(state == 2){ // next pressed
+        [self.thumbsUp setImage:[UIImage imageNamed:@"thumbUp.png"] forState:UIControlStateNormal];
         [self.playbackManager setIsPlaying:FALSE];
         if (![tripModel isGenre]) {
             trackUrlBufferIndex++;
@@ -412,6 +425,8 @@
     [request setDelegate:self];
     [request setValue:songID forParameter:@"favorite_song"];
     [request startSynchronous];
+    
+    [self.thumbsUp setImage:[UIImage imageNamed:@"thumbUpSel.png"] forState:UIControlStateNormal];
 }
 -(void)banSong:(NSString *)songID{
     [ENAPI initWithApiKey:kEchoNestAPIKey
