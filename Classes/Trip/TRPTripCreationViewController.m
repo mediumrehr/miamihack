@@ -58,6 +58,15 @@
     NSLog(@"Created a trip! %@", model);
 }
 
+- (void)viewDidLoad
+{
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 /*
 #pragma mark - Navigation
 

@@ -45,8 +45,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setNeedsStatusBarAppearanceUpdate];
 
     // check for list of trips, and start a new one if empty
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)setCurrentViewController:(UIViewController *)currentViewController

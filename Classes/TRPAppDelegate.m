@@ -112,6 +112,9 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.rootViewController presentViewController:loginViewController animated:YES completion:nil];
     });
+    
+    // set status bar to white text
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
     return YES;
 }
@@ -224,6 +227,5 @@
 										  otherButtonTitles:nil];
 	[alert show];
 }
-
 
 @end

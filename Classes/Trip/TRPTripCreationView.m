@@ -42,7 +42,7 @@
         [self addSubview:self.filterTypeSelect];
         [tripmodel setIsGenre:NO];
         
-        self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.createPlaylistButton];
         
@@ -199,9 +199,12 @@
     //locationFieldFrame.origin.y = 20;
     self.locationField.frame = locationFieldFrame;
     
-    self.createPlaylistButton.frame = CGRectMake(0.0, height - 50.0, width, locationFieldFrame.size.height);
+    self.createPlaylistButton.frame = CGRectMake(0.0, height - 40.0, width, 40.0);
     [self.createPlaylistButton setTitle:@"Create Playlist" forState:UIControlStateNormal];
-    
+    [self.createPlaylistButton setBackgroundColor:[UIColor blackColor]];
+    self.createPlaylistButton.titleLabel.textColor = [UIColor whiteColor];
+    [self.createPlaylistButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [self.createPlaylistButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     CGFloat bottomOfLocField = self.locationField.frame.origin.y + self.locationField.frame.size.height + 10;
     self.filterTypeSelect.frame = CGRectMake(40.0, bottomOfLocField, self.bounds.size.width - 80.0, 30);
     
@@ -254,10 +257,12 @@
 }
 
 -(void)createPlaylist:(id)sender{
-    if (isGenre) {
+    if (isGenre && ([selectedGenres count] > 0))
         [tripmodel setChosenSeeds:[[selectedGenres allKeys] mutableCopy]];
-    }else
+    else if ([selectedArtists count] > 0)
         [tripmodel setChosenSeeds:[[selectedArtists allKeys] mutableCopy]];
+    else
+        return;
     
     [tripmodel setIsGenre:self.filterTypeSelect.selectedSegmentIndex];
     [delegate pushPlaybackVC];
