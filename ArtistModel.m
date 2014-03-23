@@ -57,14 +57,13 @@
             for(NSDictionary *artist in artists){
                 NSLog(@"Artist: %@", [artist objectForKey:@"name"]);
                 NSDictionary *location = [artist objectForKey:@"artist_location"];
-                NSLog(@"City: %@", [location objectForKey:@"city"]); // To get the artist's location. may be more specific than search.
+                NSLog(@"City: %@", [location objectForKey:@"city"]); // To get the artist's location. may be more specific than search                
             }
             [self didReceiveArtistModel:artists withMessage:@"success"];
         } else{
             NSLog(@"Invalid Area");
             [self didReceiveArtistModel:nil withMessage:@"invalid area"];
         }
-        
     }
 }
 
