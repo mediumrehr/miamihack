@@ -191,6 +191,7 @@
 
 -(void)createPlaylist:(id)sender{
     [tripmodel setChosenSeeds:[selectedArtists copy]];
-    [delegate pushNextVC];
+    [tripmodel setIsGenre:self.filterTypeSelect.selectedSegmentIndex];
+    [delegate pushPlaybackVC];
 }
 @end
