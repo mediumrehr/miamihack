@@ -35,7 +35,7 @@ static TRPTripModel *tripModelCache;
     _location = location;
 }
 
-- (void)setArtistIDs:(NSSet*)artistIDs
+- (void)setArtistIDs:(NSMutableArray*)artistIDs
 {
     _artistIDs = artistIDs;
 }

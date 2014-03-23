@@ -1927,7 +1927,7 @@ static NSOperationQueue *sharedQueue = nil;
 #pragma mark talking to delegates / calling blocks
 
 /* ALWAYS CALLED ON MAIN THREAD! */
-- (void)requestStarted
+- (void) requestStarted
 {
 	if ([self error] || [self mainRequest]) {
 		return;

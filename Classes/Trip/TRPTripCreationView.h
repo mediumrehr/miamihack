@@ -17,4 +17,6 @@
 
 @property (nonatomic, retain) UITableView *tabView;
 
+-(IBAction)createPlaylist:(id)sender;
+
 @end
