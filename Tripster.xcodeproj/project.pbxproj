@@ -8,26 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		695F6E3B62974431A40C26F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 088DB334FEE94805ABFB5FF7 /* libPods.a */; };
-		6B666F4E18DED2FE00433047 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B666F4D18DED2FE00433047 /* MediaPlayer.framework */; };
 		6B66BA6218DE722C003CD16F /* TRPTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B66BA6018DE722C003CD16F /* TRPTripViewController.m */; };
 		6B66BA6318DE722C003CD16F /* TRPTripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B66BA6118DE722C003CD16F /* TRPTripViewController.xib */; };
 		6BDFE76F18DE3E6B0017A4A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDFE76E18DE3E6A0017A4A6 /* CoreLocation.framework */; };
 		6BDFE77518DE49310017A4A6 /* ArtistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDFE77418DE49310017A4A6 /* ArtistModel.m */; };
-		7816A11618DEFE18002DCC1A /* locsearch_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7816A11418DEFE18002DCC1A /* locsearch_normal.png */; };
-		7816A11718DEFE18002DCC1A /* locsearch_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7816A11518DEFE18002DCC1A /* locsearch_pressed.png */; };
-		781E558D18DEA4BA0015DE12 /* TRPTripPlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 781E558C18DEA4BA0015DE12 /* TRPTripPlaybackView.m */; };
-		789C4E7118DF00FB0037329F /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 789C4E6C18DF00FB0037329F /* pause@2x.png */; };
-		789C4E7218DF00FB0037329F /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 789C4E6D18DF00FB0037329F /* play@2x.png */; };
-		789C4E7518DF00FB0037329F /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 789C4E7018DF00FB0037329F /* stop@2x.png */; };
-		789C4E7818DF015E0037329F /* next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 789C4E7618DF015E0037329F /* next@2x.png */; };
-		789C4E7918DF015E0037329F /* previous@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 789C4E7718DF015E0037329F /* previous@2x.png */; };
-		789EB39118DF098B0002A694 /* sliderthumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 789EB39018DF098B0002A694 /* sliderthumb.png */; };
-		78E1EE4318DF0C3200C64651 /* thumbUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 78E1EE4018DF0C3200C64651 /* thumbUp.png */; };
-		78E1EE4418DF0C3200C64651 /* thumbDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 78E1EE4118DF0C3200C64651 /* thumbDown.png */; };
-		78E1EE4518DF0C3200C64651 /* thumbUpSel.png in Resources */ = {isa = PBXBuildFile; fileRef = 78E1EE4218DF0C3200C64651 /* thumbUpSel.png */; };
-		78F9C8BB18DED84700167E1C /* TRPLoginViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 78F9C8B918DED84700167E1C /* TRPLoginViewBackground.png */; };
-		78F9C8BC18DED84700167E1C /* TRPLoginViewBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 78F9C8BA18DED84700167E1C /* TRPLoginViewBackground@2x.png */; };
-		78F9C8BE18DED90500167E1C /* tripstr_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 78F9C8BD18DED90500167E1C /* tripstr_logo.png */; };
 		A6DF12A8EFA24F0A824F4F4F /* libPods-TripsterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6144545846A4479585161938 /* libPods-TripsterTests.a */; };
 		BC04236018DE211D00B7BFD5 /* TRPRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC04235F18DE211D00B7BFD5 /* TRPRootViewController.m */; };
 		BC04236418DE24E700B7BFD5 /* TRPRootView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC04236318DE24E700B7BFD5 /* TRPRootView.m */; };
@@ -48,9 +32,8 @@
 		BC1F68D818DE05A000280899 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F689518DDCCCD00280899 /* XCTest.framework */; };
 		BC1F68D918DE05A000280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
 		BC1F68DA18DE05A000280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
-		BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */; };
-		BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */; };
-		DE238D6318DE1399008E33CA /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
+		BCD214DF18DF1F380015E172 /* TRPTripPlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214DE18DF1F380015E172 /* TRPTripPlaybackView.m */; };
+		E530220118DEB37900A24706 /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
 		E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */; };
 /* End PBXBuildFile section */
 
@@ -58,7 +41,6 @@
 		088DB334FEE94805ABFB5FF7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		573EA2C0B84740E0997DC460 /* Pods-TripsterTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripsterTests.xcconfig"; path = "Pods/Pods-TripsterTests.xcconfig"; sourceTree = "<group>"; };
 		6144545846A4479585161938 /* libPods-TripsterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TripsterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B666F4D18DED2FE00433047 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		6B66BA5F18DE722C003CD16F /* TRPTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripViewController.h; sourceTree = "<group>"; };
 		6B66BA6018DE722C003CD16F /* TRPTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripViewController.m; sourceTree = "<group>"; };
 		6B66BA6118DE722C003CD16F /* TRPTripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TRPTripViewController.xib; sourceTree = "<group>"; };
@@ -66,22 +48,6 @@
 		6BDFE77318DE49310017A4A6 /* ArtistModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArtistModel.h; path = ../ArtistModel.h; sourceTree = "<group>"; };
 		6BDFE77418DE49310017A4A6 /* ArtistModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArtistModel.m; path = ../ArtistModel.m; sourceTree = "<group>"; };
 		73BACBF37A234EE2BE20FEEB /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		7816A11418DEFE18002DCC1A /* locsearch_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locsearch_normal.png; sourceTree = "<group>"; };
-		7816A11518DEFE18002DCC1A /* locsearch_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locsearch_pressed.png; sourceTree = "<group>"; };
-		781E558B18DEA4BA0015DE12 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
-		781E558C18DEA4BA0015DE12 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
-		789C4E6C18DF00FB0037329F /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
-		789C4E6D18DF00FB0037329F /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
-		789C4E7018DF00FB0037329F /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop@2x.png"; sourceTree = "<group>"; };
-		789C4E7618DF015E0037329F /* next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next@2x.png"; sourceTree = "<group>"; };
-		789C4E7718DF015E0037329F /* previous@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "previous@2x.png"; sourceTree = "<group>"; };
-		789EB39018DF098B0002A694 /* sliderthumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sliderthumb.png; sourceTree = "<group>"; };
-		78E1EE4018DF0C3200C64651 /* thumbUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbUp.png; sourceTree = "<group>"; };
-		78E1EE4118DF0C3200C64651 /* thumbDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbDown.png; sourceTree = "<group>"; };
-		78E1EE4218DF0C3200C64651 /* thumbUpSel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbUpSel.png; sourceTree = "<group>"; };
-		78F9C8B918DED84700167E1C /* TRPLoginViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TRPLoginViewBackground.png; sourceTree = "<group>"; };
-		78F9C8BA18DED84700167E1C /* TRPLoginViewBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TRPLoginViewBackground@2x.png"; sourceTree = "<group>"; };
-		78F9C8BD18DED90500167E1C /* tripstr_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tripstr_logo.png; sourceTree = "<group>"; };
 		BC04235E18DE211D00B7BFD5 /* TRPRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPRootViewController.h; path = Root/TRPRootViewController.h; sourceTree = "<group>"; };
 		BC04235F18DE211D00B7BFD5 /* TRPRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPRootViewController.m; path = Root/TRPRootViewController.m; sourceTree = "<group>"; };
 		BC04236218DE24E700B7BFD5 /* TRPRootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPRootView.h; sourceTree = "<group>"; };
@@ -116,6 +82,8 @@
 		BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPArtistSearchTests.m; sourceTree = "<group>"; };
 		BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaylistTests.m; sourceTree = "<group>"; };
 		BC1F68D718DE059F00280899 /* TripsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCD214DD18DF1F380015E172 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
+		BCD214DE18DF1F380015E172 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
 		DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenreSearchTests.m; sourceTree = "<group>"; };
 		E59DDF4C18DE0CD300381000 /* TripsterTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TripsterTests-Prefix.pch"; sourceTree = "<group>"; };
 		E59DDF5218DE3E8B00381000 /* TRPLocationToPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPLocationToPlaylistTests.m; sourceTree = "<group>"; };
@@ -130,7 +98,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B666F4E18DED2FE00433047 /* MediaPlayer.framework in Frameworks */,
 				6BDFE76F18DE3E6B0017A4A6 /* CoreLocation.framework in Frameworks */,
 				BC1F687F18DDCCCD00280899 /* CoreGraphics.framework in Frameworks */,
 				BC1F688118DDCCCD00280899 /* UIKit.framework in Frameworks */,
@@ -172,13 +139,13 @@
 				BC04236D18DE2EF900B7BFD5 /* TRPTripCreationViewController.m */,
 				BC04238018DE451600B7BFD5 /* TRPTripCreationView.h */,
 				BC04238118DE451600B7BFD5 /* TRPTripCreationView.m */,
-				781E558B18DEA4BA0015DE12 /* TRPTripPlaybackView.h */,
-				781E558C18DEA4BA0015DE12 /* TRPTripPlaybackView.m */,
 				6B66BA5F18DE722C003CD16F /* TRPTripViewController.h */,
 				6B66BA6018DE722C003CD16F /* TRPTripViewController.m */,
 				6B66BA6118DE722C003CD16F /* TRPTripViewController.xib */,
 				BC04236918DE2C0E00B7BFD5 /* TRPTripModel.h */,
 				BC04236A18DE2C0E00B7BFD5 /* TRPTripModel.m */,
+				BCD214DD18DF1F380015E172 /* TRPTripPlaybackView.h */,
+				BCD214DE18DF1F380015E172 /* TRPTripPlaybackView.m */,
 			);
 			name = Trip;
 			sourceTree = "<group>";
@@ -221,7 +188,6 @@
 		BC1F687B18DDCCCD00280899 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6B666F4D18DED2FE00433047 /* MediaPlayer.framework */,
 				6BDFE76E18DE3E6A0017A4A6 /* CoreLocation.framework */,
 				BC1F687C18DDCCCD00280899 /* Foundation.framework */,
 				BC1F687E18DDCCCD00280899 /* CoreGraphics.framework */,
@@ -256,20 +222,6 @@
 		BC1F68AF18DDCEEB00280899 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				78F9C8B918DED84700167E1C /* TRPLoginViewBackground.png */,
-				78F9C8BA18DED84700167E1C /* TRPLoginViewBackground@2x.png */,
-				7816A11418DEFE18002DCC1A /* locsearch_normal.png */,
-				7816A11518DEFE18002DCC1A /* locsearch_pressed.png */,
-				78E1EE4018DF0C3200C64651 /* thumbUp.png */,
-				78E1EE4118DF0C3200C64651 /* thumbDown.png */,
-				78E1EE4218DF0C3200C64651 /* thumbUpSel.png */,
-				789EB39018DF098B0002A694 /* sliderthumb.png */,
-				789C4E6C18DF00FB0037329F /* pause@2x.png */,
-				789C4E6D18DF00FB0037329F /* play@2x.png */,
-				789C4E7018DF00FB0037329F /* stop@2x.png */,
-				789C4E7618DF015E0037329F /* next@2x.png */,
-				789C4E7718DF015E0037329F /* previous@2x.png */,
-				78F9C8BD18DED90500167E1C /* tripstr_logo.png */,
 				BC1F68B018DDCEEB00280899 /* InfoPlist.strings */,
 				BC1F68B218DDCEEB00280899 /* Images.xcassets */,
 			);
@@ -349,15 +301,6 @@
 				CLASSPREFIX = TRP;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = UMiami;
-				TargetAttributes = {
-					BC1F687818DDCCCD00280899 = {
-						SystemCapabilities = {
-							com.apple.BackgroundModes = {
-								enabled = 1;
-							};
-						};
-					};
-				};
 			};
 			buildConfigurationList = BC1F687418DDCCCD00280899 /* Build configuration list for PBXProject "Tripster" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -383,23 +326,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC1F68BD18DDCEEB00280899 /* InfoPlist.strings in Resources */,
-				7816A11618DEFE18002DCC1A /* locsearch_normal.png in Resources */,
-				78E1EE4418DF0C3200C64651 /* thumbDown.png in Resources */,
-				78F9C8BE18DED90500167E1C /* tripstr_logo.png in Resources */,
-				78E1EE4318DF0C3200C64651 /* thumbUp.png in Resources */,
 				BC1F68C018DDCEEB00280899 /* InfoPlist.strings in Resources */,
-				78F9C8BC18DED84700167E1C /* TRPLoginViewBackground@2x.png in Resources */,
-				789C4E7518DF00FB0037329F /* stop@2x.png in Resources */,
 				6B66BA6318DE722C003CD16F /* TRPTripViewController.xib in Resources */,
-				78F9C8BB18DED84700167E1C /* TRPLoginViewBackground.png in Resources */,
-				789EB39118DF098B0002A694 /* sliderthumb.png in Resources */,
-				789C4E7118DF00FB0037329F /* pause@2x.png in Resources */,
-				789C4E7918DF015E0037329F /* previous@2x.png in Resources */,
-				789C4E7818DF015E0037329F /* next@2x.png in Resources */,
-				78E1EE4518DF0C3200C64651 /* thumbUpSel.png in Resources */,
-				789C4E7218DF00FB0037329F /* play@2x.png in Resources */,
 				BC1F68BE18DDCEEB00280899 /* Images.xcassets in Resources */,
-				7816A11718DEFE18002DCC1A /* locsearch_pressed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,6 +414,7 @@
 				BC04237B18DE3EA200B7BFD5 /* TRPTripArtistSelectionStep.m in Sources */,
 				BC04237818DE3E6400B7BFD5 /* TRPTripLocationStep.m in Sources */,
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
+				BCD214DF18DF1F380015E172 /* TRPTripPlaybackView.m in Sources */,
 				BC04238218DE451600B7BFD5 /* TRPTripCreationView.m in Sources */,
 				BC04236B18DE2C0E00B7BFD5 /* TRPTripModel.m in Sources */,
 				6B66BA6218DE722C003CD16F /* TRPTripViewController.m in Sources */,
@@ -493,7 +423,6 @@
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
 				BC04236418DE24E700B7BFD5 /* TRPRootView.m in Sources */,
 				BC04236018DE211D00B7BFD5 /* TRPRootViewController.m in Sources */,
-				781E558D18DEA4BA0015DE12 /* TRPTripPlaybackView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,9 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE238D6318DE1399008E33CA /* TRPGenreSearchTests.m in Sources */,
-				BC1F68E818DE05EC00280899 /* TRPArtistSearchTests.m in Sources */,
-				BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */,
+				E530220118DEB37900A24706 /* TRPGenreSearchTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
