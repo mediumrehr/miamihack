@@ -28,10 +28,6 @@
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
         [self addSubview:self.locationField];
-        
-        self.createPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.createPlaylistButton addTarget:self action:@selector(createPlaylist:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:self.createPlaylistButton];
     }
     return self;
 }
@@ -94,7 +90,7 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField{
 
     [artistModel createArtistsModelforLocation:textField.text];
-
+    [tripmodel setLocation:textField.text];
 }
 
 -(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{

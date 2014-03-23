@@ -46,7 +46,7 @@
         NSString *endPoint = @"playlist/dynamic/next";
         ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
         [request setIntegerValue:1 forParameter:@"results"];
-        [request setIntegerValue:5 forParameter:@"lookahead"];
+        [request setIntegerValue:0 forParameter:@"lookahead"]; // Look Aheads do anything for us ???
         [request setValue:sessionID forParameter:@"session_id"];
         [request startAsynchronous];
         return true;
@@ -73,10 +73,18 @@
         }
     } else if([requestType isEqualToString:@"NextSong"]){
         response = [[request response] objectForKey:@"response"]; // contains Song and Look Ahead
-        if([delegate respondsToSelector:@selector(didReceivePlaylist:withLookAhead:)]){
+        if([delegate respondsToSelector:@selector(didReceiveNextSong:)]){
             NSArray *songs = [response objectForKey:@"songs"];
-            NSArray *lookAhead = [response objectForKey:@"lookahead"];
-            [delegate didReceivePlaylist:songs withLookAhead:lookAhead];
+            if([songs count] > 0){
+                NSString *spotifyID = [[[[songs objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"foreign_id"];
+                SPTrack *track = [[SPTrack alloc] init];
+                
+                // [track
+                //[delegate didReceiveNextSong:
+                
+            }
+            // NSArray *lookAhead = [response objectForKey:@"lookahead"];
+            
         }
     }
 }

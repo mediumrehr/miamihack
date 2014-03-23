@@ -7,6 +7,7 @@
 //
 
 #import <libechonest/ENAPI.h>
+#import <CocoaLibSpotify.h>
 #import "TRPConstants.h"
 
 SpecBegin(Playlist)
@@ -57,7 +58,11 @@ describe(@"creation", ^{
     NSDictionary *response2 = [[request2 response] objectForKey:@"response"];
     NSDictionary *status2   =  [response2 objectForKey:@"status"];
     NSArray *songs = [response2 objectForKey:@"songs"];
+    NSString *spotifyID = [[[[songs objectAtIndex:0] objectForKey:@"tracks"] objectAtIndex:0] objectForKey:@"foreign_id"];
+    
+    
     NSArray *lookAhead = [response2 objectForKey:@"lookahead"];
+    
     NSLog(@"%@",response2);
 
     //NSArray *artists = [[NSArray alloc] initWithObjects:@"Pitbull",@"Enrique Iglesias",@"Flo Rida",@"Young Money",@"DJ Khaled", nil];
