@@ -12,3 +12,12 @@
 
 + (UIColor *) getMainColorFromImage:(UIImage *)image;
 @end
+
+@interface PCCountedColor : NSObject
+
+@property (assign) NSUInteger count;
+@property (retain) UIColor *color;
+
+- (id)initWithColor:(UIColor*)color count:(NSUInteger)count;
+
+@end

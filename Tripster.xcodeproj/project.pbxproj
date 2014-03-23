@@ -429,7 +429,7 @@
 				BC04237B18DE3EA200B7BFD5 /* TRPTripArtistSelectionStep.m in Sources */,
 				BC04237818DE3E6400B7BFD5 /* TRPTripLocationStep.m in Sources */,
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
-				E530220418DF14CF00A24706 /* TRPTripPlaybackView.m in Sources */,
+				BCD214DF18DF1F380015E172 /* TRPTripPlaybackView.m in Sources */,
 				BC04238218DE451600B7BFD5 /* TRPTripCreationView.m in Sources */,
 				BC04236B18DE2C0E00B7BFD5 /* TRPTripModel.m in Sources */,
 				6B66BA6218DE722C003CD16F /* TRPTripViewController.m in Sources */,

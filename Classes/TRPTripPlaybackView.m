@@ -27,12 +27,13 @@
         // Initialization code
         self.coverView =[[UIImageView alloc] init];
         [self addSubview:self.coverView];
+        backgroundSet = false;
         
-        UIImageView *trackBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 300.0, self.bounds.size.width, 210.0)];
+        trackBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 300.0, self.bounds.size.width, 210.0)];
         [trackBG setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7]];
         [self addSubview:trackBG];
         
-        UIImageView *trackNavBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.bounds.size.width, 70.0)];
+        trackNavBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.bounds.size.width, 70.0)];
         [trackNavBG setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7]];
         [self addSubview:trackNavBG];
         
@@ -158,7 +159,26 @@
         self.trackAlbum.text = self.currentTrack.album.name;
 	} else if ([keyPath isEqualToString:@"currentTrack.album.cover.image"]) {
             // TODO: get color
-		self.coverView.image = self.currentTrack.album.cover.image;
+		
+        [SPAsyncLoading waitUntilLoaded:self.currentTrack.album.cover timeout:kSPAsyncLoadingDefaultTimeout then:^
+         (NSArray *loadedItems, NSArray *notLoadedItems){
+             if([loadedItems containsObject:self.currentTrack.album.cover]){
+                 UIColor *color = [TRPColorPicker getMainColorFromImage:self.currentTrack.album.cover.image];
+                 float A, R, G, B;
+                 if(R + G + B > 1.5){
+                     [self setLabelsAndPicsToWhiteOrBlack:NO];
+                 } else{
+                     [self setLabelsAndPicsToWhiteOrBlack:YES];
+                 }
+                 [color getRed:&R green:&G blue:&B alpha:&A];
+                 color = [UIColor colorWithRed:R green:G blue:B alpha:0.7];
+                 
+                 [trackBG setBackgroundColor:color];
+                 [trackNavBG setBackgroundColor:color];
+                 self.coverView.image = self.currentTrack.album.cover.image;
+             }
+        }];
+        
     } else if ([keyPath isEqualToString:@"currentTrack.duration"]) {
 		self.positionSlider.maximumValue = self.currentTrack.duration;
 	}else if ([keyPath isEqualToString:@"playbackManager.isPlaying"]) {
@@ -200,7 +220,7 @@
                                 [dic setValue:track.name forKey:MPMediaItemPropertyTitle];
                                 [dic setValue:track.artists forKey:MPMediaItemPropertyArtist];
                                 infoCenter.nowPlayingInfo = dic;
-                                self.currentTrack = track;                                
+                                self.currentTrack = track;
                             }
                             
                         }];
@@ -271,6 +291,19 @@
     }
     
     return false;
+}
+
+- (void) setLabelsAndPicsToWhiteOrBlack:(bool)isWhite{
+    UIColor *color;
+    if(isWhite){
+        color = [UIColor whiteColor];
+    } else{
+        color = [UIColor blackColor];
+    }
+    
+    [self.trackTitle setTextColor:color];
+    [self.trackArtist setTextColor:color];
+    [self.trackAlbum setTextColor:color];
 }
 
 - (void) requestFailed:(ENAPIRequest *)request{
@@ -427,6 +460,7 @@
     
     [self.thumbsUp setImage:[UIImage imageNamed:@"thumbUpSel.png"] forState:UIControlStateNormal];
 }
+
 -(void)banSong:(NSString *)songID{
     [ENAPI initWithApiKey:kEchoNestAPIKey
               ConsumerKey:kEchoNestConsumerKey
@@ -458,6 +492,4 @@
         }
     }
 }
-
-
 @end
