@@ -10,7 +10,7 @@
 
 @implementation AudioControlsView
 
-@synthesize button_Next,button_PlayPause,button_Previous, label_SongTitle, label_SongArtist;
+@synthesize button_Next,button_PlayPause,button_Previous, label_SongTitle, label_SongArtist, delegate;
 
 - (void) initialize
 {
@@ -55,6 +55,8 @@
     //self.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     [[self layer] setMasksToBounds:YES];
     [self setBackgroundColor:[UIColor clearColor]];
+    
+    
 }
 - (id)initWithFrame:(CGRect)frame
 {
@@ -77,12 +79,15 @@
 
 - (void) buttonPressed:(id)sender
 {
+    
     if(sender == button_Previous){
         // Want this?
+        [delegate audioButtonPressed:0];
     } else if(sender == button_PlayPause){
         // call setPlayPauseButton please
+        [delegate audioButtonPressed:1];
     } else if(sender == button_Next){
-
+        [delegate audioButtonPressed:2];
     }
 }
 
