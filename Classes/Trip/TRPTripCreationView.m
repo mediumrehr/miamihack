@@ -92,8 +92,9 @@
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
+
     [artistModel createArtistsModelforLocation:textField.text];
-    [tripmodel setLocation:textField.text];
+
 }
 
 -(void)didReceiveArtistModel:(NSArray *)artists withMessage:(NSString *)message{

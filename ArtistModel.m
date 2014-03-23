@@ -25,7 +25,6 @@
 -(void)createArtistsModelforLocation:(NSString *)location{
     
     //[self init];
-    
     [ENAPI initWithApiKey:kEchoNestAPIKey
               ConsumerKey:kEchoNestConsumerKey
           AndSharedSecret:kEchoNestSharedSecret];

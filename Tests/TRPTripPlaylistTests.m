@@ -28,6 +28,7 @@ describe(@"creation", ^{
     expect(request.complete).to.equal(YES);
     expect(request.responseStatusCode).to.equal(200);
     NSDictionary *response = [[request response] objectForKey:@"response"];
+    NSString *sessionID = [response objectForKey:@"session_id"];
     int playingIndex = 0;
     if(request.responseStatusCode == 200){ // Successful query
         NSArray *songs = [response objectForKey:@"songs"];
@@ -46,10 +47,6 @@ describe(@"creation", ^{
     // Get Next Song!
     NSString *endPoint2 = @"playlist/dynamic/next";
     ENAPIRequest *request2 = [ENAPIRequest requestWithEndpoint:endPoint2];
-    //NSArray *artists = [[NSArray alloc] initWithObjects:@"Pitbull",@"Enrique Iglesias",@"Flo Rida",@"Young Money",@"DJ Khaled", nil];
-    //NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
-    //[request2 setValue:artists2 forParameter:@"artist"];
-    //[request2 setValue:bucket forParameter:@"bucket"];
     [request2 setIntegerValue:1 forParameter:@"results"];
     [request2 setIntegerValue:5 forParameter:@"lookahead"];
     [request2 setValue:[response objectForKey:@"session_id"] forParameter:@"session_id"];
@@ -59,8 +56,15 @@ describe(@"creation", ^{
     expect(request2.responseStatusCode).to.equal(200);
     NSDictionary *response2 = [[request2 response] objectForKey:@"response"];
     NSDictionary *status2   =  [response2 objectForKey:@"status"];
+    NSArray *songs = [response2 objectForKey:@"songs"];
+    NSArray *lookAhead = [response2 objectForKey:@"lookahead"];
     NSLog(@"%@",response2);
-    
+
+    //NSArray *artists = [[NSArray alloc] initWithObjects:@"Pitbull",@"Enrique Iglesias",@"Flo Rida",@"Young Money",@"DJ Khaled", nil];
+    //NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
+    //[request2 setValue:artists2 forParameter:@"artist"];
+    //[request2 setValue:bucket forParameter:@"bucket"];
+
     
 });
 
