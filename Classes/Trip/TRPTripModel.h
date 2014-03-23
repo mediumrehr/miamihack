@@ -24,6 +24,7 @@
 @property (nonatomic, strong, readonly) NSURL *currentSpotifyTrackID;
 @property (nonatomic, strong) NSMutableArray *chosenSeeds;
 @property BOOL isGenre;
+@property BOOL needsNewPlaylist;
 @end
 
 

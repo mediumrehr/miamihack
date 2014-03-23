@@ -42,6 +42,10 @@
 - (IBAction)playButtonPressed:(id)sender;
 - (IBAction)setTrackPosition:(id)sender;
 - (IBAction)setVolume:(id)sender;
+- (bool)getSongsForCurrentSession;
+-(void) createSessionWithArtists:(NSArray*) artists;
+-(void)getGenreRadioPlaylistWithGenres:(NSArray*)genre;
+
 
 @property (nonatomic, strong) IBOutlet UILabel *trackTitle;
 @property (nonatomic, strong) IBOutlet UILabel *trackArtist;

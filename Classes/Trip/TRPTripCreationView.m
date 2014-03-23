@@ -227,7 +227,11 @@
 
 -(void)didReceiveArtistModel:(NSArray *)artists AndGeneratedGenres:(NSArray *)genres withMessage:(NSString *)message{
     NSLog(@" Artist Array %@",artists);
+    [tripmodel setNeedsNewPlaylist:YES];
     [tripmodel setArtistIDs:nil];
+    [selectedArtists removeAllObjects];
+    [selectedGenres removeAllObjects];
+    [tripmodel setChosenSeeds:nil];
     [tripmodel setArtistIDs:[artists mutableCopy]];
     [queriedGenres removeAllObjects];
     queriedGenres = [genres mutableCopy];
