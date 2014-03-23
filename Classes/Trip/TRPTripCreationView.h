@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ArtistModel.h"
 
-@interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate>{
+@interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate>{
     ArtistModel *artistModel;
 }
+
+@property (nonatomic, retain) UITableView *tabView;
 
 @end
