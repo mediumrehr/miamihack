@@ -7,6 +7,7 @@
 //
 
 #import "TRPTripPlaybackView.h"
+#import "TRPColorPicker.h"
 
 @implementation TRPTripPlaybackView
 @synthesize trackTitle = _trackTitle;
@@ -26,12 +27,13 @@
         // Initialization code
         self.coverView =[[UIImageView alloc] init];
         [self addSubview:self.coverView];
+        backgroundSet = false;
         
-        UIImageView *trackBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 300.0, self.bounds.size.width, 210.0)];
+        trackBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 300.0, self.bounds.size.width, 210.0)];
         [trackBG setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7]];
         [self addSubview:trackBG];
         
-        UIImageView *trackNavBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.bounds.size.width, 70.0)];
+        trackNavBG = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.bounds.size.width, 70.0)];
         [trackNavBG setBackgroundColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7]];
         [self addSubview:trackNavBG];
         
@@ -146,9 +148,6 @@
         }
     }
     [audioControlView setDelegate:self];
-    
-
-    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -159,8 +158,28 @@
     } else if ([keyPath isEqualToString:@"currentTrack.album.name"]) {
         self.trackAlbum.text = self.currentTrack.album.name;
 	} else if ([keyPath isEqualToString:@"currentTrack.album.cover.image"]) {
-		self.coverView.image = self.currentTrack.album.cover.image;
-	} else if ([keyPath isEqualToString:@"currentTrack.duration"]) {
+            // TODO: get color
+		
+        [SPAsyncLoading waitUntilLoaded:self.currentTrack.album.cover timeout:kSPAsyncLoadingDefaultTimeout then:^
+         (NSArray *loadedItems, NSArray *notLoadedItems){
+             if([loadedItems containsObject:self.currentTrack.album.cover]){
+                 UIColor *color = [TRPColorPicker getMainColorFromImage:self.currentTrack.album.cover.image];
+                 float A, R, G, B;
+                 if(R + G + B > 1.5){
+                     [self setLabelsAndPicsToWhiteOrBlack:NO];
+                 } else{
+                     [self setLabelsAndPicsToWhiteOrBlack:YES];
+                 }
+                 [color getRed:&R green:&G blue:&B alpha:&A];
+                 color = [UIColor colorWithRed:R green:G blue:B alpha:0.7];
+                 
+                 [trackBG setBackgroundColor:color];
+                 [trackNavBG setBackgroundColor:color];
+                 self.coverView.image = self.currentTrack.album.cover.image;
+             }
+        }];
+        
+    } else if ([keyPath isEqualToString:@"currentTrack.duration"]) {
 		self.positionSlider.maximumValue = self.currentTrack.duration;
 	}else if ([keyPath isEqualToString:@"playbackManager.isPlaying"]) {
 		[self.audioControlView setPlayPauseButton:FALSE];
@@ -257,7 +276,6 @@
 
 /* returns true if songs can be requested. returns false if songs cannot be requested. */
 - (bool) getSongsForCurrentSession{
-    
     if(canRequestTrack){
         requestType = @"NextSong";
         // Get Next Song!
@@ -275,6 +293,19 @@
     return false;
 }
 
+- (void) setLabelsAndPicsToWhiteOrBlack:(bool)isWhite{
+    UIColor *color;
+    if(isWhite){
+        color = [UIColor whiteColor];
+    } else{
+        color = [UIColor blackColor];
+    }
+    
+    [self.trackTitle setTextColor:color];
+    [self.trackArtist setTextColor:color];
+    [self.trackAlbum setTextColor:color];
+}
+
 - (void) requestFailed:(ENAPIRequest *)request{
     //    if([delegate respondsToSelector:@selector(failedToCreatePlaylist)]){
     //        [delegate failedToCreatePlaylist];
@@ -284,7 +315,7 @@
     trackUrlBufferIndex++;
 }
 
-- (void) requestFinished:(ENAPIRequest *)request{
+- (void) requestFinished:(ENAPIRequest *)request {
     [tripModel setNeedsNewPlaylist:FALSE];
     NSDictionary *response;
     if([requestType isEqualToString:@"StartSession"]){
@@ -367,6 +398,7 @@
     [self.thumbsUp setImage:[UIImage imageNamed:@"thumbUp.png"] forState:UIControlStateNormal];
     [self playButtonPressed:nil];
 }
+
 -(void)audioButtonPressed:(int)state{
     if (state == 0) { //previous pressed
         [self.playbackManager setIsPlaying:FALSE];
@@ -413,6 +445,7 @@
     [request setValue:bucket forParameter:@"bucket"];
     [request startSynchronous];
 }
+
 -(void)favoriteSong:(NSString *)songID{
     [ENAPI initWithApiKey:kEchoNestAPIKey
               ConsumerKey:kEchoNestConsumerKey
@@ -427,6 +460,7 @@
     
     [self.thumbsUp setImage:[UIImage imageNamed:@"thumbUpSel.png"] forState:UIControlStateNormal];
 }
+
 -(void)banSong:(NSString *)songID{
     [ENAPI initWithApiKey:kEchoNestAPIKey
               ConsumerKey:kEchoNestConsumerKey
@@ -458,6 +492,4 @@
         }
     }
 }
-
-
 @end

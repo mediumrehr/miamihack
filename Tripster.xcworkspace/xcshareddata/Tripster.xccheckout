@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>A921E590-C262-4064-87C6-5C102FD280C9</string>
+	<string>5C4104E2-47D7-4CF9-9540-73239F3D5EEE</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Tripster</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>1DF892A2-2671-42C0-B26C-C18837C67EB9</key>
-		<string>https://github.com/roB3AR/miamihack</string>
+		<key>F28684CA-E5BC-4863-AF6C-A6A9D765B54E</key>
+		<string>https://github.com/roB3AR/miamihack.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Tripster.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>1DF892A2-2671-42C0-B26C-C18837C67EB9</key>
+		<key>F28684CA-E5BC-4863-AF6C-A6A9D765B54E</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/roB3AR/miamihack</string>
+	<string>https://github.com/roB3AR/miamihack.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>1DF892A2-2671-42C0-B26C-C18837C67EB9</string>
+	<string>F28684CA-E5BC-4863-AF6C-A6A9D765B54E</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>1DF892A2-2671-42C0-B26C-C18837C67EB9</string>
+			<string>F28684CA-E5BC-4863-AF6C-A6A9D765B54E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>miamihack</string>
 		</dict>

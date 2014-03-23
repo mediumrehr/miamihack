@@ -35,9 +35,14 @@
     NSString *sessionID;
     NSString *requestType;
     
+    
+    NSTimer *artworkTimer;
     BOOL canRequestTrack;
     BOOL *isPlaying;
+    BOOL backgroundSet;
     
+    UIImageView *trackBG;
+    UIImageView *trackNavBG;
 }
 
 - (IBAction)playButtonPressed:(id)sender;
