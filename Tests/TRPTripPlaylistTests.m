@@ -20,7 +20,7 @@ describe(@"creation", ^{
     
     NSString *endPoint = @"playlist/dynamic/create";
     ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
-    NSArray *artists = [[NSArray alloc] initWithObjects:@"Pitbull",@"Enrique Iglesias",@"Flo Rida",@"Young Money",@"DJ Khaled", nil];
+    NSArray *artists = [[NSArray alloc] initWithObjects:@"Folk",@"Electronic",@"Alternative",@"lo-fi",@"Acoustic", nil];
     NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
     [request setValue:artists forParameter:@"artist"];
     [request setValue:bucket forParameter:@"bucket"];

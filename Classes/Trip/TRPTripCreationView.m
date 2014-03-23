@@ -21,6 +21,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
+        isGenre = false;
+        
         artistModel = [[ArtistModel alloc] init];
         [artistModel setDelegate:self];
         tripmodel = [TRPMutableTripModel getTripModel];
@@ -28,6 +31,7 @@
         self.locationField = [[UITextField alloc] init];
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
+        self.locationField.placeholder = @"Enter Location";
         [self addSubview:self.locationField];
         
         NSArray *itemArray = [NSArray arrayWithObjects:@"Artist", @"Genre", nil];
@@ -153,6 +157,10 @@
     [self addSubview:tabView];
 }
 
+- (void) textFieldDidBeginEditing:(UITextField *)textField{
+    self.locationField.placeholder = nil;
+}
+
 //when clicking the return button in the keybaord
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -168,6 +176,7 @@
 
 - (void)changeFilterType:(UISegmentedControl *)sender
 {
+    isGenre = !isGenre;
     [tabView reloadData];
 }
 

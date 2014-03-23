@@ -1,32 +1,56 @@
 //
-//  TRPTripViewController.m
-//  
+//  TRPTripPlaybackView.m
+//  Tripster
 //
-//  Created by Andrew Ayers on 3/22/14.
+//  Created by Rob Rehrig on 3/23/14.
+//  Copyright (c) 2014 UMiami. All rights reserved.
 //
-//
 
-#import "TRPTripViewController.h"
+#import "TRPTripPlaybackView.h"
 
-
-@interface TRPTripViewController ()
-
-@end
-
-@implementation TRPTripViewController
-
+@implementation TRPTripPlaybackView
 @synthesize trackTitle = _trackTitle;
 @synthesize trackArtist = _trackArtist;
 @synthesize coverView = _coverView;
 @synthesize positionSlider = _positionSlider;
+@synthesize volumeSlider = _volumeSlider;
 @synthesize playbackManager = _playbackManager;
 @synthesize currentTrack = _currentTrack;
+@synthesize audioControlView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithFrame:frame];
     if (self) {
-        // Custom initialization
+        // Initialization code
+        self.trackTitle = [[UILabel alloc] init];
+        [self addSubview:self.trackTitle];
+        
+        self.trackArtist = [[UILabel alloc] init];
+        [self addSubview:self.trackArtist];
+        
+        self.coverView =[[UIImageView alloc] init];
+        [self addSubview:self.coverView];
+        
+        self.positionSlider = [[UISlider alloc] init];
+        [self.positionSlider addTarget:self action:@selector(setTrackPosition:) forControlEvents:UIControlEventValueChanged];
+        self.positionSlider.minimumValue = 0.0;
+        self.positionSlider.maximumValue = 1.0;
+        self.positionSlider.continuous = YES;
+        self.positionSlider.value = 0.0;
+        [self addSubview:self.positionSlider];
+        
+        self.volumeSlider = [[UISlider alloc] init];
+        [self.volumeSlider addTarget:self action:@selector(setVolume:) forControlEvents:UIControlEventValueChanged];
+        self.volumeSlider.minimumValue = 0.0;
+        self.volumeSlider.maximumValue = 1.0;
+        self.volumeSlider.continuous = YES;
+        self.volumeSlider.value = 1.0;
+        [self addSubview:self.volumeSlider];
+        
+        self.audioControlView = [[AudioControlsView alloc] initWithFrame:CGRectMake((self.bounds.size.width - 160.0)/2.0, 10.0, 160.0, 66.0)];
+        [self addSubview:self.audioControlView];
+        
         self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
         [[SPSession sharedSession] setDelegate:self];
         trackUrlBuffer = [[NSMutableArray alloc]  init];
@@ -35,38 +59,37 @@
         [self addObserver:self forKeyPath:@"currentTrack.duration" options:0 context:nil];
         [self addObserver:self forKeyPath:@"currentTrack.album.cover.image" options:0 context:nil];
         [self addObserver:self forKeyPath:@"playbackManager.trackPosition" options:0 context:nil];
-
+        
         [self.playbackManager setDelegate:self];
         tripModel = [TRPMutableTripModel getTripModel];
         trackUrlBufferIndex = 0;
-        //plModel = [[TRPPlaylistModel alloc] init];
-
     }
     return self;
 }
 
-- (void)viewDidLoad
+- (void)layoutSubviews
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-   // [plModel createSessionWithArtists:[tripModel chosenSeeds]];
-    if ([tripModel isGenre]) {
-        [self getGenreRadioPlaylistWithGenres:[tripModel chosenSeeds]];
-    }else{
+    [self.trackTitle setText:@"Track Title"];
+    self.trackTitle.textAlignment = NSTextAlignmentCenter;
+    self.trackTitle.frame = CGRectMake(0.0, 100.0, self.bounds.size.width, 20.0);
+    
+    [self.trackArtist setText:@"Track Artist"];
+    self.trackArtist.textAlignment = NSTextAlignmentCenter;
+    self.trackArtist.frame = CGRectMake(0.0, 120.0, self.bounds.size.width, 20.0);
+    
+    self.coverView.frame = CGRectMake((self.bounds.size.width - 150.0)/2.0, 140.0, 150.0, 150.0);
+    [self.coverView setBackgroundColor:[UIColor grayColor]];
+    
+    self.positionSlider.frame = CGRectMake(20.0, 310.0, self.bounds.size.width - 40.0, 20.0);
+    
+    self.volumeSlider.frame = CGRectMake(20.0, 340.0, self.bounds.size.width - 40.0, 20.0);
+    
     [self createSessionWithArtists:[tripModel chosenSeeds]];
     BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
-    if(!didSucceedNewTracks){
+    if(!didSucceedNewTracks)
         NSLog(@"No new tracks recieved");
-        // Error handling?
-    }
-    }
-    [audioControlView setDelegate:self];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    [self.audioControlView setDelegate:self];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -141,7 +164,7 @@
     for (int i=0; i<[urlStrings count]; i++) {
         [trackUrlBuffer setObject:[urlStrings objectAtIndex:i] atIndexedSubscript:(i+trackUrlBufferIndex)];
     }
-
+    
 }
 
 - (void) createSessionWithArtists:(NSArray*) artists{
@@ -182,9 +205,9 @@
 }
 
 - (void) requestFailed:(ENAPIRequest *)request{
-//    if([delegate respondsToSelector:@selector(failedToCreatePlaylist)]){
-//        [delegate failedToCreatePlaylist];
-//    }
+    //    if([delegate respondsToSelector:@selector(failedToCreatePlaylist)]){
+    //        [delegate failedToCreatePlaylist];
+    //    }
     
     //We shit the bed on getting more tracks, so we need to eat up one of our lookaheads
     trackUrlBufferIndex++;
@@ -197,9 +220,9 @@
         response = [[request response] objectForKey:@"response"];
         sessionID = [response objectForKey:@"session_id"];
         canRequestTrack = true;
-//        if([delegate respondsToSelector:@selector(successfullyCreatedPlaylist)]){
-//            [delegate successfullyCreatedPlaylist];
-//        }
+        //        if([delegate respondsToSelector:@selector(successfullyCreatedPlaylist)]){
+        //            [delegate successfullyCreatedPlaylist];
+        //        }
     } else if([requestType isEqualToString:@"NextSong"]){
         response = [[request response] objectForKey:@"response"]; // contains Song and Look Ahead
         NSMutableArray *spotifyIDs = [[NSMutableArray alloc] init];
@@ -227,45 +250,22 @@
             }
         }
         
-            
-            [self didReceiveNextSong:spotifyIDs];
-            trackUrlBufferIndex ++;
-            
-        } else if([requestType isEqualToString:@"genrePlaylist"]){
-            NSMutableArray *genrePlaylist = [[NSMutableArray alloc] init];
-            response = [[request response] objectForKey:@"response"];
-            if(request.responseStatusCode == 200){ // Successful query
-                NSArray *songs = [response objectForKey:@"songs"];
-                // --- EXTRACT SPOTIFY ID ---
-                for(int i = 0; i < [songs count]; i++){
-                    NSDictionary *song = [songs objectAtIndex:i];
-                    NSArray *tracks = [song objectForKey:@"tracks"];
-                    if ([tracks count]>0) {
-                        NSDictionary *track = [tracks objectAtIndex:0];
-                        NSString *spotify_ID = [track objectForKey:@"foreign_id"]; // send this to spotify
-                        [trackUrlBuffer addObject:spotify_ID];
-                        NSLog(@"Print ID: %@",spotify_ID);
-                    }
-                }
-                // --- EXTRACT SPOTIFY ID ---
-            }
-        }
+        
+        [self didReceiveNextSong:spotifyIDs];
+        // NSArray *lookAhead = [response objectForKey:@"lookahead"];
+        trackUrlBufferIndex ++;
     }
-
+}
 -(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager{
     //bullshit people writing delegate methods that don't check for implementation before sending unrecognized selectors making me do shit like leave empty implementations of methods :)
 }
 
 -(void)sessionDidEndPlayback{
-    if (![tripModel isGenre]) {
-        BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
-        if(!didSucceedNewTracks){
-            NSLog(@"No new tracks recieved");
-            // Error handling?
-        }
-    }else
-        trackUrlBufferIndex++;
-
+    BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
+    if(!didSucceedNewTracks){
+        NSLog(@"No new tracks recieved");
+        // Error handling?
+    }
     [self playButtonPressed:nil];
 }
 -(void)audioButtonPressed:(int)state{
@@ -280,17 +280,13 @@
             [self playButtonPressed:nil];
         else
             [self.playbackManager setIsPlaying:TRUE];
-        [audioControlView setPlayPauseButton:TRUE];
+        [self.audioControlView setPlayPauseButton:TRUE];
     }else if(state == 1 && [self.playbackManager isPlaying]){ //pause
         [self.playbackManager setIsPlaying:FALSE];
-        [audioControlView setPlayPauseButton:FALSE];
+        [self.audioControlView setPlayPauseButton:FALSE];
     }else if(state == 2){ // next pressed
         [self.playbackManager setIsPlaying:FALSE];
-        if (![tripModel isGenre]) {
-            [self getSongsForCurrentSession];
-        }else
-            trackUrlBufferIndex++;
-        
+        [self getSongsForCurrentSession];
         [self playButtonPressed:nil];
         
     }
@@ -304,13 +300,13 @@
     requestType = @"genrePlaylist";
     NSString *endPoint = @"playlist/static";
     ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
-    [request setDelegate:self];
     NSArray *bucket = [[NSArray alloc] initWithObjects: @"id:spotify-US", @"tracks",nil];
     [request setIntegerValue:100 forParameter:@"results"];
     [request setValue:genres forParameter:@"genre"];
     [request setValue:@"genre-radio" forParameter:@"type"];
     [request setValue:bucket forParameter:@"bucket"];
-    [request startSynchronous];
+    [request startAsynchronous];
 }
+
 
 @end
