@@ -52,6 +52,21 @@
         
         selectedArtists = [[NSMutableDictionary alloc] initWithCapacity:5];
         selectedGenres = [[NSMutableDictionary alloc] initWithCapacity:5];
+        //Create location manager object
+        locManager = [[CLLocationManager alloc] init];
+        
+        //There will be a warning from this line of code, ignore it
+        [locManager setDelegate:self];
+        
+        //And we want it to be as accurate as possible
+        //regardless of how much time it takes
+        [locManager setDesiredAccuracy:kCLLocationAccuracyBest];
+        
+        //Tell our manager to start looking for its location immediately
+        [locManager startUpdatingLocation];
+        placemark = [[CLPlacemark alloc] init];
+        geocoder = [[CLGeocoder alloc] init];
+        
     }
     return self;
 }
