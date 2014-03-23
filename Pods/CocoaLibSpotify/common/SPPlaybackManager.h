@@ -42,13 +42,14 @@
 /** Provides delegate callbacks for SPPlaybackManager. */
 
 @protocol SPPlaybackManagerDelegate <NSObject>
-
+@optional
 /** Called when audio starts playing.
  
  @param aPlaybackManager The playback manager that started playing.
  */
 -(void)playbackManagerWillStartPlayingAudio:(SPPlaybackManager *)aPlaybackManager;
 
+-(void)sessionDidEndPlayback;
 @end
 
 /**
@@ -110,5 +111,6 @@
 
 /** Returns the current playback volume, in the range 0.0 to 1.0. */
 @property (readwrite) double volume;
+
 
 @end
