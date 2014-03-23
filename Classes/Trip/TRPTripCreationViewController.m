@@ -72,5 +72,10 @@
     [trpview setDelegate:self];
     self.view = trpview;
 }
+-(void)pushCreationVC{
+    TRPTripCreationView *trcview = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [trcview setDelegate:self];
+    self.view = trcview;
+}
 
 @end

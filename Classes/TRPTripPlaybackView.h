@@ -13,7 +13,10 @@
 #import "TRPConstants.h"
 #import "AudioControlsView.h"
 #import <MediaPlayer/MediaPlayer.h>
+@protocol TripPlaybackViewDelegate <NSObject>
+-(void)pushCreationVC;
 
+@end
 @interface TRPTripPlaybackView : UIView <SPSessionDelegate, SPSessionPlaybackDelegate,ENAPIRequestDelegate,SPPlaybackManagerDelegate, AudioControlViewDelegate>
 {
     TRPTripModel *tripModel;

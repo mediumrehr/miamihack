@@ -14,7 +14,7 @@
 
 
 @class TRPTripCreationViewController;
-@protocol TRPTripCreationViewControllerDelegate <NSObject,TripCreationViewDelegate>
+@protocol TRPTripCreationViewControllerDelegate <NSObject,TripCreationViewDelegate,TripCreationViewDelegate>
 
 - (void)controller:(TRPTripCreationViewController*)controller
      didCreateTrip:(TRPTripModel*)tripModel;

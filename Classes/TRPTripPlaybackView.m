@@ -18,6 +18,7 @@
 @synthesize playbackManager = _playbackManager;
 @synthesize currentTrack = _currentTrack;
 @synthesize audioControlView;
+@synthesize delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -80,8 +81,16 @@
         // Set itself as the first responder
         [self becomeFirstResponder];
         
+        UISwipeGestureRecognizer* swipeRightGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRightFrom:)];
+        swipeRightGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+        [self addGestureRecognizer:swipeRightGestureRecognizer];
+
+        
     }
     return self;
+}
+- (void)handleSwipeRightFrom:(UIGestureRecognizer*)recognizer {
+    [delegate pushCreationVC];
 }
 
 - (BOOL)canBecomeFirstResponder{
