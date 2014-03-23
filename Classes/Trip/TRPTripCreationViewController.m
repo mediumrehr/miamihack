@@ -41,11 +41,7 @@
     // Do any additional setup after loading the view.
     TRPTripCreationView* trpview = [[TRPTripCreationView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [trpview setDelegate:self];
-    self.view = trpview;
-    
-
-    
-    
+    self.view = trpview;  
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,8 +66,11 @@
     // Pass the selected object to the new view controller.
 }
 */
--(void)pushNextVC{
-    [self presentViewController:[[TRPTripViewController alloc] init] animated:YES completion:nil];
+-(void)pushPlaybackVC{
+    //[self presentViewController:[[TRPTripViewController alloc] init] animated:YES completion:nil];
+    TRPTripPlaybackView *trpview = [[TRPTripPlaybackView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [trpview setDelegate:self];
+    self.view = trpview;
 }
 
 @end

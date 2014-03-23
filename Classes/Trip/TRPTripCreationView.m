@@ -28,6 +28,7 @@
         self.locationField = [[UITextField alloc] init];
         [self.locationField setDelegate:self];
         self.locationField.borderStyle = UITextBorderStyleRoundedRect;
+        self.locationField.placeholder = @"Enter Location";
         [self addSubview:self.locationField];
         
         NSArray *itemArray = [NSArray arrayWithObjects:@"Artist", @"Genre", nil];
@@ -164,6 +165,6 @@
 //    for (NSString *string in [tripmodel chosenSeeds]) {
 //        NSLog(@"Copied: %@",string);
 //    }
-    [delegate pushNextVC];
+    [delegate pushPlaybackVC];
 }
 @end

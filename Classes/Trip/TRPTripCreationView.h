@@ -10,7 +10,7 @@
 #import "ArtistModel.h"
 #import "TRPTripModel.h"
 @protocol TripCreationViewDelegate <NSObject>
--(void)pushNextVC;
+-(void)pushPlaybackVC;
 
 @end
 

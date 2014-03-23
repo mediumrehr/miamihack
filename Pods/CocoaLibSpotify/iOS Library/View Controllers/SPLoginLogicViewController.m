@@ -190,26 +190,27 @@
 	
 	// Login form background
 	
-	UIView *loginContainerView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 20.0, 300.0, 185.0)];
+	UIView *loginContainerView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 70.0, 300.0, 185.0)];
 	loginContainerView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 	[self.view addSubview:loginContainerView];
 	
 	UIImageView *blueRect = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 300.0, 185.0)];
 	blueRect.contentMode = UIViewContentModeBottom;
-	blueRect.image = [UIImage imageWithContentsOfFile:[resourcesBundle pathForResource:@"SPLoginViewFacebookBackground" ofType:@"png"]];
+	//blueRect.image = [UIImage imageWithContentsOfFile:[resourcesBundle pathForResource:@"SPLoginViewFacebookBackground" ofType:@"png"]];
 	[loginContainerView addSubview:blueRect];
 	
 	UIImageView *facebookIcon = [[UIImageView alloc] initWithFrame:CGRectMake(30.0, 29.0, 22.0, 23.0)];
-	facebookIcon.contentMode = UIViewContentModeBottom;
-	facebookIcon.image = [UIImage imageWithContentsOfFile:[resourcesBundle pathForResource:@"SPLoginViewFacebookIcon" ofType:@"png"]];
-	[blueRect addSubview:facebookIcon];
+	facebookIcon.contentMode = UIViewContentModeScaleAspectFit;//UIViewContentModeBottom;
+	//facebookIcon.image = [UIImage imageWithContentsOfFile:[resourcesBundle pathForResource:@"SPLoginViewFacebookIcon" ofType:@"png"]];
+    facebookIcon.image = [UIImage imageNamed:@"tripstr_logo.png"];
+    [blueRect addSubview:facebookIcon];
 	
-	UILabel *loginHeader = [[UILabel alloc] initWithFrame:CGRectMake(59.0, 30.0, 212.0, 21.0)];
+	UILabel *loginHeader = [[UILabel alloc] initWithFrame:CGRectMake(45.0, 40.0, 212.0, 21.0)];
 	loginHeader.text = @"Login with Facebook or Spotify";
 	loginHeader.textColor = [UIColor whiteColor];
 	loginHeader.font = [UIFont boldSystemFontOfSize:14.0];
-	loginHeader.shadowColor = [UIColor colorWithWhite:0.2 alpha:1.0];
-	loginHeader.shadowOffset = CGSizeMake(0.0, -1.0);
+	//loginHeader.shadowColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+	//loginHeader.shadowOffset = CGSizeMake(0.0, -1.0);
 	loginHeader.backgroundColor = [UIColor clearColor];
 	[blueRect addSubview:loginHeader];
 	
