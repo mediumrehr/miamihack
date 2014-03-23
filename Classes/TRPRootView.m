@@ -25,6 +25,7 @@
     [self addSubview:_topToolbar];
 
     _contentView = [[UIView alloc] init];
+    [_contentView setBackgroundColor:[UIColor whiteColor]];
     [self addSubview:_contentView];
 
     return self;
