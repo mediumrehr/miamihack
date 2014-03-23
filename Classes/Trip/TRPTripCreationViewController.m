@@ -93,11 +93,22 @@
             }
     }
     }
-    self.view = _playbackView;
+    [_playbackView setDelegate:self];
+    [UIView transitionFromView:self.view toView:_playbackView duration:0.25 options:UIViewAnimationOptionTransitionFlipFromRight completion:^ (BOOL finished) {
+        if (!finished) {
+            return;
+        }
+        self.view = _playbackView;
+    }];
 }
 -(void)pushCreationVC{
     [_creationView setDelegate:self];
-    self.view = _creationView;
+    [UIView transitionFromView:self.view toView:_creationView duration:0.25 options:UIViewAnimationOptionTransitionFlipFromLeft completion:^ (BOOL finished) {
+        if (!finished) {
+            return;
+        }
+        self.view = _creationView;
+    }];
 }
 
 @end
