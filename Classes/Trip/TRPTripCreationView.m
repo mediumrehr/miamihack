@@ -50,7 +50,8 @@
         [self.locButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.locButton];
         
-        selectedArtistsOrGenres = [[NSMutableArray alloc] init];
+        selectedArtists = [[NSMutableDictionary alloc] initWithCapacity:5];
+        selectedGenres = [[NSMutableDictionary alloc] initWithCapacity:5];
     }
     return self;
 }
