@@ -9,18 +9,24 @@
 #import <UIKit/UIKit.h>
 #import "ArtistModel.h"
 #import "TRPTripModel.h"
+#import <CoreLocation/CoreLocation.h>
+
 @protocol TripCreationViewDelegate <NSObject>
 -(void)pushPlaybackVC;
 
 @end
 
 
-@interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate>{
+@interface TRPTripCreationView : UIView <UITextFieldDelegate, ArtistModelDelegate, UITableViewDataSource, UITableViewDelegate,CLLocationManagerDelegate>{
     ArtistModel *artistModel;
     TRPMutableTripModel *tripmodel;
     NSMutableArray *selectedArtistsOrGenres;
     NSMutableArray *queriedGenres;
     bool isGenre;
+    CLLocationManager *locManager;
+    CLPlacemark *placemark;
+    CLGeocoder *geocoder;
+
 }
 
 @property (nonatomic, retain) UITableView *tabView;

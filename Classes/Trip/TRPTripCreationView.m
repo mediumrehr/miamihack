@@ -45,8 +45,42 @@
         [self addSubview:self.createPlaylistButton];
         
         selectedArtistsOrGenres = [[NSMutableArray alloc] init];
+        
+        //Create location manager object
+        locManager = [[CLLocationManager alloc] init];
+        
+        //There will be a warning from this line of code, ignore it
+        [locManager setDelegate:self];
+        
+        //And we want it to be as accurate as possible
+        //regardless of how much time it takes
+        [locManager setDesiredAccuracy:kCLLocationAccuracyBest];
+        
+        //Tell our manager to start looking for its location immediately
+        [locManager startUpdatingLocation];
+        placemark = [[CLPlacemark alloc] init];
+        geocoder = [[CLGeocoder alloc] init];
+        
     }
     return self;
+}
+
+- (void) locationManager:(CLLocationManager*)manager didUpdateToLocation:(CLLocation*)newLocation fromLocation:(CLLocation*) oldLocation
+{
+    // This will be called every time the device has any new location information.
+    CLLocation *loc = newLocation;
+    if (loc) {
+        [geocoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemark, NSError *error) {
+            CLPlacemark *topResult = [placemark objectAtIndex:0];
+            NSString *title = [NSString stringWithFormat:@"%@ %@ %@ %@", topResult.country, topResult.locality, topResult.subLocality, topResult.thoroughfare];
+            NSLog(@"%@",title);
+            [self.locationField setText:topResult.locality];
+            [self textFieldDidEndEditing:self.locationField];
+        }];
+        
+    }
+    //[locManager stopUpdatingLocation];
+    [locManager setDistanceFilter:80000];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -169,7 +203,7 @@
 }
 
 -(void)createPlaylist:(id)sender{
-    [tripmodel setChosenSeeds:[selectedArtists copy]];
+    [tripmodel setChosenSeeds:[selectedArtistsOrGenres copy]];
     [tripmodel setIsGenre:self.filterTypeSelect.selectedSegmentIndex];
 //    for (NSString *string in [tripmodel chosenSeeds]) {
 //        NSLog(@"Copied: %@",string);
