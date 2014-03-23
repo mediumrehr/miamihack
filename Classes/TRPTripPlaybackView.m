@@ -221,7 +221,9 @@
 
 -(void)didReceiveNextSong:(NSArray*)urlStrings{
     for (int i=0; i<[urlStrings count]; i++) {
-        [trackUrlBuffer setObject:[urlStrings objectAtIndex:i] atIndexedSubscript:(i+trackUrlBufferIndex)];
+        if (![trackUrlBuffer containsObject:[urlStrings objectAtIndex:i]]) {
+            [trackUrlBuffer setObject:[urlStrings objectAtIndex:i] atIndexedSubscript:(i+trackUrlBufferIndex)];
+        }
     }
     
 }
@@ -252,7 +254,7 @@
         NSString *endPoint = @"playlist/dynamic/next";
         ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
         [request setDelegate:self];
-        [request setIntegerValue:1 forParameter:@"results"];
+        [request setIntegerValue:5 forParameter:@"results"];
         [request setIntegerValue:5 forParameter:@"lookahead"]; // Look Aheads do anything for us ???
         [request setValue:sessionID forParameter:@"session_id"];
         [self.positionSlider setValue:0];
@@ -276,6 +278,8 @@
     [tripModel setNeedsNewPlaylist:FALSE];
     NSDictionary *response;
     if([requestType isEqualToString:@"StartSession"]){
+        [trackUrlBuffer removeAllObjects];
+        trackUrlBufferIndex = 0;
         response = [[request response] objectForKey:@"response"];
         sessionID = [response objectForKey:@"session_id"];
         canRequestTrack = true;
@@ -295,7 +299,8 @@
                     }
                 }
             }
-        }
+        }else
+            [self getSongsForCurrentSession];
         
         NSArray *lookaheads = [response objectForKey:@"lookahead"];
         if ([lookaheads count] > 0) {
@@ -316,6 +321,8 @@
         }
         
     }else if([requestType isEqualToString:@"genrePlaylist"]){
+        [trackUrlBuffer removeAllObjects];
+        trackUrlBufferIndex = 0;
         NSMutableArray *genrePlaylist = [[NSMutableArray alloc] init];
         response = [[request response] objectForKey:@"response"];
         if(request.responseStatusCode == 200){ // Successful query
@@ -342,11 +349,8 @@
 
 -(void)sessionDidEndPlayback{
     if (![tripModel isGenre]) {
-        BOOL didSucceedNewTracks = [self getSongsForCurrentSession];
-        if(!didSucceedNewTracks){
-            NSLog(@"No new tracks recieved");
-            // Error handling?
-        }
+        trackUrlBufferIndex++;
+        [self getSongsForCurrentSession];
     }else
         trackUrlBufferIndex++;
     
@@ -371,8 +375,8 @@
     }else if(state == 2){ // next pressed
         [self.playbackManager setIsPlaying:FALSE];
         if (![tripModel isGenre]) {
+            trackUrlBufferIndex++;
             [self getSongsForCurrentSession];
-            trackUrlBufferIndex ++;
         }else
             trackUrlBufferIndex++;
         
@@ -395,6 +399,30 @@
     [request setValue:genres forParameter:@"genre"];
     [request setValue:@"genre-radio" forParameter:@"type"];
     [request setValue:bucket forParameter:@"bucket"];
+    [request startSynchronous];
+}
+-(void)favoriteSong:(NSString *)songID{
+    [ENAPI initWithApiKey:kEchoNestAPIKey
+              ConsumerKey:kEchoNestConsumerKey
+          AndSharedSecret:kEchoNestSharedSecret];
+    
+
+    NSString *endPoint = @"playlist/dynamic/feedback";
+    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    [request setDelegate:self];
+    [request setValue:songID forParameter:@"favorite_song"];
+    [request startSynchronous];
+}
+-(void)banSong:(NSString *)songID{
+    [ENAPI initWithApiKey:kEchoNestAPIKey
+              ConsumerKey:kEchoNestConsumerKey
+          AndSharedSecret:kEchoNestSharedSecret];
+    
+    
+    NSString *endPoint = @"playlist/dynamic/feedback";
+    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:endPoint];
+    [request setDelegate:self];
+    [request setValue:songID forParameter:@"ban_song"];
     [request startSynchronous];
 }
 

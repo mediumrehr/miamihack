@@ -43,6 +43,7 @@
 - (IBAction)playButtonPressed:(id)sender;
 - (IBAction)setTrackPosition:(id)sender;
 - (IBAction)setVolume:(id)sender;
+
 - (bool)getSongsForCurrentSession;
 -(void) createSessionWithArtists:(NSArray*) artists;
 -(void)getGenreRadioPlaylistWithGenres:(NSArray*)genre;
