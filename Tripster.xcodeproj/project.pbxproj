@@ -44,11 +44,6 @@
 		BC1F68E918DE05EC00280899 /* TRPTripPlaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */; };
 		DE238D6318DE1399008E33CA /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
 		E5B17DAA18DE9EF200FFBFE6 /* UINavigationController+GZDrawer.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DA918DE9EF200FFBFE6 /* UINavigationController+GZDrawer.m */; };
-		E5B17DB118DEA44600FFBFE6 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAC18DEA44600FFBFE6 /* stop@2x.png */; };
-		E5B17DB218DEA44600FFBFE6 /* previous@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAD18DEA44600FFBFE6 /* previous@2x.png */; };
-		E5B17DB318DEA44600FFBFE6 /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAE18DEA44600FFBFE6 /* pause@2x.png */; };
-		E5B17DB418DEA44600FFBFE6 /* next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DAF18DEA44600FFBFE6 /* next@2x.png */; };
-		E5B17DB518DEA44600FFBFE6 /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B17DB018DEA44600FFBFE6 /* play@2x.png */; };
 		E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */; };
 /* End PBXBuildFile section */
 
@@ -114,11 +109,6 @@
 		E59DDF5618DE578700381000 /* TRPPlaylistModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPPlaylistModel.m; sourceTree = "<group>"; };
 		E5B17DA818DE9EF200FFBFE6 /* UINavigationController+GZDrawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+GZDrawer.h"; sourceTree = "<group>"; };
 		E5B17DA918DE9EF200FFBFE6 /* UINavigationController+GZDrawer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+GZDrawer.m"; sourceTree = "<group>"; };
-		E5B17DAC18DEA44600FFBFE6 /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop@2x.png"; sourceTree = "<group>"; };
-		E5B17DAD18DEA44600FFBFE6 /* previous@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "previous@2x.png"; sourceTree = "<group>"; };
-		E5B17DAE18DEA44600FFBFE6 /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
-		E5B17DAF18DEA44600FFBFE6 /* next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next@2x.png"; sourceTree = "<group>"; };
-		E5B17DB018DEA44600FFBFE6 /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
 		E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioControlsView.m; sourceTree = "<group>"; };
 		E5B17DB818DEA46E00FFBFE6 /* AudioControlsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioControlsView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -374,18 +364,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC1F68BD18DDCEEB00280899 /* InfoPlist.strings in Resources */,
-				E5B17DB218DEA44600FFBFE6 /* previous@2x.png in Resources */,
+				781E55A318DEB06E0015DE12 /* previous@2x.png in Resources */,
 				781E55A218DEB06E0015DE12 /* play@2x.png in Resources */,
-				E5B17DB518DEA44600FFBFE6 /* play@2x.png in Resources */,
 				BC1F68C018DDCEEB00280899 /* InfoPlist.strings in Resources */,
 				781E558A18DE9C580015DE12 /* tripstr_logo.png in Resources */,
 				6B66BA6318DE722C003CD16F /* TRPTripViewController.xib in Resources */,
 				BC1F68BE18DDCEEB00280899 /* Images.xcassets in Resources */,
 				781E55A118DEB06E0015DE12 /* pause@2x.png in Resources */,
-				781E55A318DEB06E0015DE12 /* previous@2x.png in Resources */,
-				E5B17DB118DEA44600FFBFE6 /* stop@2x.png in Resources */,
-				E5B17DB318DEA44600FFBFE6 /* pause@2x.png in Resources */,
-				E5B17DB418DEA44600FFBFE6 /* next@2x.png in Resources */,
 				781E55A018DEB06E0015DE12 /* next@2x.png in Resources */,
 				781E55A418DEB06E0015DE12 /* stop@2x.png in Resources */,
 			);
