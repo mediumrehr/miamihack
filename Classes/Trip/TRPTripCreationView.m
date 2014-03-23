@@ -13,6 +13,7 @@
 @end
 
 @implementation TRPTripCreationView
+@synthesize tabView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -29,6 +30,46 @@
     return self;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    NSString *identifier;
+    NSString *cellText;
+    
+//    if(indexPath.section == 0){
+//        identifier = @"Patient Cell";
+//        cellText = [patientsNameArray objectAtIndex:[indexPath row]];
+//        
+//    } else if(indexPath.section == 1){
+//        identifier = @"Activity Cell";
+//        cellText = [activityArray objectAtIndex:[indexPath row]];
+//        
+//    } else if(indexPath.section == 2){
+//        identifier = @"Deviation Cell";
+//        cellText = [deviationArray objectAtIndex:[indexPath row]];
+//    }
+    
+    // Check for a reusable cell first, use that if it exists
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    // If there is no reusable cell of this type, create a new one
+    if (!cell)
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    
+    [[cell textLabel] setText:cellText];
+    return cell;
+}
+
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -37,6 +78,12 @@
     locationFieldFrame.size.height = 30;
     locationFieldFrame.origin.y = 20;
     self.locationField.frame = locationFieldFrame;
+    
+    UITableView *table = [[UITableView alloc] init];
+    table.dataSource = self;
+    table.delegate = self;
+    table.frame = CGRectMake(40, 70, locationFieldFrame.size.width, 300);
+    [self addSubview:table];
 }
 
 //when clicking the return button in the keybaord

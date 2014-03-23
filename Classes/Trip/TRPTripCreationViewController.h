@@ -20,4 +20,5 @@
 
 @interface TRPTripCreationViewController : UIViewController
 @property (nonatomic, weak) id<TRPTripCreationViewControllerDelegate> delegate;
+@property (strong, nonatomic) UITableView *tableView;
 @end
