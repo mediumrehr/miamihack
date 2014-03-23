@@ -21,7 +21,8 @@ static TRPTripModel *tripModelCache;
 @end
 
 @implementation TRPMutableTripModel
-@synthesize chosenSeeds;
+@synthesize chosenSeeds, isGenre;
+
 +(TRPTripModel *) getTripModel
 {
     if (!tripModelCache)
