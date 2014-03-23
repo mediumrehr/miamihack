@@ -93,6 +93,7 @@
         
         // remove from selectedArtists
         [selectedArtists removeObjectIdenticalTo:[cell.textLabel text]];
+        
     } else {
         if ([selectedArtists count]<5) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -100,10 +101,8 @@
             // add to selectedArtists
             [selectedArtists addObject:[cell.textLabel text]];
         }
-        else {
-            [cell setSelected:NO];
-        }
     }
+    [cell setSelected:NO];
     
 }
 
@@ -161,6 +160,10 @@
 }
 
 -(void)createPlaylist:(id)sender{
+    [tripmodel setChosenSeeds:[selectedArtists copy]];
+//    for (NSString *string in [tripmodel chosenSeeds]) {
+//        NSLog(@"Copied: %@",string);
+//    }
     [delegate pushNextVC];
 }
 @end

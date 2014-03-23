@@ -20,6 +20,7 @@
 @property (nonatomic, strong, readonly) NSMutableArray *artistIDs;
 @property (nonatomic, strong, readonly) NSURL *spotifyPlaylistURL;
 @property (nonatomic, strong, readonly) NSURL *currentSpotifyTrackID;
+@property (nonatomic, strong) NSMutableArray *chosenSeeds;
 @end
 
 
