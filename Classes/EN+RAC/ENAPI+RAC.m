@@ -11,39 +11,65 @@
 @implementation ENAPI (RAC)
 
 + (RACSignal*)requestArtistsForLocation:(NSString*)location {
-    ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:@"artist/search"];
-    [request setValue:location forParameter:@"artist_location"];
-
-    NSArray *buckets = @[@"genre",
-                         @"hotttnesss",
-                         @"images",
-                         @"artist_location",
-                         @"id:spotify-US"];
-
-    [request setValue:buckets forParameter:@"bucket"];
-    [request setIntegerValue:50 forParameter:@"results"];
-    [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
-
     return [RACSignal startLazilyWithScheduler:[RACScheduler mainThreadScheduler]
                                          block: ^(id<RACSubscriber> subscriber)
             {
-                __weak id<RACSubscriber> weakSubscriber = subscriber;
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [request startSynchronous];
+                ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:@"artist/search"];
+                [request setValue:location forParameter:@"artist_location"];
 
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if (request.error || request.responseStatusCode != 200) {
-                            [weakSubscriber sendError:request.error ?:
-                             [NSError errorWithDomain:@"ENAPIErrorDomain"
-                                                 code:request.responseStatusCode
-                                             userInfo:@{NSLocalizedDescriptionKey: request.responseString}]];
-                        } else {
-                            [weakSubscriber sendNext:request.response];
-                            [weakSubscriber sendCompleted];
-                        }
-                    });
-                });
+                NSArray *buckets = @[@"genre",
+                                     @"hotttnesss",
+                                     @"images",
+                                     @"artist_location",
+                                     @"id:spotify-US"];
+
+                [request setValue:buckets forParameter:@"bucket"];
+                [request setIntegerValue:50 forParameter:@"results"];
+                [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
+
+                [self dispatchRequest:request forSubscriber:subscriber];
             }];
+}
+
++ (RACSignal*)requestStaticPlaylistForArtists:(NSSet*)artists {
+    return [RACSignal startLazilyWithScheduler:[RACScheduler mainThreadScheduler]
+                                         block: ^(id<RACSubscriber> subscriber)
+            {
+                ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:@"playlist/static"];
+                [request setValue:[artists allObjects] forParameter:@"artist"];
+                [request setValue:@[@"id:spotify-US",
+                                    @"tracks",
+                                    @"artist_location",
+                                    @"song_hotttnesss"] forParameter:@"bucket"];
+
+                [request setIntegerValue:50 forParameter:@"results"];
+                [request setValue:@"song_hotttnesss-desc" forParameter:@"sort"];
+
+                [self dispatchRequest:request forSubscriber:subscriber];
+            }];
+}
+
++ (void)dispatchRequest:(ENAPIRequest*)request forSubscriber:(id<RACSubscriber>)subscriber {
+    @weakify(subscriber);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [request startSynchronous];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            @strongify(subscriber);
+            if (!subscriber) {
+                return;
+            }
+            if (request.error || request.responseStatusCode != 200) {
+                [subscriber sendError:request.error ?:
+                 [NSError errorWithDomain:@"ENAPIErrorDomain"
+                                     code:request.responseStatusCode
+                                 userInfo:@{NSLocalizedDescriptionKey: request.responseString}]];
+            } else {
+                [subscriber sendNext:request.response];
+                [subscriber sendCompleted];
+            }
+        });
+    });
 }
 
 @end

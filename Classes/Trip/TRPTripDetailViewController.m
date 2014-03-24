@@ -11,6 +11,9 @@
 #import "ENAPI+RAC.h"
 #import "ENSPAggregateArtist.h"
 #import <CocoaLibSpotify/SPSession.h>
+#import <CocoaLibSpotify/SPPlaylist.h>
+#import <CocoaLibSpotify/SPPlaylistContainer.h>
+#import <CocoaLibSpotify/SPTrack.h>
 
 @interface TRPTripDetailViewController ()
 <UICollectionViewDataSource, UICollectionViewDelegate>
@@ -18,6 +21,8 @@
 @property (nonatomic, strong) TRPMutableTripModel *mutableTrip;
 @property (nonatomic, strong) NSArray *aggregateArtists;
 @property (nonatomic, strong) NSMutableSet *selectedAggregateArtists;
+@property (nonatomic, strong) NSArray *recommendedTrackIDs;
+@property (nonatomic, strong) SPPlaylist *playlist;
 @end
 
 @implementation TRPTripDetailViewController
@@ -30,23 +35,7 @@
 
     _selectedAggregateArtists = [NSMutableSet new];
 
-    @weakify(self);
-    void(^updateTripModelWithSelectedArtists)(id) = ^(ENSPAggregateArtist *addedArtist) {
-        @strongify(self);
-        [self.mutableTrip setArtistIDs:[NSSet setWithArray:[[self.selectedAggregateArtists.rac_sequence
-                                                             map:^(ENSPAggregateArtist *artist) {
-                                                                 return artist.enArtistID;
-                                                             }] array]]];
-    };
-
-    [[self.selectedAggregateArtists rac_signalForSelector:@selector(addObject:)]
-     subscribeNext:updateTripModelWithSelectedArtists];
-
-    [[self.selectedAggregateArtists rac_signalForSelector:@selector(removeObject:)]
-     subscribeNext:updateTripModelWithSelectedArtists];
-
-    [[self.selectedAggregateArtists rac_signalForSelector:@selector(removeAllObjects)]
-     subscribeNext:updateTripModelWithSelectedArtists];
+    [self setupSelectedAritstsBindings];
 
     return self;
 }
@@ -119,10 +108,123 @@
     _tripModel = tripModel;
     self.mutableTrip = [tripModel mutableCopy];
 
-    [self setupBindings];
+    if (_tripModel.spotifyPlaylistURL) {
+        @weakify(self);
+        [SPPlaylist playlistWithPlaylistURL:_tripModel.spotifyPlaylistURL
+                                  inSession:[SPSession sharedSession]
+                                   callback:^(SPPlaylist *playlist) {
+                                       @strongify(self);
+                                       self.playlist = playlist;
+                                   }];
+    } else {
+        [self createSpotifyPlaylist];
+    }
+
+    [self setupTripModelBindings];
 }
 
-- (void)setupBindings
+- (void)createSpotifyPlaylist
+{
+    @weakify(self);
+    [SPAsyncLoading
+     waitUntilLoaded:[[SPSession sharedSession] userPlaylists]
+     timeout:5.f
+     then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+         if ([loadedItems count] < 1) {
+             return;
+         }
+
+         SPPlaylistContainer *userPlaylists = [loadedItems lastObject];
+         [userPlaylists
+          createPlaylistWithName:_tripModel.location
+          callback:^(SPPlaylist *createdPlaylist) {
+              @strongify(self);
+              self.playlist = createdPlaylist;
+              [_mutableTrip setSpotifyPlaylistURL:createdPlaylist.spotifyURL];
+          }];
+     }];
+}
+
+- (void)setPlaylist:(SPPlaylist *)playlist
+{
+    if ([_playlist isEqual:playlist]) {
+        return;
+    }
+
+    _playlist = playlist;
+    [self setupPlaylistBindings];
+}
+
+#pragma mark - Bindings
+
+- (void)setupPlaylistBindings
+{
+    SPPlaylist *playlist = self.playlist;
+    [RACObserve(self, recommendedTrackIDs) subscribeNext:^(NSArray *recommendedIDs) {
+
+    }];
+}
+
+- (void)setupSelectedAritstsBindings
+{
+    @weakify(self);
+    void(^updateTripModelWithSelectedArtists)(id) = ^(ENSPAggregateArtist *addedArtist) {
+        @strongify(self);
+        [self.mutableTrip setArtistIDs:[NSSet setWithArray:[[self.selectedAggregateArtists.rac_sequence
+                                                             map:^(ENSPAggregateArtist *artist) {
+                                                                 return artist.enArtistID;
+                                                             }] array]]];
+
+        if ([self.selectedAggregateArtists count]) {
+            @weakify(self)
+            [[ENAPI requestStaticPlaylistForArtists:self.mutableTrip.artistIDs]
+             subscribeNext:^(NSDictionary *response) {
+                 NSArray *songs = response[@"response"][@"songs"];
+                 [[[RACSignal combineLatest:[songs.rac_sequence map:^id(NSDictionary *song) {
+                     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                         NSString *foreignID = [song[@"tracks"] lastObject][@"foreign_id"];
+                         NSString *trackID = [[foreignID componentsSeparatedByString:@":"] lastObject];
+                         NSURL *trackURL = [NSURL URLWithString:[NSString stringWithFormat:@"spotify:track:%@", trackID]];
+                         [SPTrack trackForTrackURL:trackURL
+                                         inSession:[SPSession sharedSession]
+                                          callback:^(SPTrack *track) {
+                                              if (track) {
+                                                  [subscriber sendNext:track];
+                                                  [subscriber sendCompleted];
+                                              } else {
+                                                  [subscriber sendNext:[NSNull null]];
+                                              }
+                                          }];
+                         return [RACDisposable disposableWithBlock:^{}];
+                     }];
+                 }]] filter:^BOOL(id value) {
+                     return [NSNull null] != value;
+                 }] subscribeNext:^(NSArray *tracks) {
+                     @strongify(self);
+                     self.recommendedTrackIDs = tracks;
+                 }];
+             }
+             error:^(NSError *error) {
+                 [[[UIAlertView alloc] initWithTitle:@"Failed to Create Playlist"
+                                             message:[error description]
+                                            delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil] show];
+             }];
+        }
+    };
+
+    [[self.selectedAggregateArtists rac_signalForSelector:@selector(addObject:)]
+     subscribeNext:updateTripModelWithSelectedArtists];
+
+    [[self.selectedAggregateArtists rac_signalForSelector:@selector(removeObject:)]
+     subscribeNext:updateTripModelWithSelectedArtists];
+
+    [[self.selectedAggregateArtists rac_signalForSelector:@selector(removeAllObjects)]
+     subscribeNext:updateTripModelWithSelectedArtists];
+}
+
+- (void)setupTripModelBindings
 {
     TRPMutableTripModel *mutableTrip = _mutableTrip;
     @weakify(self);

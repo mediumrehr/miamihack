@@ -12,4 +12,6 @@
 
 + (RACSignal*)requestArtistsForLocation:(NSString*)location;
 
++ (RACSignal*)requestStaticPlaylistForArtists:(NSSet*)artists;
+
 @end
