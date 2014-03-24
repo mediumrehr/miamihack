@@ -16,8 +16,9 @@
 
     NSArray *buckets = @[@"genre",
                          @"hotttnesss",
-                         @"discovery",
-                         @"artist_location"];
+                         @"images",
+                         @"artist_location",
+                         @"id:spotify-US"];
 
     [request setValue:buckets forParameter:@"bucket"];
     [request setIntegerValue:50 forParameter:@"results"];

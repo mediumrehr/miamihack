@@ -35,8 +35,8 @@
 - (void)setTripID:(NSString*)tripID;
 - (void)setDateCreated:(NSDate*)dateCreated;
 - (void)setLocation:(NSString*)location;
-- (void)setArtistIDs:(NSMutableArray*)artistIDs;
-- (void)setGenreIDs:(NSMutableArray*)genreIDs;
+- (void)setArtistIDs:(NSSet*)artistIDs;
+- (void)setGenreIDs:(NSSet*)genreIDs;
 - (void)setSpotifyPlaylistURL:(NSURL*)spotifyPlaylistURL;
 - (void)setCurrentSpotifyTrackID:(NSURL*)currentSpotifyTrackID;
 

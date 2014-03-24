@@ -30,8 +30,9 @@
 		BCD214EF18DFB94D0015E172 /* TRPAuthController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214EE18DFB94D0015E172 /* TRPAuthController.m */; };
 		BCD214F218DFC7180015E172 /* TRPTripListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214F118DFC7180015E172 /* TRPTripListViewController.m */; };
 		BCD214F518DFC8290015E172 /* TRPTripStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214F418DFC8290015E172 /* TRPTripStorage.m */; };
-		BCE8763E18DFDD8000F77658 /* TRPTripCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8763D18DFDD8000F77658 /* TRPTripCollectionViewCell.m */; };
 		BCE8764118DFF4AD00F77658 /* TRPTripDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764018DFF4AD00F77658 /* TRPTripDetailViewController.m */; };
+		BCE8764418E0048800F77658 /* ENSPAggregateArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764318E0048800F77658 /* ENSPAggregateArtist.m */; };
+		BCE8764918E0058000F77658 /* TRPGenericCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */; };
 		E530220118DEB37900A24706 /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
 		E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */; };
 /* End PBXBuildFile section */
@@ -84,10 +85,12 @@
 		BCD214F118DFC7180015E172 /* TRPTripListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPTripListViewController.m; path = Trip/TRPTripListViewController.m; sourceTree = "<group>"; };
 		BCD214F318DFC8290015E172 /* TRPTripStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPTripStorage.h; path = Trip/TRPTripStorage.h; sourceTree = "<group>"; };
 		BCD214F418DFC8290015E172 /* TRPTripStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPTripStorage.m; path = Trip/TRPTripStorage.m; sourceTree = "<group>"; };
-		BCE8763C18DFDD8000F77658 /* TRPTripCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPTripCollectionViewCell.h; path = Trip/TRPTripCollectionViewCell.h; sourceTree = "<group>"; };
-		BCE8763D18DFDD8000F77658 /* TRPTripCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPTripCollectionViewCell.m; path = Trip/TRPTripCollectionViewCell.m; sourceTree = "<group>"; };
 		BCE8763F18DFF4AD00F77658 /* TRPTripDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPTripDetailViewController.h; path = Trip/TRPTripDetailViewController.h; sourceTree = "<group>"; };
 		BCE8764018DFF4AD00F77658 /* TRPTripDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPTripDetailViewController.m; path = Trip/TRPTripDetailViewController.m; sourceTree = "<group>"; };
+		BCE8764218E0048800F77658 /* ENSPAggregateArtist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ENSPAggregateArtist.h; path = AggregateModels/ENSPAggregateArtist.h; sourceTree = "<group>"; };
+		BCE8764318E0048800F77658 /* ENSPAggregateArtist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ENSPAggregateArtist.m; path = AggregateModels/ENSPAggregateArtist.m; sourceTree = "<group>"; };
+		BCE8764718E0058000F77658 /* TRPGenericCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPGenericCollectionViewCell.h; sourceTree = "<group>"; };
+		BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenericCollectionViewCell.m; sourceTree = "<group>"; };
 		DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenreSearchTests.m; sourceTree = "<group>"; };
 		E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
 		E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
@@ -140,8 +143,6 @@
 			children = (
 				BCD214F318DFC8290015E172 /* TRPTripStorage.h */,
 				BCD214F418DFC8290015E172 /* TRPTripStorage.m */,
-				BCE8763C18DFDD8000F77658 /* TRPTripCollectionViewCell.h */,
-				BCE8763D18DFDD8000F77658 /* TRPTripCollectionViewCell.m */,
 				BCD214F018DFC7180015E172 /* TRPTripListViewController.h */,
 				BCD214F118DFC7180015E172 /* TRPTripListViewController.m */,
 				BCE8763F18DFF4AD00F77658 /* TRPTripDetailViewController.h */,
@@ -198,6 +199,7 @@
 		BC1F68AB18DDCEEB00280899 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BCE8764618E0058000F77658 /* Views and Controls */,
 				E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */,
 				E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */,
 				BCD214E518DF360B0015E172 /* EN+RAC */,
@@ -215,6 +217,7 @@
 				BCD214EC18DFB9310015E172 /* Auth */,
 				BC04236118DE212000B7BFD5 /* Root */,
 				BC04236818DE2BE100B7BFD5 /* Trip */,
+				BCE8764518E0048C00F77658 /* AggregateModels */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -278,6 +281,24 @@
 				BCD214EE18DFB94D0015E172 /* TRPAuthController.m */,
 			);
 			name = Auth;
+			sourceTree = "<group>";
+		};
+		BCE8764518E0048C00F77658 /* AggregateModels */ = {
+			isa = PBXGroup;
+			children = (
+				BCE8764218E0048800F77658 /* ENSPAggregateArtist.h */,
+				BCE8764318E0048800F77658 /* ENSPAggregateArtist.m */,
+			);
+			name = AggregateModels;
+			sourceTree = "<group>";
+		};
+		BCE8764618E0058000F77658 /* Views and Controls */ = {
+			isa = PBXGroup;
+			children = (
+				BCE8764718E0058000F77658 /* TRPGenericCollectionViewCell.h */,
+				BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */,
+			);
+			path = "Views and Controls";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -442,15 +463,16 @@
 				6BDFE77518DE49310017A4A6 /* ArtistModel.m in Sources */,
 				BCE8764118DFF4AD00F77658 /* TRPTripDetailViewController.m in Sources */,
 				E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */,
+				BCE8764418E0048800F77658 /* ENSPAggregateArtist.m in Sources */,
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
 				BC04236B18DE2C0E00B7BFD5 /* TRPTripModel.m in Sources */,
+				BCE8764918E0058000F77658 /* TRPGenericCollectionViewCell.m in Sources */,
 				BCD214F218DFC7180015E172 /* TRPTripListViewController.m in Sources */,
 				BCD214EF18DFB94D0015E172 /* TRPAuthController.m in Sources */,
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
 				BCD214EB18DFB1B30015E172 /* TRPLeftDrawerViewController.m in Sources */,
 				BCD214E818DF360B0015E172 /* ENAPI+RAC.m in Sources */,
-				BCE8763E18DFDD8000F77658 /* TRPTripCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,7 @@
 //
 
 #import "TRPTripListViewController.h"
-#import "TRPTripCollectionViewCell.h"
+#import "TRPGenericCollectionViewCell.h"
 #import "TRPTripDetailViewController.h"
 
 @interface TripListItem : NSObject
@@ -97,7 +97,7 @@
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.contentInset = UIEdgeInsetsMake(40.f, 20.f, 20.f, 20.f);
-    [self.collectionView registerClass:[TRPTripCollectionViewCell class] forCellWithReuseIdentifier:@"TripCell"];
+    [self.collectionView registerClass:[TRPGenericCollectionViewCell class] forCellWithReuseIdentifier:@"TripCell"];
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:self.collectionView];
 }
@@ -131,11 +131,11 @@
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView
                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    TRPTripCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TripCell"
+    TRPGenericCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TripCell"
                                                                                 forIndexPath:indexPath];
     TripListItem *trip = self.trips[indexPath.row];
-    cell.tripLocation = trip.location;
-    cell.artists = trip.artistNames;
+    cell.title = trip.location;
+    cell.subtitle = trip.artistNames;
 
     return cell;
 }

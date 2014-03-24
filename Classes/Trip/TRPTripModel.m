@@ -21,6 +21,7 @@ static TRPTripModel *tripModelCache;
     }
 
     _tripID = [[NSUUID UUID] UUIDString];
+    _dateCreated = [NSDate date];
 
     return self;
 }
