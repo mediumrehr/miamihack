@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		695F6E3B62974431A40C26F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 088DB334FEE94805ABFB5FF7 /* libPods.a */; };
+		6B666F5318E08F1D00433047 /* TRPMutableCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B666F5218E08F1D00433047 /* TRPMutableCollectionViewCell.m */; };
 		6B66BA6318DE722C003CD16F /* TRPTripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B66BA6118DE722C003CD16F /* TRPTripViewController.xib */; };
 		6BDFE76F18DE3E6B0017A4A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDFE76E18DE3E6A0017A4A6 /* CoreLocation.framework */; };
 		6BDFE77518DE49310017A4A6 /* ArtistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDFE77418DE49310017A4A6 /* ArtistModel.m */; };
@@ -43,6 +44,8 @@
 		088DB334FEE94805ABFB5FF7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		573EA2C0B84740E0997DC460 /* Pods-TripsterTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripsterTests.xcconfig"; path = "Pods/Pods-TripsterTests.xcconfig"; sourceTree = "<group>"; };
 		6144545846A4479585161938 /* libPods-TripsterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TripsterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B666F5118E08F1D00433047 /* TRPMutableCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPMutableCollectionViewCell.h; sourceTree = "<group>"; };
+		6B666F5218E08F1D00433047 /* TRPMutableCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPMutableCollectionViewCell.m; sourceTree = "<group>"; };
 		6B66BA5F18DE722C003CD16F /* TRPTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripViewController.h; sourceTree = "<group>"; };
 		6B66BA6018DE722C003CD16F /* TRPTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripViewController.m; sourceTree = "<group>"; };
 		6B66BA6118DE722C003CD16F /* TRPTripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TRPTripViewController.xib; sourceTree = "<group>"; };
@@ -305,6 +308,8 @@
 			children = (
 				BCE8764718E0058000F77658 /* TRPGenericCollectionViewCell.h */,
 				BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */,
+				6B666F5118E08F1D00433047 /* TRPMutableCollectionViewCell.h */,
+				6B666F5218E08F1D00433047 /* TRPMutableCollectionViewCell.m */,
 			);
 			path = "Views and Controls";
 			sourceTree = "<group>";
@@ -493,6 +498,7 @@
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
 				BC04236B18DE2C0E00B7BFD5 /* TRPTripModel.m in Sources */,
 				BCE8764918E0058000F77658 /* TRPGenericCollectionViewCell.m in Sources */,
+				6B666F5318E08F1D00433047 /* TRPMutableCollectionViewCell.m in Sources */,
 				BCD214F218DFC7180015E172 /* TRPTripListViewController.m in Sources */,
 				BCD214EF18DFB94D0015E172 /* TRPAuthController.m in Sources */,
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,

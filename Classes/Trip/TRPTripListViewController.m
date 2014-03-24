@@ -8,6 +8,7 @@
 
 #import "TRPTripListViewController.h"
 #import "TRPGenericCollectionViewCell.h"
+#import "TRPMutableCollectionViewCell.h"
 #import "TRPTripDetailViewController.h"
 #import "ENAPI+RAC.h"
 
@@ -26,6 +27,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 @property (nonatomic, strong) NSArray /*<TripListItem>*/ *trips;
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UIBarButtonItem *addTripButton;
 @end
 
 @implementation TRPTripListViewController
@@ -59,7 +61,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
                     animated:(BOOL)animated
 {
     if (viewController == self) {
-        [navigationController setNavigationBarHidden:YES animated:YES];
+        [navigationController setNavigationBarHidden:NO animated:YES];
         self.playbackManager.isPlaying = NO;
     }
 }
@@ -136,9 +138,15 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.contentInset = UIEdgeInsetsMake(40.f, 20.f, 20.f, 20.f);
-    [self.collectionView registerClass:[TRPGenericCollectionViewCell class] forCellWithReuseIdentifier:@"TripCell"];
+    [self.collectionView registerClass:[TRPMutableCollectionViewCell class] forCellWithReuseIdentifier:@"TripCell"];
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:self.collectionView];
+    
+    _addTripButton = [[UIBarButtonItem alloc] initWithTitle:@"New Trip" style:UIBarButtonItemStylePlain target:self action:@selector(addNewTrip)];
+    self.navigationItem.rightBarButtonItem = _addTripButton;
+    
+
+    
 }
 
 - (void)viewDidLoad
@@ -150,6 +158,16 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)addNewTrip{
+    
+    NSMutableArray *tempTrips = [self.trips mutableCopy];
+    [tempTrips insertObject:[TripListItem new] atIndex:0];
+    self.trips = tempTrips;
+    [self.collectionView reloadData];
+
+    
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -167,8 +185,12 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView
                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    TRPGenericCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TripCell"
+    
+    //When we reload the table view data, with a new cell that does not yet have a location, we should display a button in the middle of the cell to use the current gps location as the location of the cell.
+    
+    TRPMutableCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TripCell"
                                                                                 forIndexPath:indexPath];
+    
     TripListItem *trip = self.trips[indexPath.row];
     [[cell rac_deallocDisposable] dispose];
     [RACObserve(trip, location) subscribeNext:^(id x) {
@@ -191,13 +213,30 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    TRPMutableCollectionViewCell *cell = (TRPMutableCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     TripListItem *selectedTrip = self.trips[indexPath.row];
     TRPTripModel *tripModel = [self.tripStorage tripWithIdentifier:selectedTrip.tripID];
+    if ([selectedTrip.location isEqualToString:@""]) {
+        //At this point, we need to present the keyboard to enter the cell's location
+    }
+    
+    if (![cell.titleLabel.text isEqualToString:@""] && ([self.tripStorage tripWithIdentifier:selectedTrip.tripID]==nil)){
+        selectedTrip.location = cell.titleLabel.text;
+        TRPMutableTripModel *newModel = [[TRPMutableTripModel alloc] init];
+        [newModel setLocation:cell.titleLabel.text];
+        selectedTrip.tripID = newModel.tripID;
+        [_tripStorage saveTrip:newModel];
+        [self reloadDataFromStorage];
+    }
+    
+    if (![selectedTrip.location isEqualToString:@""] && !([self.tripStorage tripWithIdentifier:selectedTrip.tripID]==nil)) {
+    tripModel = [self.tripStorage tripWithIdentifier:selectedTrip.tripID];
     TRPTripDetailViewController *tripDetailViewController = [[TRPTripDetailViewController alloc] init];
     tripDetailViewController.tripModel = tripModel;
     tripDetailViewController.storage = self.tripStorage;
     tripDetailViewController.playbackManager = self.playbackManager;
     [self.navigationController pushViewController:tripDetailViewController animated:YES];
+    }
 }
 
 @end
