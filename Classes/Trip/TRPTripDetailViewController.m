@@ -35,10 +35,6 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
         return nil;
     }
 
-    _selectedAggregateArtists = [NSMutableSet new];
-
-    [self setupSelectedAritstsBindings];
-
     [RACObserve(self, recommendedTrackIDs) subscribeNext:^(NSArray *recommendedIDs) {
         if ([recommendedIDs count]) {
             [self createSpotifyPlaylist];
@@ -107,7 +103,23 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     [RACObserve(self, aggregateArtists) subscribeNext:^(NSArray *artists) {
         @strongify(self);
         [self.collectionView reloadData];
+        [self updateCellSelection];
     }];
+
+    [self updateCellSelection];
+}
+
+#pragma mark - Setters
+
+- (void)setSelectedAggregateArtists:(NSMutableSet *)selectedAggregateArtists
+{
+    if ([_selectedAggregateArtists isEqual:selectedAggregateArtists]) {
+        return;
+    }
+
+    _selectedAggregateArtists = selectedAggregateArtists;
+
+    [self setupSelectedAritstsBindings];
 }
 
 - (void)setTripModel:(TRPTripModel *)tripModel
@@ -117,8 +129,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     }
     _tripModel = tripModel;
     self.mutableTrip = [tripModel mutableCopy];
-    [self.selectedAggregateArtists removeAllObjects];
-    [self.selectedAggregateArtists addObjectsFromArray:[_tripModel.artistIDs allObjects]];
+    self.selectedAggregateArtists = [tripModel.artistIDs mutableCopy];
 
     if (_tripModel.spotifyPlaylistURL) {
         @weakify(self);
@@ -132,6 +143,19 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 
     [self setupTripModelBindings];
 }
+
+- (void)setPlaylist:(SPPlaylist *)playlist
+{
+    if ([_playlist isEqual:playlist]) {
+        return;
+    }
+
+    _playlist = playlist;
+
+    [self.mutableTrip setSpotifyPlaylistURL:_playlist.spotifyURL];
+}
+
+#pragma mark - Playlist
 
 - (void)createSpotifyPlaylist
 {
@@ -171,17 +195,6 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
               }];
           }];
      }];
-}
-
-- (void)setPlaylist:(SPPlaylist *)playlist
-{
-    if ([_playlist isEqual:playlist]) {
-        return;
-    }
-
-    _playlist = playlist;
-
-    [self.mutableTrip setSpotifyPlaylistURL:_playlist.spotifyURL];
 }
 
 #pragma mark - Artist Recommendations
@@ -314,6 +327,28 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 }
 */
 
+#pragma mark - UI Utils
+
+- (void)updateCellSelection
+{
+    if (!self.aggregateArtists) {
+        return;
+    }
+    for (NSString *artistID in self.selectedAggregateArtists) {
+        NSUInteger index = [self.aggregateArtists indexOfObjectPassingTest:^BOOL(ENSPAggregateArtist *artist,
+                                                                                NSUInteger idx,
+                                                                                BOOL *stop) {
+            return [artist.enArtistID isEqualToString:artistID];
+        }];
+        if (index == NSNotFound) {
+            continue;
+        }
+        [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]
+                                          animated:NO
+                                    scrollPosition:UICollectionViewScrollPositionNone];
+    }
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (int)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -335,7 +370,6 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     cell.selectedBackgroundView.backgroundColor = [UIColor greenColor];
 
     ENSPAggregateArtist *artist = self.aggregateArtists[indexPath.row];
-
     [cell setTitle:artist.enArtistData[@"name"]];
     [cell setBackgroundImageURL:[artist.enArtistData[@"images"] firstObject][@"url"]];
 
