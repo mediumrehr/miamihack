@@ -9,27 +9,31 @@
 #import <Foundation/Foundation.h>
 
 @interface TRPTripModel : NSObject
+<NSCopying, NSCoding, NSMutableCopying>
 {
     @protected
+    NSString *_tripID;
+    NSDate *_dateCreated;
     NSString *_location;
-    NSMutableArray *_artistIDs;
-    NSMutableArray *_genreIDs;
+    NSSet *_artistIDs;
+    NSSet *_genreIDs;
     NSURL *_spotifyPlaylistURL;
     NSURL *_currentSpotifyTrackID;
 }
+@property (nonatomic, strong, readonly) NSString *tripID;
+@property (nonatomic, strong, readonly) NSDate *dateCreated;
 @property (nonatomic, strong, readonly) NSString *location;
-@property (nonatomic, strong, readonly) NSMutableArray *artistIDs;
-@property (nonatomic, strong, readonly) NSMutableArray *genreIDs;
+@property (nonatomic, strong, readonly) NSSet *artistIDs;
+@property (nonatomic, strong, readonly) NSSet *genreIDs;
 @property (nonatomic, strong, readonly) NSURL *spotifyPlaylistURL;
 @property (nonatomic, strong, readonly) NSURL *currentSpotifyTrackID;
-@property (nonatomic, strong) NSMutableArray *chosenSeeds;
-@property BOOL isGenre;
-@property BOOL needsNewPlaylist;
 @end
 
 
 @interface TRPMutableTripModel : TRPTripModel
-+ (TRPTripModel*) getTripModel;
+
+- (void)setTripID:(NSString*)tripID;
+- (void)setDateCreated:(NSDate*)dateCreated;
 - (void)setLocation:(NSString*)location;
 - (void)setArtistIDs:(NSMutableArray*)artistIDs;
 - (void)setGenreIDs:(NSMutableArray*)genreIDs;

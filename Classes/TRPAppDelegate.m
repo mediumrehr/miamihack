@@ -15,11 +15,11 @@
 #import "TRPConstants.h"
 #import "TRPAuthController.h"
 #import "TRPLeftDrawerViewController.h"
-#import "TRPRootViewController.h"
-#import "TRPTripCreationViewController.h"
+#import "TRPTripListViewController.h"
+#import "TRPTripStorage.h"
 
 @interface TRPAppDelegate ()
-<UIApplicationDelegate, TRPRootViewControllerAuthDelegate, TRPAuthControllerDelegate, TRPLeftDrawerViewControllerDelegate>
+<UIApplicationDelegate, TRPAuthControllerDelegate, TRPLeftDrawerViewControllerDelegate>
 @property (strong, nonatomic) MSDynamicsDrawerViewController *rootViewController;
 @property (strong, nonatomic) TRPLeftDrawerViewController *leftDrawerViewController;
 @property (strong, nonatomic) SPPlaybackManager *playbackManager;
@@ -110,7 +110,20 @@
 - (void)didLoginWithUser:(SPUser *)user
 {
     self.leftDrawerViewController.user = user;
-    self.rootViewController.paneViewController = [TRPTripCreationViewController new];
+    TRPTripListViewController *tripListViewController = (TRPTripListViewController*)self.rootViewController.paneViewController;
+    if (!tripListViewController) {
+        tripListViewController = [[TRPTripListViewController alloc] init];
+        self.rootViewController.paneViewController = tripListViewController;
+    }
+    TRPMutableTripModel *dummyTrip1 = [[TRPMutableTripModel alloc] init];
+    [dummyTrip1 setLocation:@"Miami"];
+
+    TRPMutableTripModel *dummyTrip2 = [[TRPMutableTripModel alloc] init];
+    [dummyTrip2 setLocation:@"New York"];
+
+    tripListViewController.trips = @[dummyTrip1, dummyTrip2];
+
+    self.rootViewController.paneViewController = tripListViewController;
 }
 
 - (void)didLogout
