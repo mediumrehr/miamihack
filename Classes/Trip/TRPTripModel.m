@@ -7,7 +7,6 @@
 //
 
 #import "TRPTripModel.h"
-static TRPTripModel *tripModelCache;
 
 @interface TRPTripModel ()
 @end
@@ -112,15 +111,6 @@ static TRPTripModel *tripModelCache;
 @end
 
 @implementation TRPMutableTripModel
-
-+(TRPTripModel *) getTripModel
-{
-    if (!tripModelCache){
-        tripModelCache = [[super alloc] init];
-
-    }
-    return tripModelCache;
-}
 
 - (void)setDateCreated:(NSDate *)dateCreated
 {

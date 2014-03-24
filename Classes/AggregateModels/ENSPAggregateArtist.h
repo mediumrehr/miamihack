@@ -12,4 +12,7 @@
 @property (nonatomic, strong) NSString *enArtistID;
 @property (nonatomic, strong) NSDictionary *enArtistData;
 @property (nonatomic, strong) SPArtist *spArtist;
+
++ (void)loadSpotifyArtistFromENArtistData:(NSDictionary*)enArtistData completion:(void(^)(SPArtist*))completion;
+
 @end

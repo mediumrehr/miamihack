@@ -147,21 +147,10 @@
             ENSPAggregateArtist *aggregateArtist = [ENSPAggregateArtist new];
             aggregateArtist.enArtistData = artistData;
             aggregateArtist.enArtistID = artistData[@"id"];
-            NSString *spotifyArtistID = [[[[artistData[@"foreign_ids"] rac_sequence]
-                                         filter:^BOOL(NSDictionary *foreignID) {
-                                             return [foreignID[@"catalog"] isEqualToString:@"spotify-US"];
-                                         }]
-                                          array] firstObject][@"foreign_id"];
-
-            spotifyArtistID = [[spotifyArtistID componentsSeparatedByString:@":"] lastObject];
-
-            NSURL *spotifyArtistURL = [NSURL URLWithString:
-                                       [NSString stringWithFormat:@"spotify:artist:%@",spotifyArtistID]];
-
-            [SPArtist artistWithArtistURL:spotifyArtistURL
-                                inSession:[SPSession sharedSession] callback:^(SPArtist *spArtist) {
-                                    aggregateArtist.spArtist = spArtist;
-                                }];
+            [ENSPAggregateArtist loadSpotifyArtistFromENArtistData:artistData
+                                                        completion:^(SPArtist *spArtist) {
+                                                            aggregateArtist.spArtist = spArtist;
+                                                        }];
             return aggregateArtist;
          }] array];
      }
@@ -218,20 +207,19 @@
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 
-//- (void)collectionView:(UICollectionView *)collectionView
-//  didEndDisplayingCell:(UICollectionViewCell *)cell
-//    forItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//}
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.selectedAggregateArtists addObject:self.aggregateArtists[indexPath.row]];
+    if ([self.selectedAggregateArtists count] < 5) {
+        [self.selectedAggregateArtists addObject:self.aggregateArtists[indexPath.row]];
+        return;
+    }
+
+    [collectionView deselectItemAtIndexPath:indexPath animated:NO];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.selectedAggregateArtists addObject:self.aggregateArtists[indexPath.row]];
+    [self.selectedAggregateArtists removeObject:self.aggregateArtists[indexPath.row]];
 }
 
 @end
