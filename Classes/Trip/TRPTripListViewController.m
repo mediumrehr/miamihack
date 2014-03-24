@@ -60,7 +60,6 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 {
     if (viewController == self) {
         [navigationController setNavigationBarHidden:YES animated:YES];
-        self.playbackManager.isPlaying = NO;
     }
 }
 
@@ -154,12 +153,12 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 
 #pragma mark - UICollectionViewDataSource
 
-- (int)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+- (long)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
 
-- (int)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (long)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [self.trips count];
 }
@@ -196,7 +195,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     TRPTripDetailViewController *tripDetailViewController = [[TRPTripDetailViewController alloc] init];
     tripDetailViewController.tripModel = tripModel;
     tripDetailViewController.storage = self.tripStorage;
-    tripDetailViewController.playbackManager = self.playbackManager;
+    tripDetailViewController.playbackController = self.playbackController;
     [self.navigationController pushViewController:tripDetailViewController animated:YES];
 }
 

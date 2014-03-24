@@ -17,15 +17,18 @@
 #import "TRPLeftDrawerViewController.h"
 #import "TRPTripListViewController.h"
 #import "TRPTripStorage.h"
-#import "SPPlaylistPlaybackDelegate.h"
+#import "SPPlaylistPlaybackController.h"
+#import "TRPPlaybackViewController.h"
 
 @interface TRPAppDelegate ()
-<UIApplicationDelegate, TRPAuthControllerDelegate, TRPLeftDrawerViewControllerDelegate,  MSDynamicsDrawerViewControllerDelegate>
+<UIApplicationDelegate, TRPAuthControllerDelegate, TRPLeftDrawerViewControllerDelegate,
+MSDynamicsDrawerViewControllerDelegate, TRPPlaybackViewControllerDelegate>
 @property (strong, nonatomic) MSDynamicsDrawerViewController *rootViewController;
 @property (strong, nonatomic) TRPLeftDrawerViewController *leftDrawerViewController;
 @property (strong, nonatomic) SPPlaybackManager *playbackManager;
 @property (strong, nonatomic) TRPAuthController *authController;
-@property (strong, nonatomic) SPPlaylistPlaybackDelegate *playlistPlaybackDelegate;
+@property (strong, nonatomic) SPPlaylistPlaybackController *playbackController;
+@property (strong, nonatomic) TRPPlaybackViewController *playbackViewController;
 @end
 
 @implementation TRPAppDelegate
@@ -53,6 +56,26 @@
           AndSharedSecret:kEchoNestSharedSecret];
 }
 
+- (SPPlaybackManager*)playbackManager
+{
+    if (_playbackManager) {
+        return _playbackManager;
+    }
+    _playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
+    return _playbackManager;
+}
+
+- (SPPlaylistPlaybackController*)playbackController
+{
+    if (_playbackController) {
+        return _playbackController;
+    }
+
+    _playbackController = [[SPPlaylistPlaybackController alloc] init];
+    _playbackController.playbackManager = self.playbackManager;
+    return _playbackController;
+}
+
 #pragma mark - Login
 
 - (void)showLoginViewController
@@ -76,9 +99,21 @@
         return _rootViewController;
     }
     _rootViewController = [[MSDynamicsDrawerViewController alloc] init];
-    _rootViewController.delegate = self;
+    _rootViewController.paneDragRequiresScreenEdgePan = YES;
     [_rootViewController setDrawerViewController:self.leftDrawerViewController
                                     forDirection:MSDynamicsDrawerDirectionLeft];
+
+    _playbackViewController = [[TRPPlaybackViewController alloc]
+                               initWithPlaybackManager:self.playbackManager
+                               playbackController:self.playbackController];
+    _playbackViewController.delegate = self;
+
+    [_rootViewController setDrawerViewController:self.playbackViewController
+                                    forDirection:MSDynamicsDrawerDirectionRight];
+
+    [_rootViewController setRevealWidth:[[UIScreen mainScreen] bounds].size.width * 0.9
+                           forDirection:MSDynamicsDrawerDirectionRight];
+
     UINavigationController *navController = [[UINavigationController alloc]
                                              initWithRootViewController:[[TRPTripListViewController alloc] init]];
     navController.navigationBar.translucent = YES;
@@ -93,6 +128,27 @@
 {
     UINavigationController *rootNavigationController = (UINavigationController*)drawerViewController.paneViewController;
     return [rootNavigationController.viewControllers count] == 1;
+}
+
+#pragma mark - Playback
+
+- (void)didStartPlaying
+{
+//    [self.rootViewController bouncePaneOpenInDirection:MSDynamicsDrawerDirectionRight];
+}
+
+- (void)didBecomeEmpty
+{
+//    @weakify(self);
+//    [self.rootViewController setPaneState:MSDynamicsDrawerPaneStateClosed
+//                              inDirection:MSDynamicsDrawerDirectionBottom
+//                                 animated:YES
+//                    allowUserInterruption:NO
+//                               completion:^ {
+//                                   @strongify(self);
+//                                   [self.rootViewController setDrawerViewController:nil
+//                                                                       forDirection:MSDynamicsDrawerDirectionRight];
+//                               }];
 }
 
 #pragma mark - Left Drawer
@@ -152,7 +208,7 @@
          TRPTripListViewController *tripListViewController = (TRPTripListViewController*)
          [[rootNavigationController viewControllers] firstObject];
 
-         tripListViewController.playbackManager = self.playbackManager;
+         tripListViewController.playbackController = self.playbackController;
 
          SimpleTripStorage *storage = [[SimpleTripStorage alloc] initWithUserID:user.canonicalName];
          if ([tripListViewController.tripStorage isEqual:storage]) {
@@ -189,9 +245,6 @@
     [[self class] configureSharedSpotifySession];
     [[self class] configureEchoNestAPI];
 
-    self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
-    self.playlistPlaybackDelegate = [[SPPlaylistPlaybackDelegate alloc] initWithPlaylist:nil
-                                                                         playbackManager:self.playbackManager];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     self.window.rootViewController = self.rootViewController;

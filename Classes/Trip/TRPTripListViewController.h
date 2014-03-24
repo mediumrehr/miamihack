@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "TRPTripStorage.h"
-#import <CocoaLibSpotify/SPPlaybackManager.h>
+#import "SPPlaylistPlaybackController.h"
+
 @interface TRPTripListViewController : UIViewController
 @property (nonatomic, strong) id<TripStorage> tripStorage;
-@property (nonatomic, strong) SPPlaybackManager *playbackManager;
+@property (nonatomic, strong) id<SPPlaybackController> playbackController;
 @end
