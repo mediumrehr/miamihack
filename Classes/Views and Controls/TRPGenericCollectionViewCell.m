@@ -32,11 +32,17 @@
         _backgroundImageView.clipsToBounds = YES;
         _backgroundImageView.backgroundColor = [UIColor blackColor]; // needs to be replaced by image
         [self.contentView addSubview:_backgroundImageView];
+        
+        UIView *textBGView = [[UIView alloc] init];
+        textBGView.backgroundColor = [UIColor blackColor];
+        textBGView.alpha = 0.5;
+        textBGView.frame = CGRectMake(0.0, self.contentView.bounds.size.height*0.65, self.contentView.bounds.size.width, self.contentView.bounds.size.height*0.35);
+        [self.contentView addSubview:textBGView];
 
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];
         _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.shadowColor = [UIColor blackColor];
+        //_titleLabel.shadowColor = [UIColor blackColor];
         _titleLabel.numberOfLines = 1;
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [self.contentView addSubview:_titleLabel];
@@ -44,7 +50,7 @@
         _subtitleLabel = [[UILabel alloc] init];
         _subtitleLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
         _subtitleLabel.textColor = [UIColor lightGrayColor];
-        _subtitleLabel.shadowColor = [UIColor blackColor];
+        //_subtitleLabel.shadowColor = [UIColor blackColor];
         _subtitleLabel.numberOfLines = 1;
         _subtitleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [self.contentView addSubview:_subtitleLabel];
