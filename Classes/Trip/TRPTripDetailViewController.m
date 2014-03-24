@@ -283,6 +283,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
                     @strongify(playlist);
 
                     if (playlist && !error) {
+                        DDLogInfo(@"Removed track %@ from playlist %@", track.spotifyURL, playlist.spotifyURL);
                         [subscriber sendNext:playlist];
                     } else if (error) {
                         DDLogError(@"Failed to remove track %@ from playlist %@",
