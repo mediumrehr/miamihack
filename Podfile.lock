@@ -45,6 +45,7 @@ PODS:
     - SBJson (~> 3.2)
     - TSLibraryImport (= 0.0.1)
   - libspotify (12.1.64)
+  - MSDynamicsDrawerViewController (1.5.1)
   - Reachability (3.1.1)
   - ReactiveCocoa (2.2.4):
     - ReactiveCocoa/Core
@@ -65,6 +66,7 @@ DEPENDENCIES:
   - CocoaLumberjack (~> 1.8)
   - Expecta (~> 0.2)
   - libechonest (~> 1.0)
+  - MSDynamicsDrawerViewController (~> 1.5)
   - ReactiveCocoa (~> 2.2)
   - SDWebImage (~> 3.5)
   - Specta (~> 0.2)
@@ -77,6 +79,7 @@ SPEC CHECKSUMS:
   Expecta: 322f1dc42610106a5ba9871b4924cf1635d80833
   libechonest: f4781db8ecdd30954b06de70c7f5f5ce7679a723
   libspotify: 83337b28ad17bd27a7e7d4ac353e89f72f87bd29
+  MSDynamicsDrawerViewController: 2409ca61449d8541a3ee640bfd2d230c3734d3c4
   Reachability: be4883bb93f31e38266ae3365e5600a317aae735
   ReactiveCocoa: 953a45dda30674fe704d1d9c77cc874141742f47
   SBJson: abc2bf2baef456d5dae213f9826fe2b6fdf19861

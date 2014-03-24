@@ -108,6 +108,12 @@
 #define COCOAPODS_VERSION_MINOR_Expecta 3
 #define COCOAPODS_VERSION_PATCH_Expecta 0
 
+// MSDynamicsDrawerViewController
+#define COCOAPODS_POD_AVAILABLE_MSDynamicsDrawerViewController
+#define COCOAPODS_VERSION_MAJOR_MSDynamicsDrawerViewController 1
+#define COCOAPODS_VERSION_MINOR_MSDynamicsDrawerViewController 5
+#define COCOAPODS_VERSION_PATCH_MSDynamicsDrawerViewController 1
+
 // Reachability
 #define COCOAPODS_POD_AVAILABLE_Reachability
 #define COCOAPODS_VERSION_MAJOR_Reachability 3
