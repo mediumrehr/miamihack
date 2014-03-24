@@ -54,7 +54,7 @@
     [aCoder encodeObject:_tripID forKey:@"tripID"];
     [aCoder encodeObject:[_artistIDs allObjects] forKey:@"artistIDs"];
     [aCoder encodeObject:[_genreIDs allObjects] forKey:@"genreIDs"];
-    [aCoder encodeObject:_spotifyPlaylistURL forKey:@"spotifyPlaylistTrackURL"];
+    [aCoder encodeObject:_spotifyPlaylistURL forKey:@"spotifyPlaylistURL"];
     [aCoder encodeObject:_currentSpotifyTrackID forKey:@"currentSpotifyTrackID"];
 }
 

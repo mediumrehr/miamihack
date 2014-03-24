@@ -25,6 +25,8 @@
 		BC1F68D818DE05A000280899 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F689518DDCCCD00280899 /* XCTest.framework */; };
 		BC1F68D918DE05A000280899 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F687C18DDCCCD00280899 /* Foundation.framework */; };
 		BC1F68DA18DE05A000280899 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1F688018DDCCCD00280899 /* UIKit.framework */; };
+		BC39C13918E0872600894A9E /* TRPPlaybackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC39C13818E0872600894A9E /* TRPPlaybackViewController.m */; };
+		BC39C13D18E08F0900894A9E /* TRPTrackPlaybackTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC39C13C18E08F0900894A9E /* TRPTrackPlaybackTableViewCell.m */; };
 		BCD214E818DF360B0015E172 /* ENAPI+RAC.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214E718DF360B0015E172 /* ENAPI+RAC.m */; };
 		BCD214EB18DFB1B30015E172 /* TRPLeftDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214EA18DFB1B30015E172 /* TRPLeftDrawerViewController.m */; };
 		BCD214EF18DFB94D0015E172 /* TRPAuthController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214EE18DFB94D0015E172 /* TRPAuthController.m */; };
@@ -34,7 +36,7 @@
 		BCE8764418E0048800F77658 /* ENSPAggregateArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764318E0048800F77658 /* ENSPAggregateArtist.m */; };
 		BCE8764918E0058000F77658 /* TRPGenericCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */; };
 		BCE8764C18E0414100F77658 /* DDLog+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764B18E0414100F77658 /* DDLog+Utils.m */; };
-		BCE8765018E04F0800F77658 /* SPPlaylistPlaybackDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764F18E04F0800F77658 /* SPPlaylistPlaybackDelegate.m */; };
+		BCE8765018E04F0800F77658 /* SPPlaylistPlaybackController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764F18E04F0800F77658 /* SPPlaylistPlaybackController.m */; };
 		E530220118DEB37900A24706 /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
 		E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */; };
 /* End PBXBuildFile section */
@@ -75,6 +77,10 @@
 		BC1F68CE18DDF93100280899 /* TRPArtistSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPArtistSearchTests.m; sourceTree = "<group>"; };
 		BC1F68D018DDF94700280899 /* TRPTripPlaylistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaylistTests.m; sourceTree = "<group>"; };
 		BC1F68D718DE059F00280899 /* TripsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC39C13718E0872600894A9E /* TRPPlaybackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPPlaybackViewController.h; path = Playback/TRPPlaybackViewController.h; sourceTree = "<group>"; };
+		BC39C13818E0872600894A9E /* TRPPlaybackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPPlaybackViewController.m; path = Playback/TRPPlaybackViewController.m; sourceTree = "<group>"; };
+		BC39C13B18E08F0900894A9E /* TRPTrackPlaybackTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPTrackPlaybackTableViewCell.h; path = Playback/TRPTrackPlaybackTableViewCell.h; sourceTree = "<group>"; };
+		BC39C13C18E08F0900894A9E /* TRPTrackPlaybackTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPTrackPlaybackTableViewCell.m; path = Playback/TRPTrackPlaybackTableViewCell.m; sourceTree = "<group>"; };
 		BCD214DD18DF1F380015E172 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
 		BCD214DE18DF1F380015E172 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
 		BCD214E618DF360B0015E172 /* ENAPI+RAC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ENAPI+RAC.h"; sourceTree = "<group>"; };
@@ -95,8 +101,8 @@
 		BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenericCollectionViewCell.m; sourceTree = "<group>"; };
 		BCE8764A18E0414100F77658 /* DDLog+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DDLog+Utils.h"; path = "Utils/DDLog+Utils.h"; sourceTree = "<group>"; };
 		BCE8764B18E0414100F77658 /* DDLog+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "DDLog+Utils.m"; path = "Utils/DDLog+Utils.m"; sourceTree = "<group>"; };
-		BCE8764E18E04F0800F77658 /* SPPlaylistPlaybackDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPPlaylistPlaybackDelegate.h; path = SPUtils/SPPlaylistPlaybackDelegate.h; sourceTree = "<group>"; };
-		BCE8764F18E04F0800F77658 /* SPPlaylistPlaybackDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPPlaylistPlaybackDelegate.m; path = SPUtils/SPPlaylistPlaybackDelegate.m; sourceTree = "<group>"; };
+		BCE8764E18E04F0800F77658 /* SPPlaylistPlaybackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPPlaylistPlaybackController.h; path = SPUtils/SPPlaylistPlaybackController.h; sourceTree = "<group>"; };
+		BCE8764F18E04F0800F77658 /* SPPlaylistPlaybackController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPPlaylistPlaybackController.m; path = SPUtils/SPPlaylistPlaybackController.m; sourceTree = "<group>"; };
 		DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenreSearchTests.m; sourceTree = "<group>"; };
 		E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
 		E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
@@ -205,6 +211,7 @@
 		BC1F68AB18DDCEEB00280899 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BC39C13A18E0872F00894A9E /* Playback */,
 				BCE8765118E04F0F00F77658 /* SPUtils */,
 				BCE8764618E0058000F77658 /* Views and Controls */,
 				E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */,
@@ -260,6 +267,17 @@
 				E59DDF5218DE3E8B00381000 /* TRPLocationToPlaylistTests.m */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		BC39C13A18E0872F00894A9E /* Playback */ = {
+			isa = PBXGroup;
+			children = (
+				BC39C13718E0872600894A9E /* TRPPlaybackViewController.h */,
+				BC39C13818E0872600894A9E /* TRPPlaybackViewController.m */,
+				BC39C13B18E08F0900894A9E /* TRPTrackPlaybackTableViewCell.h */,
+				BC39C13C18E08F0900894A9E /* TRPTrackPlaybackTableViewCell.m */,
+			);
+			name = Playback;
 			sourceTree = "<group>";
 		};
 		BCD214E018DF22710015E172 /* Creation */ = {
@@ -321,8 +339,8 @@
 		BCE8765118E04F0F00F77658 /* SPUtils */ = {
 			isa = PBXGroup;
 			children = (
-				BCE8764E18E04F0800F77658 /* SPPlaylistPlaybackDelegate.h */,
-				BCE8764F18E04F0800F77658 /* SPPlaylistPlaybackDelegate.m */,
+				BCE8764E18E04F0800F77658 /* SPPlaylistPlaybackController.h */,
+				BCE8764F18E04F0800F77658 /* SPPlaylistPlaybackController.m */,
 			);
 			name = SPUtils;
 			sourceTree = "<group>";
@@ -498,8 +516,10 @@
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
 				BCE8764C18E0414100F77658 /* DDLog+Utils.m in Sources */,
+				BC39C13D18E08F0900894A9E /* TRPTrackPlaybackTableViewCell.m in Sources */,
 				BCD214EB18DFB1B30015E172 /* TRPLeftDrawerViewController.m in Sources */,
-				BCE8765018E04F0800F77658 /* SPPlaylistPlaybackDelegate.m in Sources */,
+				BCE8765018E04F0800F77658 /* SPPlaylistPlaybackController.m in Sources */,
+				BC39C13918E0872600894A9E /* TRPPlaybackViewController.m in Sources */,
 				BCD214E818DF360B0015E172 /* ENAPI+RAC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -616,6 +636,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 73BACBF37A234EE2BE20FEEB /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -623,6 +644,7 @@
 				GCC_PREFIX_HEADER = "Support/Tripster-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Support/Tripster-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -631,6 +653,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 73BACBF37A234EE2BE20FEEB /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -638,6 +661,7 @@
 				GCC_PREFIX_HEADER = "Support/Tripster-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Support/Tripster-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
