@@ -7,7 +7,7 @@
 //
 
 #import "TRPTripPlaybackView.h"
-#import "TRPColorPicker.h"
+//#import "TRPColorPicker.h"
 
 @implementation TRPTripPlaybackView
 @synthesize trackTitle = _trackTitle;
@@ -163,18 +163,18 @@
         [SPAsyncLoading waitUntilLoaded:self.currentTrack.album.cover timeout:kSPAsyncLoadingDefaultTimeout then:^
          (NSArray *loadedItems, NSArray *notLoadedItems){
              if([loadedItems containsObject:self.currentTrack.album.cover]){
-                 UIColor *color = [TRPColorPicker getMainColorFromImage:self.currentTrack.album.cover.image];
-                 float A, R, G, B;
-                 if(R + G + B > 1.5){
-                     [self setLabelsAndPicsToWhiteOrBlack:NO];
-                 } else{
-                     [self setLabelsAndPicsToWhiteOrBlack:YES];
-                 }
-                 [color getRed:&R green:&G blue:&B alpha:&A];
-                 color = [UIColor colorWithRed:R green:G blue:B alpha:0.7];
-                 
-                 [trackBG setBackgroundColor:color];
-                 [trackNavBG setBackgroundColor:color];
+//                 UIColor *color = [TRPColorPicker getMainColorFromImage:self.currentTrack.album.cover.image];
+//                 float A, R, G, B;
+//                 if(R + G + B > 1.5){
+//                     [self setLabelsAndPicsToWhiteOrBlack:NO];
+//                 } else{
+//                     [self setLabelsAndPicsToWhiteOrBlack:YES];
+//                 }
+//                 [color getRed:&R green:&G blue:&B alpha:&A];
+//                 color = [UIColor colorWithRed:R green:G blue:B alpha:0.7];
+//                 
+//                 [trackBG setBackgroundColor:color];
+//                 [trackNavBG setBackgroundColor:color];
                  self.coverView.image = self.currentTrack.album.cover.image;
              }
         }];

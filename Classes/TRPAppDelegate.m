@@ -7,19 +7,23 @@
 //
 
 #import "TRPAppDelegate.h"
-#import "TRPConstants.h"
 #import <CocoaLibSpotify.h>
 #import <SPPlaybackManager.h>
+#import <libechonest/ENAPI.h>
+#import <MSDynamicsDrawerViewController/MSDynamicsDrawerViewController.h>
+
+#import "TRPConstants.h"
+#import "TRPAuthController.h"
+#import "TRPLeftDrawerViewController.h"
 #import "TRPRootViewController.h"
 #import "TRPTripCreationViewController.h"
-#import <libechonest/ENAPI.h>
-
-#define kDefaultSpotifyUserCredentials @"DefaultSpotifyUserCredentials"
 
 @interface TRPAppDelegate ()
-<UIApplicationDelegate, TRPRootViewControllerAuthDelegate, SPSessionDelegate>
-@property (strong, nonatomic) TRPRootViewController *rootViewController;
+<UIApplicationDelegate, TRPRootViewControllerAuthDelegate, TRPAuthControllerDelegate, TRPLeftDrawerViewControllerDelegate>
+@property (strong, nonatomic) MSDynamicsDrawerViewController *rootViewController;
+@property (strong, nonatomic) TRPLeftDrawerViewController *leftDrawerViewController;
 @property (strong, nonatomic) SPPlaybackManager *playbackManager;
+@property (strong, nonatomic) TRPAuthController *authController;
 @end
 
 @implementation TRPAppDelegate
@@ -47,22 +51,6 @@
           AndSharedSecret:kEchoNestSharedSecret];
 }
 
-- (BOOL)maybeAutologin
-{
-    NSDictionary* user = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kDefaultSpotifyUserCredentials];
-    if (!user) {
-        return NO;
-    }
-
-    [[SPSession sharedSession] attemptLoginWithUserName:[[user allKeys] lastObject]
-                                     existingCredential:[[user allValues] lastObject]];
-
-    // TODO: show modal login activity indicator
-//    [MBProgressHUD showHUDAddedTo:_rootVC.view animated:NO];
-
-    return YES;
-}
-
 #pragma mark - Login
 
 - (void)showLoginViewController
@@ -77,31 +65,69 @@
 
 #pragma mark - Root
 
-- (TRPRootViewController*)rootViewController
+- (MSDynamicsDrawerViewController*)rootViewController
 {
     if (_rootViewController) {
         return _rootViewController;
     }
-    _rootViewController = [[TRPRootViewController alloc] initWithAuthDelegate:self];
+    _rootViewController = [[MSDynamicsDrawerViewController alloc] init];
+    [_rootViewController setDrawerViewController:self.leftDrawerViewController
+                                    forDirection:MSDynamicsDrawerDirectionLeft];
     return _rootViewController;
+}
+
+- (TRPLeftDrawerViewController*)leftDrawerViewController
+{
+    if (_leftDrawerViewController) {
+        return _leftDrawerViewController;
+    }
+
+    _leftDrawerViewController = [TRPLeftDrawerViewController new];
+    _leftDrawerViewController.delegate = self;
+    return _leftDrawerViewController;
+}
+
+- (TRPAuthController*)authController
+{
+    if (_authController) {
+        return _authController;
+    }
+    _authController = [TRPAuthController new];
+    [[SPSession sharedSession] setDelegate:_authController];
+    _authController.delegate = self;
+    return _authController;
+}
+
+#pragma mark - TRPLeftDrawerViewControllerDelegate
+
+- (void)logout:(dispatch_block_t)completion
+{
+    [_authController logout:completion];
 }
 
 #pragma mark - TRPRootViewControllerAuthDelegate
 
-- (void)logout
+- (void)didLoginWithUser:(SPUser *)user
 {
-    // TODO: show throbber then present logout when finished logging out
-    [[SPSession sharedSession] logout:nil];
+    self.leftDrawerViewController.user = user;
+    self.rootViewController.paneViewController = [TRPTripCreationViewController new];
+}
+
+- (void)didLogout
+{
+    self.rootViewController.paneViewController = nil;
+    [self showLoginViewController];
 }
 
 #pragma mark - UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // set status bar to white text
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
     [[self class] configureSharedSpotifySession];
     [[self class] configureEchoNestAPI];
-
-    [[SPSession sharedSession] setDelegate:self];
 
     self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -109,21 +135,14 @@
     self.window.rootViewController = self.rootViewController;
     [self.window makeKeyAndVisible];
 
-    if ([self maybeAutologin]) {
+    if ([[self authController] loginWithStoredCredentials]) {
         return YES;
     }
 
-    SPLoginViewController *loginViewController = [SPLoginViewController loginControllerForSession:[SPSession sharedSession]];
-    loginViewController.navigationBarHidden = YES;
-    loginViewController.allowsCancel = NO;
-
     // fix unbalanced calls to rootViewController begin/end appearance
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.rootViewController presentViewController:loginViewController animated:YES completion:nil];
+        [self showLoginViewController];
     });
-    
-    // set status bar to white text
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
     return YES;
 }
@@ -155,84 +174,6 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-#pragma mark SPSessionDelegate
 
--(void)sessionDidLoginSuccessfully:(SPSession *)aSession {
-	// Called after a successful login.
-
-//    [MBProgressHUD hideAllHUDsForView:_rootVC.view animated:YES];
-
-	[SPAsyncLoading waitUntilLoaded:aSession timeout:kSPAsyncLoadingDefaultTimeout then:^
-     (NSArray *loadedItems, NSArray *notLoadedItems) {
-         if (![loadedItems containsObject:aSession]) {
-             [NSException raise:@"Session failed to load" format:@"Not loaded items %@", notLoadedItems];
-         }
-
-         // go to main UI
-         [self.rootViewController dismissViewControllerAnimated:YES completion:nil];
-
-         // if no current trip, create new... logic stuff
-         [self.rootViewController createNewTrip];
-
-         [SPAsyncLoading waitUntilLoaded:aSession.user timeout:kSPAsyncLoadingDefaultTimeout then:^
-          (NSArray *loadedItems, NSArray *notLoadedItems) {
-              if (![loadedItems containsObject:aSession.user]) {
-                  [NSException raise:@"Session user failed to load" format:@"Not loaded items %@", notLoadedItems];
-              }
-
-              // do stuff w/ user
-          }];
-     }];
-}
-
-- (void)session:(SPSession *)aSession didFailToLoginWithError:(NSError *)error
-{
-	// Called after a failed login. SPLoginViewController will deal with this for us.
-    if ([self.rootViewController.presentedViewController isKindOfClass:[SPLoginViewController class]]) {
-        return;
-    }
-
-    [self showLoginViewController];
-}
-
-- (void)sessionDidLogOut:(SPSession *)aSession
-{
-	// Called after a logout has been completed.
-    [self showLoginViewController];
-
-}
-
-- (void)session:(SPSession *)aSession didGenerateLoginCredentials:(NSString *)credential forUserName:(NSString *)userName
-{
-
-	// Called when login credentials are created. If you want to save user logins, uncomment the code below.
-
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSMutableDictionary *storedCredentials = [[defaults valueForKey:kDefaultSpotifyUserCredentials] mutableCopy];
-
-	if (storedCredentials == nil)
-		storedCredentials = [NSMutableDictionary dictionary];
-
-	[storedCredentials setValue:credential forKey:userName];
-	[defaults setValue:storedCredentials forKey:kDefaultSpotifyUserCredentials];
-}
-
-- (void)sessionDidChangeMetadata:(SPSession *)aSession
-{
-	// Called when metadata has been updated somewhere in the
-	// CocoaLibSpotify object model. You don't normally need to do
-	// anything here. KVO on the metadata you're interested in instead.
-}
-
-- (void)session:(SPSession *)aSession recievedMessageForUser:(NSString *)aMessage
-{
-	// Called when the Spotify service wants to relay a piece of information to the user.
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"From Spotify"
-													message:aMessage
-												   delegate:nil
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
-	[alert show];
-}
 
 @end

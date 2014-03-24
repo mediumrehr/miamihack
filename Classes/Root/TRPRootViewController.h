@@ -7,15 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MSDynamicsDrawerViewController/MSDynamicsDrawerViewController.h>
 
 @protocol TRPRootViewControllerAuthDelegate <NSObject>
-
 - (void)logout;
-
 @end
 
 @class TRPTripModel;
-@interface TRPRootViewController : UIViewController
+@interface TRPRootViewController : MSDynamicsDrawerViewController
 // TODO: add playback controls view controller
 
 @property (nonatomic, strong) UIViewController *currentViewController;
