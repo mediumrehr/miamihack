@@ -56,7 +56,7 @@
                     animated:(BOOL)animated
 {
     if (viewController == self) {
-//        [navigationController setNavigationBarHidden:YES animated:YES];
+        [navigationController setNavigationBarHidden:YES animated:YES];
     }
 }
 

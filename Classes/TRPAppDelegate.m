@@ -19,7 +19,7 @@
 #import "TRPTripStorage.h"
 
 @interface TRPAppDelegate ()
-<UIApplicationDelegate, TRPAuthControllerDelegate, TRPLeftDrawerViewControllerDelegate>
+<UIApplicationDelegate, TRPAuthControllerDelegate, TRPLeftDrawerViewControllerDelegate,  MSDynamicsDrawerViewControllerDelegate>
 @property (strong, nonatomic) MSDynamicsDrawerViewController *rootViewController;
 @property (strong, nonatomic) TRPLeftDrawerViewController *leftDrawerViewController;
 @property (strong, nonatomic) SPPlaybackManager *playbackManager;
@@ -71,16 +71,26 @@
         return _rootViewController;
     }
     _rootViewController = [[MSDynamicsDrawerViewController alloc] init];
+    _rootViewController.delegate = self;
     [_rootViewController setDrawerViewController:self.leftDrawerViewController
                                     forDirection:MSDynamicsDrawerDirectionLeft];
-    [self.rootViewController setScreenEdgePanCancelsConflictingGestures:NO];
     UINavigationController *navController = [[UINavigationController alloc]
                                              initWithRootViewController:[[TRPTripListViewController alloc] init]];
     navController.navigationBar.translucent = YES;
     navController.navigationBarHidden = YES;
     _rootViewController.paneViewController = navController;
+
     return _rootViewController;
 }
+
+- (BOOL)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController
+                  shouldBeginPanePan:(UIPanGestureRecognizer *)panGestureRecognizer
+{
+    UINavigationController *rootNavigationController = (UINavigationController*)drawerViewController.paneViewController;
+    return [rootNavigationController.viewControllers count] == 1;
+}
+
+#pragma mark - Left Drawer
 
 - (TRPLeftDrawerViewController*)leftDrawerViewController
 {
@@ -94,6 +104,17 @@
     return _leftDrawerViewController;
 }
 
+- (void)logout:(dispatch_block_t)completion
+{
+    [self.authController logout:completion];
+    [self.rootViewController setPaneState:MSDynamicsDrawerPaneStateClosed
+                                 animated:YES
+                    allowUserInterruption:NO
+                               completion:nil];
+}
+
+#pragma mark - Auth
+
 - (TRPAuthController*)authController
 {
     if (_authController) {
@@ -104,19 +125,6 @@
     _authController.delegate = self;
     return _authController;
 }
-
-#pragma mark - TRPLeftDrawerViewControllerDelegate
-
-- (void)logout:(dispatch_block_t)completion
-{
-    [self.authController logout:completion];
-    [self.rootViewController setPaneState:MSDynamicsDrawerPaneStateClosed
-                                 animated:YES
-                    allowUserInterruption:NO
-                               completion:nil];
-}
-
-#pragma mark - TRPRootViewControllerAuthDelegate
 
 - (void)didLoginWithUser:(SPUser *)user
 {
