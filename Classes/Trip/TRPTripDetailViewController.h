@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "TRPTripModel.h"
 #import "TRPTripStorage.h"
+#import <CocoaLibSpotify/SPPlaybackManager.h>
 
 @interface TRPTripDetailViewController : UIViewController
 @property (nonatomic, strong) TRPTripModel *tripModel;
 @property (nonatomic, strong) id<TripStorage> storage;
+@property (nonatomic, strong) SPPlaybackManager *playbackManager;
 @end

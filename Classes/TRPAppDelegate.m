@@ -17,6 +17,7 @@
 #import "TRPLeftDrawerViewController.h"
 #import "TRPTripListViewController.h"
 #import "TRPTripStorage.h"
+#import "SPPlaylistPlaybackDelegate.h"
 
 @interface TRPAppDelegate ()
 <UIApplicationDelegate, TRPAuthControllerDelegate, TRPLeftDrawerViewControllerDelegate,  MSDynamicsDrawerViewControllerDelegate>
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) TRPLeftDrawerViewController *leftDrawerViewController;
 @property (strong, nonatomic) SPPlaybackManager *playbackManager;
 @property (strong, nonatomic) TRPAuthController *authController;
+@property (strong, nonatomic) SPPlaylistPlaybackDelegate *playlistPlaybackDelegate;
 @end
 
 @implementation TRPAppDelegate
@@ -55,6 +57,9 @@
 
 - (void)showLoginViewController
 {
+    if ([self.rootViewController.presentedViewController isKindOfClass:[SPLoginViewController class]]) {
+        return;
+    }
     SPLoginViewController *loginViewController = [SPLoginViewController loginControllerForSession:[SPSession sharedSession]];
     loginViewController.allowsCancel = NO;
     loginViewController.dismissesAfterLogin = YES;
@@ -147,6 +152,8 @@
          TRPTripListViewController *tripListViewController = (TRPTripListViewController*)
          [[rootNavigationController viewControllers] firstObject];
 
+         tripListViewController.playbackManager = self.playbackManager;
+
          SimpleTripStorage *storage = [[SimpleTripStorage alloc] initWithUserID:user.canonicalName];
          if ([tripListViewController.tripStorage isEqual:storage]) {
              return;
@@ -183,6 +190,8 @@
     [[self class] configureEchoNestAPI];
 
     self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
+    self.playlistPlaybackDelegate = [[SPPlaylistPlaybackDelegate alloc] initWithPlaylist:nil
+                                                                         playbackManager:self.playbackManager];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     self.window.rootViewController = self.rootViewController;
