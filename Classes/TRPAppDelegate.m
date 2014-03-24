@@ -82,7 +82,7 @@
         return _leftDrawerViewController;
     }
 
-    _leftDrawerViewController = [TRPLeftDrawerViewController new];
+    _leftDrawerViewController = [[TRPLeftDrawerViewController alloc] initWithStyle:UITableViewStyleGrouped];
     _leftDrawerViewController.delegate = self;
     return _leftDrawerViewController;
 }

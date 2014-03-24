@@ -27,7 +27,6 @@ typedef NS_ENUM(NSInteger, TRPLeftDrawerCell) {
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor darkGrayColor];
-
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kLeftDrawerCell];
     [self.tableView reloadData];
 }
