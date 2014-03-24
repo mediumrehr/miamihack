@@ -115,11 +115,13 @@
         tripListViewController = [[TRPTripListViewController alloc] init];
         self.rootViewController.paneViewController = tripListViewController;
     }
-    TRPMutableTripModel *dummyTrip1 = [[TRPMutableTripModel alloc] init];
+    TripListItem *dummyTrip1 = [[TripListItem alloc] init];
     [dummyTrip1 setLocation:@"Miami"];
+    [dummyTrip1 setArtistNames:@"Flo Rida, Pitbull, and LMFAO"];
 
-    TRPMutableTripModel *dummyTrip2 = [[TRPMutableTripModel alloc] init];
+    TripListItem *dummyTrip2 = [[TripListItem alloc] init];
     [dummyTrip2 setLocation:@"New York"];
+    [dummyTrip2 setArtistNames:@"The Arcade Fire, Vampire Weekend, and The National"];
 
     tripListViewController.trips = @[dummyTrip1, dummyTrip2];
 

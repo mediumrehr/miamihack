@@ -20,15 +20,23 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.contentView.backgroundColor = [UIColor blackColor];
+
+        float padding = [[self class] defaultPadding];
         
-        _locationLabel = [[UILabel alloc] init];
+        _locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding,
+                                                                   0,
+                                                                   self.contentView.bounds.size.width - 2*padding,
+                                                                   [UIFont labelFontSize])];
         _locationLabel.font = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];
         _locationLabel.textColor = [UIColor whiteColor];
         _locationLabel.shadowColor = [UIColor blackColor];
         [self.contentView addSubview:_locationLabel];
 
-        _artistsLabel = [[UILabel alloc] init];
-        _artistsLabel.font = [UIFont systemFontOfSize:[UIFont labelFontSize]];
+        _artistsLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding,
+                                                                  0,
+                                                                  self.contentView.bounds.size.width - 2*padding,
+                                                                  [UIFont smallSystemFontSize])];
+        _artistsLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
         _artistsLabel.textColor = [UIColor lightGrayColor];
         _artistsLabel.shadowColor = [UIColor blackColor];
         [self.contentView addSubview:_artistsLabel];
@@ -38,7 +46,7 @@
 
 + (float)defaultPadding
 {
-    return 20.f;
+    return 10.f;
 }
 
 - (void)layoutSubviews
@@ -49,12 +57,13 @@
 
     self.artistsLabel.frame = (CGRect){
         .origin = CGPointMake(padding,
-                              CGRectGetMaxY(self.contentView.frame) - _artistsLabel.bounds.size.height - padding),
+                              CGRectGetMaxY(self.contentView.frame) - self.artistsLabel.bounds.size.height - padding),
         .size = _artistsLabel.bounds.size
     };
 
     self.locationLabel.frame = (CGRect) {
-        .origin = CGPointMake(padding, self.artistsLabel.frame.origin.y - padding),
+        .origin = CGPointMake(padding,
+                              self.artistsLabel.frame.origin.y - self.locationLabel.bounds.size.height - padding),
         .size = self.locationLabel.bounds.size
     };
 }
@@ -66,7 +75,6 @@
     }
 
     self.locationLabel.text = tripLocation;
-    [self.locationLabel sizeToFit];
     [self setNeedsLayout];
 }
 
@@ -77,7 +85,6 @@
     }
 
     self.artistsLabel.text = artists;
-    [self.artistsLabel sizeToFit];
     [self setNeedsLayout];
 }
 

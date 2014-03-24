@@ -9,6 +9,9 @@
 #import "TRPTripListViewController.h"
 #import "TRPTripCollectionViewCell.h"
 
+@implementation TripListItem
+@end
+
 @interface TRPTripListViewController ()
 <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -90,25 +93,25 @@
 {
     TRPTripCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TripCell"
                                                                                 forIndexPath:indexPath];
-    TRPTripModel *tripModel = self.trips[indexPath.row];
-    cell.tripLocation = tripModel.location;
-    cell.artists = @"";
+    TripListItem *trip = self.trips[indexPath.row];
+    cell.tripLocation = trip.location;
+    cell.artists = trip.artistNames;
 
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 
-- (void)collectionView:(UICollectionView *)collectionView
-  didEndDisplayingCell:(UICollectionViewCell *)cell
-    forItemAtIndexPath:(NSIndexPath *)indexPath
-{
-
-}
+//- (void)collectionView:(UICollectionView *)collectionView
+//  didEndDisplayingCell:(UICollectionViewCell *)cell
+//    forItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    TripListItem *selectedTrip = self.trips[indexPath.row];
+    NSLog(@"Let's go on trip %@", selectedTrip.tripID);
 }
 
 @end
