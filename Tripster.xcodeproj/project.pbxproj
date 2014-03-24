@@ -33,6 +33,7 @@
 		BCE8764118DFF4AD00F77658 /* TRPTripDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764018DFF4AD00F77658 /* TRPTripDetailViewController.m */; };
 		BCE8764418E0048800F77658 /* ENSPAggregateArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764318E0048800F77658 /* ENSPAggregateArtist.m */; };
 		BCE8764918E0058000F77658 /* TRPGenericCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */; };
+		BCE8764C18E0414100F77658 /* DDLog+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764B18E0414100F77658 /* DDLog+Utils.m */; };
 		E530220118DEB37900A24706 /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
 		E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */; };
 /* End PBXBuildFile section */
@@ -91,6 +92,8 @@
 		BCE8764318E0048800F77658 /* ENSPAggregateArtist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ENSPAggregateArtist.m; path = AggregateModels/ENSPAggregateArtist.m; sourceTree = "<group>"; };
 		BCE8764718E0058000F77658 /* TRPGenericCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPGenericCollectionViewCell.h; sourceTree = "<group>"; };
 		BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenericCollectionViewCell.m; sourceTree = "<group>"; };
+		BCE8764A18E0414100F77658 /* DDLog+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DDLog+Utils.h"; path = "Utils/DDLog+Utils.h"; sourceTree = "<group>"; };
+		BCE8764B18E0414100F77658 /* DDLog+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "DDLog+Utils.m"; path = "Utils/DDLog+Utils.m"; sourceTree = "<group>"; };
 		DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenreSearchTests.m; sourceTree = "<group>"; };
 		E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
 		E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
@@ -218,6 +221,7 @@
 				BC04236118DE212000B7BFD5 /* Root */,
 				BC04236818DE2BE100B7BFD5 /* Trip */,
 				BCE8764518E0048C00F77658 /* AggregateModels */,
+				BCE8764D18E0414600F77658 /* Utils */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -299,6 +303,15 @@
 				BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */,
 			);
 			path = "Views and Controls";
+			sourceTree = "<group>";
+		};
+		BCE8764D18E0414600F77658 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				BCE8764A18E0414100F77658 /* DDLog+Utils.h */,
+				BCE8764B18E0414100F77658 /* DDLog+Utils.m */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -471,6 +484,7 @@
 				BCD214EF18DFB94D0015E172 /* TRPAuthController.m in Sources */,
 				BC1F68BC18DDCEEB00280899 /* TRPAppDelegate.m in Sources */,
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
+				BCE8764C18E0414100F77658 /* DDLog+Utils.m in Sources */,
 				BCD214EB18DFB1B30015E172 /* TRPLeftDrawerViewController.m in Sources */,
 				BCD214E818DF360B0015E172 /* ENAPI+RAC.m in Sources */,
 			);

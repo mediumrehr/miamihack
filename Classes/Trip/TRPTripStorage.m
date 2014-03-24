@@ -74,7 +74,7 @@
 
     // deserialize trip data
     if (_storage[@"trips"]) {
-        _storage[@"trips"] = [[[_storage[@"trips"] allValues] rac_sequence]
+        _storage[@"trips"] = [[_storage[@"trips"] rac_sequence]
                               foldLeftWithStart:[[NSMutableDictionary alloc] initWithCapacity:[_storage[@"trips"] count]]
                               reduce:^id(NSMutableDictionary *deserializedTrips, RACTuple *keyValuePair) {
                                   RACTupleUnpack(NSString *tripID, NSData *tripData) = keyValuePair;
@@ -127,7 +127,8 @@
 
 - (void)saveTrip:(TRPTripModel*)model
 {
-    self.storage[@"trips"][model.tripID] = model;
+    self.storage[@"trips"][model.tripID] = [model copy];
+    [self synchronize];
 }
 
 - (void)deleteTrips:(id<NSFastEnumeration>)trips
@@ -143,12 +144,27 @@
     if ([self.lastTrip isEqual:tripID]) {
         [self setLastTrip:nil];
     }
+    [self synchronize];
 }
 
 - (void)synchronize
 {
-    NSDictionary *serializedDictionary = nil;
-    [[NSUserDefaults standardUserDefaults] setPersistentDomain:serializedDictionary
+    NSMutableDictionary *serializedTrips = [NSMutableDictionary new];
+    serializedTrips[@"trips"] = [[self.storage[@"trips"] rac_sequence]
+                                 foldLeftWithStart:[[NSMutableDictionary alloc] initWithCapacity:[_storage[@"trips"] count]]
+                                 reduce:^id(NSMutableDictionary *serializedTrips, RACTuple *keyValuePair) {
+                                     RACTupleUnpack(NSString *tripID, TRPTripModel *tripModel) = keyValuePair;
+                                     NSData *tripData = [NSKeyedArchiver archivedDataWithRootObject:tripModel];
+                                     NSAssert(tripData,
+                                              @"Failed to archive trip model with ID %@ from data: %@",
+                                              tripID, tripModel);
+                                     serializedTrips[tripID] = tripData;
+                                     return serializedTrips;
+                                 }];
+    if (self.storage[@"lastTrip"]) {
+        serializedTrips[@"lastTrip"] = [NSKeyedArchiver archivedDataWithRootObject:self.storage[@"lastTrip"]];
+    }
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:serializedTrips
                                                        forName:[self storageDomainName]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }

@@ -9,6 +9,9 @@
 #import "TRPTripListViewController.h"
 #import "TRPGenericCollectionViewCell.h"
 #import "TRPTripDetailViewController.h"
+#import "ENAPI+RAC.h"
+
+static int ddLogLevel = LOG_LEVEL_DEBUG;
 
 @interface TripListItem : NSObject
 @property (nonatomic, strong) NSString *tripID;
@@ -60,6 +63,45 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    if (!self.tripStorage) {
+        return;
+    }
+
+    [self reloadDataFromStorage];
+}
+
+- (void)reloadDataFromStorage
+{
+    _trips = [[[[_tripStorage allTrips] rac_sequence] map:^id(TRPTripModel *tripModel) {
+        TripListItem *item = [TripListItem new];
+        item.tripID = tripModel.tripID;
+        item.location = tripModel.location;
+        if ([tripModel.artistIDs count] == 0) {
+            return item;
+        }
+        @weakify(self)
+        [[ENAPI requestInfoForArtists:tripModel.artistIDs]
+         subscribeNext:^(NSArray *responses) {
+             @strongify(self);
+             if (!self) {
+                 return;
+             }
+             NSArray *artistNames = [responses valueForKeyPath:@"response.artist.name"];
+             item.artistNames = [artistNames componentsJoinedByString:@", "];
+         } error:^(NSError *error) {
+             DDLogError(@"Failed to get info for artists: %@. %@", tripModel.artistIDs, error);
+         }];
+
+        return item;
+    }] array];
+
+    [self.collectionView reloadData];
+}
+
 #pragma mark -
 
 - (void)setTripStorage:(id<TripStorage>)tripStorage
@@ -69,16 +111,8 @@
     }
 
     _tripStorage = tripStorage;
-    _trips = [[[[_tripStorage allTrips] rac_sequence] map:^id(TRPTripModel *tripModel) {
-        TripListItem *item = [TripListItem new];
-        item.tripID = tripModel.tripID;
-        item.location = tripModel.location;
-        return item;
-    }] array];
 
-    if ([self isViewLoaded]) {
-        [self.collectionView reloadData];
-    }
+    [self reloadDataFromStorage];
 }
 
 - (void)loadView
@@ -94,6 +128,8 @@
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
 
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.contentInset = UIEdgeInsetsMake(40.f, 20.f, 20.f, 20.f);
@@ -105,9 +141,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.collectionView.delegate = self;
-    self.collectionView.dataSource = self;
-    [self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -134,8 +167,13 @@
     TRPGenericCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TripCell"
                                                                                 forIndexPath:indexPath];
     TripListItem *trip = self.trips[indexPath.row];
-    cell.title = trip.location;
-    cell.subtitle = trip.artistNames;
+    [[cell rac_deallocDisposable] dispose];
+    [RACObserve(trip, location) subscribeNext:^(id x) {
+        cell.title = trip.location;
+    }];
+    [RACObserve(trip, artistNames) subscribeNext:^(id x) {
+        cell.subtitle = trip.artistNames;
+    }];
 
     return cell;
 }
@@ -154,6 +192,7 @@
     TRPTripModel *tripModel = [self.tripStorage tripWithIdentifier:selectedTrip.tripID];
     TRPTripDetailViewController *tripDetailViewController = [[TRPTripDetailViewController alloc] init];
     tripDetailViewController.tripModel = tripModel;
+    tripDetailViewController.storage = self.tripStorage;
     [self.navigationController pushViewController:tripDetailViewController animated:YES];
 }
 

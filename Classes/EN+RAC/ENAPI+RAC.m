@@ -11,8 +11,7 @@
 @implementation ENAPI (RAC)
 
 + (RACSignal*)requestArtistsForLocation:(NSString*)location {
-    return [RACSignal startLazilyWithScheduler:[RACScheduler mainThreadScheduler]
-                                         block: ^(id<RACSubscriber> subscriber)
+    return [RACSignal createSignal:^(id<RACSubscriber> subscriber)
             {
                 ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:@"artist/search"];
                 [request setValue:location forParameter:@"artist_location"];
@@ -27,16 +26,33 @@
                 [request setIntegerValue:50 forParameter:@"results"];
                 [request setValue:@"hotttnesss-desc" forParameter:@"sort"];
 
-                [self dispatchRequest:request forSubscriber:subscriber];
+                return [self dispatchRequest:request forSubscriber:subscriber];
             }];
 }
 
++ (RACSignal*)requestInfoForArtists:(NSSet*)artistIDs {
+    return [[RACSignal merge:[artistIDs.rac_sequence map:^id(NSString *artistID) {
+        return [self requestInfoForArtist:artistID];
+    }]] collect];
+}
+
++ (RACSignal*)requestInfoForArtist:(NSString*)artistID {
+    return [RACSignal createSignal:^(id<RACSubscriber> subscriber)
+            {
+                ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:@"artist/profile"];
+                [request setValue:artistID forParameter:@"id"];
+                [request setValue:@[@"artist_location",
+                                    @"images"] forParameter:@"bucket"];
+                return [self dispatchRequest:request forSubscriber:subscriber];
+            }];
+}
+
+
 + (RACSignal*)requestStaticPlaylistForArtists:(NSSet*)artists {
-    return [RACSignal startLazilyWithScheduler:[RACScheduler mainThreadScheduler]
-                                         block: ^(id<RACSubscriber> subscriber)
+    return [RACSignal createSignal:^(id<RACSubscriber> subscriber)
             {
                 ENAPIRequest *request = [ENAPIRequest requestWithEndpoint:@"playlist/static"];
-                [request setValue:[artists allObjects] forParameter:@"artist"];
+                [request setValue:[artists allObjects] forParameter:@"artist_id"];
                 [request setValue:@[@"id:spotify-US",
                                     @"tracks",
                                     @"artist_location",
@@ -45,11 +61,11 @@
                 [request setIntegerValue:50 forParameter:@"results"];
                 [request setValue:@"song_hotttnesss-desc" forParameter:@"sort"];
 
-                [self dispatchRequest:request forSubscriber:subscriber];
+                return [self dispatchRequest:request forSubscriber:subscriber];
             }];
 }
 
-+ (void)dispatchRequest:(ENAPIRequest*)request forSubscriber:(id<RACSubscriber>)subscriber {
++ (RACDisposable*)dispatchRequest:(ENAPIRequest*)request forSubscriber:(id<RACSubscriber>)subscriber {
     @weakify(subscriber);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [request startSynchronous];
@@ -66,10 +82,14 @@
                                  userInfo:@{NSLocalizedDescriptionKey: request.responseString}]];
             } else {
                 [subscriber sendNext:request.response];
-                [subscriber sendCompleted];
             }
+            [subscriber sendCompleted];
         });
     });
+
+    return [RACDisposable disposableWithBlock:^{
+        [request cancel];
+    }];
 }
 
 @end

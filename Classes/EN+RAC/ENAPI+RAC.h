@@ -14,4 +14,8 @@
 
 + (RACSignal*)requestStaticPlaylistForArtists:(NSSet*)artists;
 
++ (RACSignal*)requestInfoForArtists:(NSSet*)artistIDs;
+
++ (RACSignal*)requestInfoForArtist:(NSString*)artistID;
+
 @end

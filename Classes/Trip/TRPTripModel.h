@@ -27,6 +27,11 @@
 @property (nonatomic, strong, readonly) NSSet *genreIDs;
 @property (nonatomic, strong, readonly) NSURL *spotifyPlaylistURL;
 @property (nonatomic, strong, readonly) NSURL *currentSpotifyTrackID;
+
+- (BOOL)isEqualToTripModel:(TRPTripModel*)model;
+
+- (BOOL)diff:(TRPTripModel*)model;
+
 @end
 
 

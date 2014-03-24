@@ -128,27 +128,43 @@
 
 - (void)didLoginWithUser:(SPUser *)user
 {
-    self.leftDrawerViewController.user = user;
+    @weakify(self);
+    [SPAsyncLoading waitUntilLoaded:user timeout:kSPAsyncLoadingDefaultTimeout then:^
+     (NSArray *loadedItems, NSArray *notLoadedItems) {
+         @strongify(self);
 
-    UINavigationController *rootNavigationController = (UINavigationController*)[self.rootViewController paneViewController];
-    TRPTripListViewController *tripListViewController = (TRPTripListViewController*)
-    [[rootNavigationController viewControllers] firstObject];
+         if (!self) {
+             return;
+         }
+         if (![loadedItems containsObject:user]) {
+             return;
+         }
 
-    SimpleTripStorage *storage = [[SimpleTripStorage alloc] initWithUserID:user.canonicalName];
-    if ([tripListViewController.tripStorage isEqual:storage]) {
-        return;
-    }
+         // do stuff w/ user
+         self.leftDrawerViewController.user = user;
 
-    [rootNavigationController popToRootViewControllerAnimated:NO];
+         UINavigationController *rootNavigationController = (UINavigationController*)[self.rootViewController paneViewController];
+         TRPTripListViewController *tripListViewController = (TRPTripListViewController*)
+         [[rootNavigationController viewControllers] firstObject];
 
-    TRPMutableTripModel *dummyTrip1 = [[TRPMutableTripModel alloc] init];
-    [dummyTrip1 setLocation:@"Miami"];
+         SimpleTripStorage *storage = [[SimpleTripStorage alloc] initWithUserID:user.canonicalName];
+         if ([tripListViewController.tripStorage isEqual:storage]) {
+             return;
+         }
 
-    TRPMutableTripModel *dummyTrip2 = [[TRPMutableTripModel alloc] init];
-    [dummyTrip2 setLocation:@"New York"];
-    [storage saveTrips:@[dummyTrip1, dummyTrip2]];
+         [rootNavigationController popToRootViewControllerAnimated:NO];
 
-    tripListViewController.tripStorage = storage;
+         if ([[storage allTrips] count] == 0) {
+             TRPMutableTripModel *dummyTrip1 = [[TRPMutableTripModel alloc] init];
+             [dummyTrip1 setLocation:@"Miami"];
+
+             TRPMutableTripModel *dummyTrip2 = [[TRPMutableTripModel alloc] init];
+             [dummyTrip2 setLocation:@"New York"];
+             [storage saveTrips:@[dummyTrip1, dummyTrip2]];
+         }
+         
+         tripListViewController.tripStorage = storage;
+     }];
 }
 
 - (void)didLogout

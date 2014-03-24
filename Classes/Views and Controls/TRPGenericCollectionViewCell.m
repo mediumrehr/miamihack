@@ -33,24 +33,20 @@
         _backgroundImageView.backgroundColor = [UIColor blackColor];
         [self.contentView addSubview:_backgroundImageView];
 
-        float padding = [[self class] defaultPadding];
-
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding,
-                                                                   0,
-                                                                   self.contentView.bounds.size.width - 2*padding,
-                                                                   [UIFont labelFontSize])];
+        _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.shadowColor = [UIColor blackColor];
+        _titleLabel.numberOfLines = 1;
+        _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [self.contentView addSubview:_titleLabel];
 
-        _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding,
-                                                                  0,
-                                                                  self.contentView.bounds.size.width - 2*padding,
-                                                                  [UIFont smallSystemFontSize])];
+        _subtitleLabel = [[UILabel alloc] init];
         _subtitleLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
         _subtitleLabel.textColor = [UIColor lightGrayColor];
         _subtitleLabel.shadowColor = [UIColor blackColor];
+        _subtitleLabel.numberOfLines = 1;
+        _subtitleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [self.contentView addSubview:_subtitleLabel];
     }
     return self;
@@ -66,19 +62,27 @@
     [super layoutSubviews];
 
     float padding = [[self class] defaultPadding];
+    float labelWidth = self.contentView.bounds.size.width - 2*padding;
 
     self.backgroundImageView.frame = self.contentView.bounds;
 
+    CGSize subtitleSize = [self.subtitleLabel sizeThatFits:
+                           CGSizeMake(labelWidth,
+                                      self.subtitleLabel.font.ascender - self.subtitleLabel.font.descender)];
     self.subtitleLabel.frame = (CGRect){
         .origin = CGPointMake(padding,
-                              CGRectGetMaxY(self.contentView.frame) - self.subtitleLabel.bounds.size.height - padding),
-        .size = _subtitleLabel.bounds.size
+                              CGRectGetMaxY(self.contentView.frame) - subtitleSize.height - padding),
+        .size = CGSizeMake(MIN(subtitleSize.width, labelWidth), subtitleSize.height)
     };
+
+    CGSize titleSize = [self.titleLabel sizeThatFits:
+                        CGSizeMake(labelWidth,
+                                   self.titleLabel.font.ascender - self.titleLabel.font.descender)];
 
     self.titleLabel.frame = (CGRect) {
         .origin = CGPointMake(padding,
-                              self.subtitleLabel.frame.origin.y - self.titleLabel.bounds.size.height - padding),
-        .size = self.titleLabel.bounds.size
+                              self.subtitleLabel.frame.origin.y - titleSize.height - padding),
+        .size = CGSizeMake(MIN(titleSize.width, labelWidth), titleSize.height)
     };
 }
 

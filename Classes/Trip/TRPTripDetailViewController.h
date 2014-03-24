@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "TRPTripModel.h"
+#import "TRPTripStorage.h"
 
 @interface TRPTripDetailViewController : UIViewController
 @property (nonatomic, strong) TRPTripModel *tripModel;
+@property (nonatomic, strong) id<TripStorage> storage;
 @end

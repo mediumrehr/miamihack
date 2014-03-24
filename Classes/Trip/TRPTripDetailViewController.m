@@ -15,6 +15,8 @@
 #import <CocoaLibSpotify/SPPlaylistContainer.h>
 #import <CocoaLibSpotify/SPTrack.h>
 
+static int ddLogLevel = LOG_LEVEL_DEBUG;
+
 @interface TRPTripDetailViewController ()
 <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -36,6 +38,12 @@
     _selectedAggregateArtists = [NSMutableSet new];
 
     [self setupSelectedAritstsBindings];
+
+    [RACObserve(self, recommendedTrackIDs) subscribeNext:^(NSArray *recommendedIDs) {
+        if ([recommendedIDs count]) {
+            [self createSpotifyPlaylist];
+        }
+    }];
 
     return self;
 }
@@ -77,7 +85,10 @@
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.backgroundColor = [UIColor whiteColor];
-    self.collectionView.contentInset = UIEdgeInsetsMake(0.f, 10.f, 20.f, 10.f);
+    self.collectionView.contentInset = UIEdgeInsetsMake([[UIApplication sharedApplication] statusBarFrame].size.height,
+                                                        10.f,
+                                                        20.f,
+                                                        10.f);
     [self.collectionView registerClass:[TRPGenericCollectionViewCell class] forCellWithReuseIdentifier:@"TripCell"];
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.collectionView.allowsMultipleSelection = YES;
@@ -95,7 +106,6 @@
     @weakify(self);
     [RACObserve(self, aggregateArtists) subscribeNext:^(NSArray *artists) {
         @strongify(self);
-        [self.selectedAggregateArtists removeAllObjects];
         [self.collectionView reloadData];
     }];
 }
@@ -107,6 +117,8 @@
     }
     _tripModel = tripModel;
     self.mutableTrip = [tripModel mutableCopy];
+    [self.selectedAggregateArtists removeAllObjects];
+    [self.selectedAggregateArtists addObjectsFromArray:[_tripModel.artistIDs allObjects]];
 
     if (_tripModel.spotifyPlaylistURL) {
         @weakify(self);
@@ -116,8 +128,6 @@
                                        @strongify(self);
                                        self.playlist = playlist;
                                    }];
-    } else {
-        [self createSpotifyPlaylist];
     }
 
     [self setupTripModelBindings];
@@ -125,6 +135,7 @@
 
 - (void)createSpotifyPlaylist
 {
+    DDLogInfo(@"Creating new spotify playlist");
     @weakify(self);
     [SPAsyncLoading
      waitUntilLoaded:[[SPSession sharedSession] userPlaylists]
@@ -135,12 +146,29 @@
          }
 
          SPPlaylistContainer *userPlaylists = [loadedItems lastObject];
+
+         if (self.playlist) {
+             SPPlaylist *playlist = self.playlist;
+             [userPlaylists removeItem:playlist callback:^(NSError *error) {
+                 if (error) {
+                     DDLogError(@"Failed to remove playilst %@", playlist.spotifyURL);
+                 }
+             }];
+         }
+
+         self.playlist = nil;
+
          [userPlaylists
           createPlaylistWithName:_tripModel.location
           callback:^(SPPlaylist *createdPlaylist) {
               @strongify(self);
-              self.playlist = createdPlaylist;
-              [_mutableTrip setSpotifyPlaylistURL:createdPlaylist.spotifyURL];
+              [SPAsyncLoading waitUntilLoaded:createdPlaylist timeout:10.f then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+                  if ([loadedItems count] < 1) {
+                      return;
+                  }
+
+                  self.playlist = [loadedItems lastObject];
+              }];
           }];
      }];
 }
@@ -152,65 +180,63 @@
     }
 
     _playlist = playlist;
-    [self setupPlaylistBindings];
+
+    [self.mutableTrip setSpotifyPlaylistURL:_playlist.spotifyURL];
+}
+
+#pragma mark - Artist Recommendations
+
+- (void)fetchTracksForSelectedArtistIDs
+{
+    if ([self.selectedAggregateArtists count]) {
+        @weakify(self)
+        [[ENAPI requestStaticPlaylistForArtists:self.mutableTrip.artistIDs]
+         subscribeNext:^(NSDictionary *response) {
+             NSArray *songs = response[@"response"][@"songs"];
+             [[[RACSignal combineLatest:[songs.rac_sequence map:^id(NSDictionary *song) {
+                 return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+                     NSString *foreignID = [song[@"tracks"] lastObject][@"foreign_id"];
+                     NSString *trackID = [[foreignID componentsSeparatedByString:@":"] lastObject];
+                     NSURL *trackURL = [NSURL URLWithString:[NSString stringWithFormat:@"spotify:track:%@", trackID]];
+                     [SPTrack trackForTrackURL:trackURL
+                                     inSession:[SPSession sharedSession]
+                                      callback:^(SPTrack *track) {
+                                          if (track) {
+                                              [subscriber sendNext:track];
+                                              [subscriber sendCompleted];
+                                          } else {
+                                              [subscriber sendNext:[NSNull null]];
+                                          }
+                                      }];
+                     return [RACDisposable disposableWithBlock:^{}];
+                 }];
+             }]] filter:^BOOL(id value) {
+                 return [NSNull null] != value;
+             }] subscribeNext:^(NSArray *tracks) {
+                 @strongify(self);
+                 self.recommendedTrackIDs = tracks;
+             }];
+         }
+         error:^(NSError *error) {
+             [[[UIAlertView alloc] initWithTitle:@"Failed to Create Playlist"
+                                         message:[error description]
+                                        delegate:nil
+                               cancelButtonTitle:@"OK"
+                               otherButtonTitles:nil] show];
+         }];
+    }
 }
 
 #pragma mark - Bindings
-
-- (void)setupPlaylistBindings
-{
-    SPPlaylist *playlist = self.playlist;
-    [RACObserve(self, recommendedTrackIDs) subscribeNext:^(NSArray *recommendedIDs) {
-
-    }];
-}
 
 - (void)setupSelectedAritstsBindings
 {
     @weakify(self);
     void(^updateTripModelWithSelectedArtists)(id) = ^(ENSPAggregateArtist *addedArtist) {
         @strongify(self);
-        [self.mutableTrip setArtistIDs:[NSSet setWithArray:[[self.selectedAggregateArtists.rac_sequence
-                                                             map:^(ENSPAggregateArtist *artist) {
-                                                                 return artist.enArtistID;
-                                                             }] array]]];
-
-        if ([self.selectedAggregateArtists count]) {
-            @weakify(self)
-            [[ENAPI requestStaticPlaylistForArtists:self.mutableTrip.artistIDs]
-             subscribeNext:^(NSDictionary *response) {
-                 NSArray *songs = response[@"response"][@"songs"];
-                 [[[RACSignal combineLatest:[songs.rac_sequence map:^id(NSDictionary *song) {
-                     return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-                         NSString *foreignID = [song[@"tracks"] lastObject][@"foreign_id"];
-                         NSString *trackID = [[foreignID componentsSeparatedByString:@":"] lastObject];
-                         NSURL *trackURL = [NSURL URLWithString:[NSString stringWithFormat:@"spotify:track:%@", trackID]];
-                         [SPTrack trackForTrackURL:trackURL
-                                         inSession:[SPSession sharedSession]
-                                          callback:^(SPTrack *track) {
-                                              if (track) {
-                                                  [subscriber sendNext:track];
-                                                  [subscriber sendCompleted];
-                                              } else {
-                                                  [subscriber sendNext:[NSNull null]];
-                                              }
-                                          }];
-                         return [RACDisposable disposableWithBlock:^{}];
-                     }];
-                 }]] filter:^BOOL(id value) {
-                     return [NSNull null] != value;
-                 }] subscribeNext:^(NSArray *tracks) {
-                     @strongify(self);
-                     self.recommendedTrackIDs = tracks;
-                 }];
-             }
-             error:^(NSError *error) {
-                 [[[UIAlertView alloc] initWithTitle:@"Failed to Create Playlist"
-                                             message:[error description]
-                                            delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil] show];
-             }];
+        [self.mutableTrip setArtistIDs:self.selectedAggregateArtists];
+        if ([self.mutableTrip diff:self.tripModel]) {
+            [self fetchTracksForSelectedArtistIDs];
         }
     };
 
@@ -232,6 +258,15 @@
         @strongify(self)
         self.navigationItem.title = location;
         [self setupLocationSignal:location];
+    }];
+
+    [[RACSignal merge:@[RACObserve(mutableTrip, artistIDs),
+                        RACObserve(mutableTrip, spotifyPlaylistURL)]]
+     subscribeNext:^(id x) {
+         @strongify(self);
+         if ([self.tripModel diff:mutableTrip]) {
+             [self.storage saveTrip:[mutableTrip copy]];
+         }
     }];
 }
 
@@ -312,7 +347,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.selectedAggregateArtists count] < 5) {
-        [self.selectedAggregateArtists addObject:self.aggregateArtists[indexPath.row]];
+        [self.selectedAggregateArtists addObject:[self.aggregateArtists[indexPath.row] enArtistID]];
         return;
     }
 
@@ -321,7 +356,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.selectedAggregateArtists removeObject:self.aggregateArtists[indexPath.row]];
+    [self.selectedAggregateArtists removeObject:[self.aggregateArtists[indexPath.row] enArtistID]];
 }
 
 @end

@@ -21,6 +21,9 @@
 
     _tripID = [[NSUUID UUID] UUIDString];
     _dateCreated = [NSDate date];
+    _artistIDs = [NSSet new];
+    _genreIDs = [NSSet new];
+
 
     return self;
 }
@@ -105,6 +108,16 @@
     return [model.tripID isEqualToString:self.tripID];
 }
 
+- (BOOL)diff:(TRPTripModel*)model
+{
+    return !((model.tripID == _tripID || [model.tripID isEqual:_tripID])
+             && (model.location == _location || [model.location isEqual:_location])
+             && (model.artistIDs == _artistIDs || [model.artistIDs isEqual:_artistIDs])
+             && (model.genreIDs == _genreIDs || [model.genreIDs isEqual:_genreIDs])
+             && (model.spotifyPlaylistURL == _spotifyPlaylistURL || [model.spotifyPlaylistURL isEqual:_spotifyPlaylistURL])
+             && (model.currentSpotifyTrackID == _currentSpotifyTrackID || [model.currentSpotifyTrackID isEqual:_currentSpotifyTrackID]));
+}
+
 @end
 
 @interface TRPMutableTripModel ()
@@ -114,37 +127,51 @@
 
 - (void)setDateCreated:(NSDate *)dateCreated
 {
+    [self willChangeValueForKey:@"dateCreated"];
     _dateCreated = dateCreated;
+    [self didChangeValueForKey:@"dateCreated"];
 }
 
 - (void)setTripID:(NSString *)tripID
 {
+    [self willChangeValueForKey:@"tripID"];
     _tripID = tripID;
+    [self didChangeValueForKey:@"tripID"];
 }
 
 - (void)setLocation:(NSString*)location
 {
+    [self willChangeValueForKey:@"location"];
     _location = location;
+    [self didChangeValueForKey:@"location"];
 }
 
 - (void)setArtistIDs:(NSSet*)artistIDs
 {
+    [self willChangeValueForKey:@"artistIDs"];
     _artistIDs = artistIDs;
+    [self didChangeValueForKey:@"artistIDs"];
 }
 
 - (void)setGenreIDs:(NSSet *)genreIDs
 {
+    [self willChangeValueForKey:@"genreIDs"];
     _genreIDs = genreIDs;
+    [self didChangeValueForKey:@"genreIDs"];
 }
 
 - (void)setSpotifyPlaylistURL:(NSURL*)spotifyPlaylistURL
 {
+    [self willChangeValueForKey:@"spotifyPlaylistURL"];
     _spotifyPlaylistURL = spotifyPlaylistURL;
+    [self didChangeValueForKey:@"spotifyPlaylistURL"];
 }
 
 - (void)setCurrentSpotifyTrackID:(NSURL*)currentSpotifyTrackID
 {
+    [self willChangeValueForKey:@"currentSpotifyTrackID"];
     _currentSpotifyTrackID = currentSpotifyTrackID;
+    [self didChangeValueForKey:@"currentSpotifyTrackID"];
 }
 
 @end

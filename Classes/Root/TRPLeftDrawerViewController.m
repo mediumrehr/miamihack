@@ -45,27 +45,7 @@ typedef NS_ENUM(NSInteger, TRPLeftDrawerCell) {
         return;
     }
     _user = user;
-    [self loadCurrentUser];
-}
-
-- (void)loadCurrentUser
-{
-    SPUser *currentUser = _user;
-    @weakify(self);
-    [SPAsyncLoading waitUntilLoaded:_user timeout:kSPAsyncLoadingDefaultTimeout then:^
-     (NSArray *loadedItems, NSArray *notLoadedItems) {
-         @strongify(self);
-
-         if (!self) {
-             return;
-         }
-         if (![loadedItems containsObject:currentUser]) {
-             return;
-         }
-
-         // do stuff w/ user
-         [self.tableView reloadData];
-     }];
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDataSource
