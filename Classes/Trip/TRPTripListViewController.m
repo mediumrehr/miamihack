@@ -8,12 +8,20 @@
 
 #import "TRPTripListViewController.h"
 #import "TRPTripCollectionViewCell.h"
+#import "TRPTripDetailViewController.h"
+
+@interface TripListItem : NSObject
+@property (nonatomic, strong) NSString *tripID;
+@property (nonatomic, strong) NSString *location;
+@property (nonatomic, strong) NSString *artistNames;
+@end
 
 @implementation TripListItem
 @end
 
 @interface TRPTripListViewController ()
-<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
+@property (nonatomic, strong) NSArray /*<TripListItem>*/ *trips;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @end
 
@@ -28,13 +36,45 @@
     return self;
 }
 
-- (void)setTrips:(NSArray *)trips
+#pragma mark - Navigation
+
+- (void)didMoveToParentViewController:(UIViewController *)parent
 {
-    if ([self.trips isEqual:trips]) {
+    [super didMoveToParentViewController:parent];
+    if ([parent isKindOfClass:[UINavigationController class]]) {
+        [self didMoveToNavigationController:(UINavigationController*)parent];
+    }
+}
+
+- (void)didMoveToNavigationController:(UINavigationController*)parentNavigationController
+{
+    parentNavigationController.delegate = self;
+}
+
+- (void)navigationController:(UINavigationController *)navigationController
+       didShowViewController:(UIViewController *)viewController
+                    animated:(BOOL)animated
+{
+    if (viewController == self) {
+//        [navigationController setNavigationBarHidden:YES animated:YES];
+    }
+}
+
+#pragma mark -
+
+- (void)setTripStorage:(id<TripStorage>)tripStorage
+{
+    if ([self.tripStorage isEqual:tripStorage]) {
         return;
     }
 
-    _trips = trips;
+    _tripStorage = tripStorage;
+    _trips = [[[[_tripStorage allTrips] rac_sequence] map:^id(TRPTripModel *tripModel) {
+        TripListItem *item = [TripListItem new];
+        item.tripID = tripModel.tripID;
+        item.location = tripModel.location;
+        return item;
+    }] array];
 
     if ([self isViewLoaded]) {
         [self.collectionView reloadData];
@@ -111,7 +151,10 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     TripListItem *selectedTrip = self.trips[indexPath.row];
-    NSLog(@"Let's go on trip %@", selectedTrip.tripID);
+    TRPTripModel *tripModel = [self.tripStorage tripWithIdentifier:selectedTrip.tripID];
+    TRPTripDetailViewController *tripDetailViewController = [[TRPTripDetailViewController alloc] init];
+    tripDetailViewController.tripModel = tripModel;
+    [self.navigationController pushViewController:tripDetailViewController animated:YES];
 }
 
 @end

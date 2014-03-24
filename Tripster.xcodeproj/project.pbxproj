@@ -31,6 +31,7 @@
 		BCD214F218DFC7180015E172 /* TRPTripListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214F118DFC7180015E172 /* TRPTripListViewController.m */; };
 		BCD214F518DFC8290015E172 /* TRPTripStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD214F418DFC8290015E172 /* TRPTripStorage.m */; };
 		BCE8763E18DFDD8000F77658 /* TRPTripCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8763D18DFDD8000F77658 /* TRPTripCollectionViewCell.m */; };
+		BCE8764118DFF4AD00F77658 /* TRPTripDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764018DFF4AD00F77658 /* TRPTripDetailViewController.m */; };
 		E530220118DEB37900A24706 /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
 		E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */; };
 /* End PBXBuildFile section */
@@ -85,6 +86,8 @@
 		BCD214F418DFC8290015E172 /* TRPTripStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPTripStorage.m; path = Trip/TRPTripStorage.m; sourceTree = "<group>"; };
 		BCE8763C18DFDD8000F77658 /* TRPTripCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPTripCollectionViewCell.h; path = Trip/TRPTripCollectionViewCell.h; sourceTree = "<group>"; };
 		BCE8763D18DFDD8000F77658 /* TRPTripCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPTripCollectionViewCell.m; path = Trip/TRPTripCollectionViewCell.m; sourceTree = "<group>"; };
+		BCE8763F18DFF4AD00F77658 /* TRPTripDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRPTripDetailViewController.h; path = Trip/TRPTripDetailViewController.h; sourceTree = "<group>"; };
+		BCE8764018DFF4AD00F77658 /* TRPTripDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRPTripDetailViewController.m; path = Trip/TRPTripDetailViewController.m; sourceTree = "<group>"; };
 		DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenreSearchTests.m; sourceTree = "<group>"; };
 		E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
 		E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 				BCE8763D18DFDD8000F77658 /* TRPTripCollectionViewCell.m */,
 				BCD214F018DFC7180015E172 /* TRPTripListViewController.h */,
 				BCD214F118DFC7180015E172 /* TRPTripListViewController.m */,
+				BCE8763F18DFF4AD00F77658 /* TRPTripDetailViewController.h */,
+				BCE8764018DFF4AD00F77658 /* TRPTripDetailViewController.m */,
 				BCD214E018DF22710015E172 /* Creation */,
 				6B66BA5F18DE722C003CD16F /* TRPTripViewController.h */,
 				6B66BA6018DE722C003CD16F /* TRPTripViewController.m */,
@@ -435,6 +440,7 @@
 			files = (
 				BCD214F518DFC8290015E172 /* TRPTripStorage.m in Sources */,
 				6BDFE77518DE49310017A4A6 /* ArtistModel.m in Sources */,
+				BCE8764118DFF4AD00F77658 /* TRPTripDetailViewController.m in Sources */,
 				E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */,
 				BC1F68BB18DDCEEB00280899 /* main.m in Sources */,
 				BC04236B18DE2C0E00B7BFD5 /* TRPTripModel.m in Sources */,

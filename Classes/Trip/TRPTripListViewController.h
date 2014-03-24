@@ -7,13 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface TripListItem : NSObject
-@property (nonatomic, strong) NSString *tripID;
-@property (nonatomic, strong) NSString *location;
-@property (nonatomic, strong) NSString *artistNames;
-@end
+#import "TRPTripStorage.h"
 
 @interface TRPTripListViewController : UIViewController
-@property (nonatomic, strong) NSArray /*<TripListItem>*/ *trips;
+@property (nonatomic, strong) id<TripStorage> tripStorage;
 @end

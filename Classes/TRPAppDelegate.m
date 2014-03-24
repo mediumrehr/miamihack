@@ -73,6 +73,12 @@
     _rootViewController = [[MSDynamicsDrawerViewController alloc] init];
     [_rootViewController setDrawerViewController:self.leftDrawerViewController
                                     forDirection:MSDynamicsDrawerDirectionLeft];
+    [self.rootViewController setScreenEdgePanCancelsConflictingGestures:NO];
+    UINavigationController *navController = [[UINavigationController alloc]
+                                             initWithRootViewController:[[TRPTripListViewController alloc] init]];
+    navController.navigationBar.translucent = YES;
+    navController.navigationBarHidden = YES;
+    _rootViewController.paneViewController = navController;
     return _rootViewController;
 }
 
@@ -84,6 +90,7 @@
 
     _leftDrawerViewController = [[TRPLeftDrawerViewController alloc] initWithStyle:UITableViewStyleGrouped];
     _leftDrawerViewController.delegate = self;
+
     return _leftDrawerViewController;
 }
 
@@ -102,7 +109,11 @@
 
 - (void)logout:(dispatch_block_t)completion
 {
-    [_authController logout:completion];
+    [self.authController logout:completion];
+    [self.rootViewController setPaneState:MSDynamicsDrawerPaneStateClosed
+                                 animated:YES
+                    allowUserInterruption:NO
+                               completion:nil];
 }
 
 #pragma mark - TRPRootViewControllerAuthDelegate
@@ -110,27 +121,30 @@
 - (void)didLoginWithUser:(SPUser *)user
 {
     self.leftDrawerViewController.user = user;
-    TRPTripListViewController *tripListViewController = (TRPTripListViewController*)self.rootViewController.paneViewController;
-    if (!tripListViewController) {
-        tripListViewController = [[TRPTripListViewController alloc] init];
-        self.rootViewController.paneViewController = tripListViewController;
+
+    UINavigationController *rootNavigationController = (UINavigationController*)[self.rootViewController paneViewController];
+    TRPTripListViewController *tripListViewController = (TRPTripListViewController*)
+    [[rootNavigationController viewControllers] firstObject];
+
+    SimpleTripStorage *storage = [[SimpleTripStorage alloc] initWithUserID:user.canonicalName];
+    if ([tripListViewController.tripStorage isEqual:storage]) {
+        return;
     }
-    TripListItem *dummyTrip1 = [[TripListItem alloc] init];
+
+    [rootNavigationController popToRootViewControllerAnimated:NO];
+
+    TRPMutableTripModel *dummyTrip1 = [[TRPMutableTripModel alloc] init];
     [dummyTrip1 setLocation:@"Miami"];
-    [dummyTrip1 setArtistNames:@"Flo Rida, Pitbull, and LMFAO"];
 
-    TripListItem *dummyTrip2 = [[TripListItem alloc] init];
+    TRPMutableTripModel *dummyTrip2 = [[TRPMutableTripModel alloc] init];
     [dummyTrip2 setLocation:@"New York"];
-    [dummyTrip2 setArtistNames:@"The Arcade Fire, Vampire Weekend, and The National"];
+    [storage saveTrips:@[dummyTrip1, dummyTrip2]];
 
-    tripListViewController.trips = @[dummyTrip1, dummyTrip2];
-
-    self.rootViewController.paneViewController = tripListViewController;
+    tripListViewController.tripStorage = storage;
 }
 
 - (void)didLogout
 {
-    self.rootViewController.paneViewController = nil;
     [self showLoginViewController];
 }
 
