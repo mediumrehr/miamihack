@@ -8,6 +8,8 @@
 
 #import "TRPTripStorage.h"
 
+static const int ddLogLevel = LOG_LEVEL_DEBUG;
+
 /// NSUserDefaults Storage Keys
 
 #define kSimpleTripStorageDomainName @"com.tripster.tripstorage.simple"
@@ -149,6 +151,7 @@
 
 - (void)synchronize
 {
+    DDLogInfo(@"Synchronizing trip storage");
     NSMutableDictionary *serializedTrips = [NSMutableDictionary new];
     serializedTrips[@"trips"] = [[self.storage[@"trips"] rac_sequence]
                                  foldLeftWithStart:[[NSMutableDictionary alloc] initWithCapacity:[_storage[@"trips"] count]]

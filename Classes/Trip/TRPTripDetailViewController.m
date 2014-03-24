@@ -14,6 +14,7 @@
 #import <CocoaLibSpotify/SPPlaylist.h>
 #import <CocoaLibSpotify/SPPlaylistContainer.h>
 #import <CocoaLibSpotify/SPTrack.h>
+#import "SPPlaylistPlaybackDelegate.h"
 
 static int ddLogLevel = LOG_LEVEL_DEBUG;
 
@@ -23,7 +24,6 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 @property (nonatomic, strong) TRPMutableTripModel *mutableTrip;
 @property (nonatomic, strong) NSArray *aggregateArtists;
 @property (nonatomic, strong) NSMutableSet *selectedAggregateArtists;
-@property (nonatomic, strong) NSArray *recommendedTrackIDs;
 @property (nonatomic, strong) SPPlaylist *playlist;
 @end
 
@@ -34,12 +34,6 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     if (!(self = [super init])) {
         return nil;
     }
-
-    [RACObserve(self, recommendedTrackIDs) subscribeNext:^(NSArray *recommendedIDs) {
-        if ([recommendedIDs count]) {
-            [self createSpotifyPlaylist];
-        }
-    }];
 
     return self;
 }
@@ -63,6 +57,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 - (void)didMoveToNavigationController:(UINavigationController*)parentNavigationController
 {
     [parentNavigationController setNavigationBarHidden:NO animated:YES];
+    
 }
 
 #pragma mark - View
@@ -153,13 +148,15 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     _playlist = playlist;
 
     [self.mutableTrip setSpotifyPlaylistURL:_playlist.spotifyURL];
+
+    self.playbackManager.playlistPlaybackDelegate.playlist = self.playlist;
 }
 
 #pragma mark - Playlist
 
-- (void)createSpotifyPlaylist
+- (void)createSpotifyPlaylist:(NSArray*)recommendedTracks
 {
-    DDLogInfo(@"Creating new spotify playlist");
+    DDLogInfo(@"Creating new spotify playlist: %@", recommendedTracks);
     @weakify(self);
     [SPAsyncLoading
      waitUntilLoaded:[[SPSession sharedSession] userPlaylists]
@@ -185,13 +182,31 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
          [userPlaylists
           createPlaylistWithName:_tripModel.location
           callback:^(SPPlaylist *createdPlaylist) {
-              @strongify(self);
               [SPAsyncLoading waitUntilLoaded:createdPlaylist timeout:10.f then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+                  @strongify(self);
+                  if (!self) {
+                      return;
+                  }
                   if ([loadedItems count] < 1) {
                       return;
                   }
 
-                  self.playlist = [loadedItems lastObject];
+                  SPPlaylist *loadedPlaylist = [loadedItems lastObject];
+
+                  NSArray *nonNullTracks = [[recommendedTracks.rac_sequence filter:^BOOL(id value) {
+                      return ![[NSNull null] isEqual:value];
+                  }] array];
+
+                  @weakify(loadedPlaylist);
+                  [loadedPlaylist addItems:nonNullTracks atIndex:0 callback:^(NSError *error) {
+                      @strongify(loadedPlaylist);
+                      if (error) {
+                          DDLogError(@"Failed to add tracks to playlist %@. %@", loadedPlaylist, error);
+                      } else {
+                          DDLogInfo(@"Added new tracks to playlist %@. %@", loadedPlaylist, nonNullTracks);
+                          self.playlist = loadedPlaylist;
+                      }
+                  }];
               }];
           }];
      }];
@@ -206,7 +221,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
         [[ENAPI requestStaticPlaylistForArtists:self.mutableTrip.artistIDs]
          subscribeNext:^(NSDictionary *response) {
              NSArray *songs = response[@"response"][@"songs"];
-             [[[RACSignal combineLatest:[songs.rac_sequence map:^id(NSDictionary *song) {
+             [[[RACSignal merge:[songs.rac_sequence map:^id(NSDictionary *song) {
                  return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
                      NSString *foreignID = [song[@"tracks"] lastObject][@"foreign_id"];
                      NSString *trackID = [[foreignID componentsSeparatedByString:@":"] lastObject];
@@ -215,19 +230,25 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
                                      inSession:[SPSession sharedSession]
                                       callback:^(SPTrack *track) {
                                           if (track) {
-                                              [subscriber sendNext:track];
-                                              [subscriber sendCompleted];
+                                              [SPAsyncLoading
+                                               waitUntilLoaded:track
+                                               timeout:2.f
+                                               then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+                                                   [subscriber sendNext:track];
+                                                   [subscriber sendCompleted];
+                                               }];
                                           } else {
                                               [subscriber sendNext:[NSNull null]];
+                                              [subscriber sendCompleted];
                                           }
                                       }];
                      return [RACDisposable disposableWithBlock:^{}];
                  }];
-             }]] filter:^BOOL(id value) {
-                 return [NSNull null] != value;
-             }] subscribeNext:^(NSArray *tracks) {
+             }]] collect] subscribeNext:^(NSArray *tracks) {
                  @strongify(self);
-                 self.recommendedTrackIDs = tracks;
+                 [self createSpotifyPlaylist:tracks];
+             } error:^(NSError *error) {
+                 DDLogVerbose(@"Failed to accumulate all tracks: %@", error);
              }];
          }
          error:^(NSError *error) {
@@ -345,7 +366,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
         }
         [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]
                                           animated:NO
-                                    scrollPosition:UICollectionViewScrollPositionNone];
+                                    scrollPosition:UICollectionViewScrollPositionCenteredVertically];
     }
 }
 

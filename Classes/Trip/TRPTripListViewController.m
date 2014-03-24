@@ -60,6 +60,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 {
     if (viewController == self) {
         [navigationController setNavigationBarHidden:YES animated:YES];
+        self.playbackManager.isPlaying = NO;
     }
 }
 
@@ -93,7 +94,9 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
              NSArray *artistNames = [responses valueForKeyPath:@"response.artist.name"];
              item.artistNames = [artistNames componentsJoinedByString:@", "];
          } error:^(NSError *error) {
-             DDLogError(@"Failed to get info for artists: %@. %@", tripModel.artistIDs, error);
+             if (error) {
+                 DDLogError(@"Failed to get info for artists: %@. %@", tripModel.artistIDs, error);
+             }
          }];
 
         return item;
@@ -193,6 +196,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     TRPTripDetailViewController *tripDetailViewController = [[TRPTripDetailViewController alloc] init];
     tripDetailViewController.tripModel = tripModel;
     tripDetailViewController.storage = self.tripStorage;
+    tripDetailViewController.playbackManager = self.playbackManager;
     [self.navigationController pushViewController:tripDetailViewController animated:YES];
 }
 

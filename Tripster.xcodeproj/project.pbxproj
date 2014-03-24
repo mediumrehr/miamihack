@@ -34,6 +34,7 @@
 		BCE8764418E0048800F77658 /* ENSPAggregateArtist.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764318E0048800F77658 /* ENSPAggregateArtist.m */; };
 		BCE8764918E0058000F77658 /* TRPGenericCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */; };
 		BCE8764C18E0414100F77658 /* DDLog+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764B18E0414100F77658 /* DDLog+Utils.m */; };
+		BCE8765018E04F0800F77658 /* SPPlaylistPlaybackDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE8764F18E04F0800F77658 /* SPPlaylistPlaybackDelegate.m */; };
 		E530220118DEB37900A24706 /* TRPGenreSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */; };
 		E5B17DB718DEA46800FFBFE6 /* AudioControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B17DB618DEA46800FFBFE6 /* AudioControlsView.m */; };
 /* End PBXBuildFile section */
@@ -94,6 +95,8 @@
 		BCE8764818E0058000F77658 /* TRPGenericCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenericCollectionViewCell.m; sourceTree = "<group>"; };
 		BCE8764A18E0414100F77658 /* DDLog+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DDLog+Utils.h"; path = "Utils/DDLog+Utils.h"; sourceTree = "<group>"; };
 		BCE8764B18E0414100F77658 /* DDLog+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "DDLog+Utils.m"; path = "Utils/DDLog+Utils.m"; sourceTree = "<group>"; };
+		BCE8764E18E04F0800F77658 /* SPPlaylistPlaybackDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPPlaylistPlaybackDelegate.h; path = SPUtils/SPPlaylistPlaybackDelegate.h; sourceTree = "<group>"; };
+		BCE8764F18E04F0800F77658 /* SPPlaylistPlaybackDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPPlaylistPlaybackDelegate.m; path = SPUtils/SPPlaylistPlaybackDelegate.m; sourceTree = "<group>"; };
 		DE238D6218DE1399008E33CA /* TRPGenreSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPGenreSearchTests.m; sourceTree = "<group>"; };
 		E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRPTripPlaybackView.h; sourceTree = "<group>"; };
 		E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRPTripPlaybackView.m; sourceTree = "<group>"; };
@@ -202,6 +205,7 @@
 		BC1F68AB18DDCEEB00280899 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BCE8765118E04F0F00F77658 /* SPUtils */,
 				BCE8764618E0058000F77658 /* Views and Controls */,
 				E530220218DF14CF00A24706 /* TRPTripPlaybackView.h */,
 				E530220318DF14CF00A24706 /* TRPTripPlaybackView.m */,
@@ -312,6 +316,15 @@
 				BCE8764B18E0414100F77658 /* DDLog+Utils.m */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		BCE8765118E04F0F00F77658 /* SPUtils */ = {
+			isa = PBXGroup;
+			children = (
+				BCE8764E18E04F0800F77658 /* SPPlaylistPlaybackDelegate.h */,
+				BCE8764F18E04F0800F77658 /* SPPlaylistPlaybackDelegate.m */,
+			);
+			name = SPUtils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -486,6 +499,7 @@
 				BC1F68C618DDDBD700280899 /* TRPConstants.m in Sources */,
 				BCE8764C18E0414100F77658 /* DDLog+Utils.m in Sources */,
 				BCD214EB18DFB1B30015E172 /* TRPLeftDrawerViewController.m in Sources */,
+				BCE8765018E04F0800F77658 /* SPPlaylistPlaybackDelegate.m in Sources */,
 				BCD214E818DF360B0015E172 /* ENAPI+RAC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -536,7 +550,6 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -579,7 +592,6 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -606,6 +618,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Support/Tripster-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Support/Tripster-Info.plist";
@@ -620,6 +633,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Support/Tripster-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Support/Tripster-Info.plist";
