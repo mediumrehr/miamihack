@@ -171,6 +171,15 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
                                                                                 forIndexPath:indexPath];
     TripListItem *trip = self.trips[indexPath.row];
     [[cell rac_deallocDisposable] dispose];
+    if ([trip.location isEqualToString:@"New York"])
+        [cell setBackgroundImageURL:[NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg"]];
+    else if ([trip.location isEqualToString:@"Miami"])
+        [cell setBackgroundImageURL:[NSURL URLWithString:@"http://reachfinancialindependence.com/wp-content/uploads/2014/01/Going-to-Miami.jpg"]];
+    else if ([trip.location isEqualToString:@"Boston"])
+        [cell setBackgroundImageURL:[NSURL URLWithString:@"http://media-cdn.tripadvisor.com/media/photo-s/03/9b/2f/47/boston.jpg"]];
+    else if ([trip.location isEqualToString:@"Chicago"])
+        [cell setBackgroundImageURL:[NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/commons/e/e8/20090524_Buildings_along_Chicago_River_line_the_south_border_of_the_Near_North_Side_and_Streeterville_and_the_north_border_of_Chicago_Loop,_Lakeshore_East_and_Illinois_Center.jpg"]];
+    // add bg image here
     [RACObserve(trip, location) subscribeNext:^(id x) {
         cell.title = trip.location;
     }];

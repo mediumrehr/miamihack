@@ -30,7 +30,7 @@
         _backgroundImageView = [[UIImageView alloc] init];
         _backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
         _backgroundImageView.clipsToBounds = YES;
-        _backgroundImageView.backgroundColor = [UIColor blackColor];
+        _backgroundImageView.backgroundColor = [UIColor blackColor]; // needs to be replaced by image
         [self.contentView addSubview:_backgroundImageView];
 
         _titleLabel = [[UILabel alloc] init];
