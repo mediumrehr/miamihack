@@ -8,7 +8,6 @@
 
 #import "TRPTripListViewController.h"
 #import "TRPGenericCollectionViewCell.h"
-#import "TRPMutableCollectionViewCell.h"
 #import "TRPTripDetailViewController.h"
 #import "ENAPI+RAC.h"
 
@@ -191,6 +190,9 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     TRPMutableCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TripCell"
                                                                                 forIndexPath:indexPath];
     
+    [cell setDelegate:self];
+    [cell setIndex:indexPath.row];
+
     TripListItem *trip = self.trips[indexPath.row];
     [[cell rac_deallocDisposable] dispose];
     [RACObserve(trip, location) subscribeNext:^(id x) {
@@ -199,7 +201,11 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     [RACObserve(trip, artistNames) subscribeNext:^(id x) {
         cell.subtitle = trip.artistNames;
     }];
-
+    if (![cell.titleLabel.text isEqualToString:@""] && (cell.titleLabel.text != nil)) {
+        [cell showLocationButton:FALSE];
+    }else
+        [cell showLocationButton:TRUE];
+    
     return cell;
 }
 
@@ -213,21 +219,13 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    TRPMutableCollectionViewCell *cell = (TRPMutableCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     TripListItem *selectedTrip = self.trips[indexPath.row];
     TRPTripModel *tripModel = [self.tripStorage tripWithIdentifier:selectedTrip.tripID];
     if ([selectedTrip.location isEqualToString:@""]) {
         //At this point, we need to present the keyboard to enter the cell's location
     }
     
-    if (![cell.titleLabel.text isEqualToString:@""] && ([self.tripStorage tripWithIdentifier:selectedTrip.tripID]==nil)){
-        selectedTrip.location = cell.titleLabel.text;
-        TRPMutableTripModel *newModel = [[TRPMutableTripModel alloc] init];
-        [newModel setLocation:cell.titleLabel.text];
-        selectedTrip.tripID = newModel.tripID;
-        [_tripStorage saveTrip:newModel];
-        [self reloadDataFromStorage];
-    }
+
     
     if (![selectedTrip.location isEqualToString:@""] && !([self.tripStorage tripWithIdentifier:selectedTrip.tripID]==nil)) {
     tripModel = [self.tripStorage tripWithIdentifier:selectedTrip.tripID];
@@ -236,6 +234,30 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     tripDetailViewController.storage = self.tripStorage;
     tripDetailViewController.playbackManager = self.playbackManager;
     [self.navigationController pushViewController:tripDetailViewController animated:YES];
+    }
+}
+
+-(void)textFieldDidFinishEditingForCell:(id)cel{
+    TRPMutableCollectionViewCell * cell = cel;
+    if (![cell.titleLabel.text isEqualToString:@""]){
+        TripListItem *selectedTrip = self.trips[cell.index];
+        [cell showLocationButton:FALSE];
+        if (![self.tripStorage tripWithIdentifier:selectedTrip.tripID]) {
+            TRPMutableTripModel *newModel = [[TRPMutableTripModel alloc] init];
+            [newModel setLocation:cell.titleLabel.text];
+            selectedTrip.tripID = newModel.tripID;
+            selectedTrip.location = newModel.location;
+            [_tripStorage saveTrip:newModel];
+            [self reloadDataFromStorage];
+        }else{
+            TRPMutableTripModel *tripModel = [self.tripStorage tripWithIdentifier:selectedTrip.tripID];
+            [tripModel setLocation:cell.titleLabel.text];
+            selectedTrip.tripID = tripModel.tripID;
+            selectedTrip.location = tripModel.location;
+            [_tripStorage saveTrip:tripModel];
+            [self reloadDataFromStorage];
+        }
+
     }
 }
 

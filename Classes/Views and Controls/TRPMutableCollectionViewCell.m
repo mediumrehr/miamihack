@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UIButton *locButton;
 @end
 @implementation TRPMutableCollectionViewCell
-@synthesize titleLabel;
+@synthesize titleLabel,delegate, index;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -51,6 +51,7 @@
         
         _locButton = [[UIButton alloc] init];
         [_locButton setTitle:@"Get Location" forState:UIControlStateNormal];
+        [_locButton addTarget:self action:@selector(getLocation) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_locButton];
         
     }
@@ -90,6 +91,43 @@
     };
     
     self.locButton.center = self.contentView.center;
+    self.locButton.frame = CGRectMake(self.contentView.center.x-60, self.contentView.center.y-20, 120, 40);
+    
+}
+-(void)getLocation{
+    NSLog(@"Location!");
+    //Create location manager object
+    locManager = [[CLLocationManager alloc] init];
+    
+    //There will be a warning from this line of code, ignore it
+    [locManager setDelegate:self];
+    
+    //And we want it to be as accurate as possible
+    //regardless of how much time it takes
+    [locManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    
+    //Tell our manager to start looking for its location immediately
+    [locManager startUpdatingLocation];
+    placemark = [[CLPlacemark alloc] init];
+    geocoder = [[CLGeocoder alloc] init];
+
+}
+
+- (void) locationManager:(CLLocationManager*)manager didUpdateToLocation:(CLLocation*)newLocation fromLocation:(CLLocation*) oldLocation
+{
+    // This will be called every time the device has any new location information.
+    CLLocation *loc = newLocation;
+    if (loc) {
+        [geocoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemark, NSError *error) {
+            CLPlacemark *topResult = [placemark objectAtIndex:0];
+            NSString *title = [NSString stringWithFormat:@"%@ %@ %@ %@", topResult.country, topResult.locality, topResult.subLocality, topResult.thoroughfare];
+            NSLog(@"%@",title);
+            [[self titleLabel] setText:topResult.locality];
+            [self textFieldDidEndEditing:self.titleLabel];
+            [locManager stopUpdatingLocation];
+        }];
+        
+    }
     
 }
 
@@ -106,6 +144,9 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     [super setTitle:textField.text];
+    if ([delegate respondsToSelector:@selector(textFieldDidFinishEditingForCell:)]) {
+        [delegate textFieldDidFinishEditingForCell:self];
+    }
 }
 
 -(void)startEditing{
