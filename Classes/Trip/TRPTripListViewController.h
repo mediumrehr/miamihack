@@ -12,5 +12,5 @@
 #import <CocoaLibSpotify/SPPlaybackManager.h>
 @interface TRPTripListViewController : UIViewController <TRPMutableCollectionCellDelegate>
 @property (nonatomic, strong) id<TripStorage> tripStorage;
-@property (nonatomic, strong) SPPlaybackManager *playbackManager;
+@property (nonatomic, strong) id<SPPlaybackController> playbackController;
 @end

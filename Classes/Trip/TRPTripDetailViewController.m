@@ -14,7 +14,6 @@
 #import <CocoaLibSpotify/SPPlaylist.h>
 #import <CocoaLibSpotify/SPPlaylistContainer.h>
 #import <CocoaLibSpotify/SPTrack.h>
-#import "SPPlaylistPlaybackDelegate.h"
 
 static int ddLogLevel = LOG_LEVEL_DEBUG;
 
@@ -24,7 +23,6 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 @property (nonatomic, strong) TRPMutableTripModel *mutableTrip;
 @property (nonatomic, strong) NSArray *aggregateArtists;
 @property (nonatomic, strong) NSMutableSet *selectedAggregateArtists;
-@property (nonatomic, strong) SPPlaylist *playlist;
 @end
 
 @implementation TRPTripDetailViewController
@@ -83,6 +81,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     [self.collectionView registerClass:[TRPGenericCollectionViewCell class] forCellWithReuseIdentifier:@"TripCell"];
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.collectionView.allowsMultipleSelection = YES;
+    self.collectionView.alwaysBounceHorizontal = NO;
     [self.view addSubview:self.collectionView];
 }
 
@@ -102,6 +101,29 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
     }];
 
     [self updateCellSelection];
+}
+
+- (void)didUpdateOrCreatePlaylist:(SPPlaylist*)playlist
+{
+    @weakify(self);
+    [SPAsyncLoading
+     waitUntilLoaded:playlist
+     timeout:2.f
+     then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+         @strongify(self);
+         if (![loadedItems count]) {
+             DDLogError(@"Unable to load playlist %@", playlist.spotifyURL);
+             return;
+         }
+         SPPlaylist *loadedPlaylist = [loadedItems lastObject];
+         [self.mutableTrip setSpotifyPlaylistURL:loadedPlaylist.spotifyURL];
+         if (![[self.playbackController currentPlaylistableItem] isEqual:loadedPlaylist]) {
+             [self.playbackController playFirstTrackFrom:loadedPlaylist];
+         }
+         if (![self.playbackController isPlaying]) {
+             [self.playbackController togglePlayback];
+         }
+     }];
 }
 
 #pragma mark - Setters
@@ -128,33 +150,21 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 
     if (_tripModel.spotifyPlaylistURL) {
         @weakify(self);
+        DDLogInfo(@"Setting prexisting playlist: %@", _tripModel.spotifyPlaylistURL);
         [SPPlaylist playlistWithPlaylistURL:_tripModel.spotifyPlaylistURL
                                   inSession:[SPSession sharedSession]
                                    callback:^(SPPlaylist *playlist) {
                                        @strongify(self);
-                                       self.playlist = playlist;
+                                       [self didUpdateOrCreatePlaylist:playlist];
                                    }];
     }
 
     [self setupTripModelBindings];
 }
 
-- (void)setPlaylist:(SPPlaylist *)playlist
-{
-    if ([_playlist isEqual:playlist]) {
-        return;
-    }
-
-    _playlist = playlist;
-
-    [self.mutableTrip setSpotifyPlaylistURL:_playlist.spotifyURL];
-
-    self.playbackManager.playlistPlaybackDelegate.playlist = self.playlist;
-}
-
 #pragma mark - Playlist
 
-- (void)createSpotifyPlaylist:(NSArray*)recommendedTracks
+- (void)createOrAddTracksToSpotifyPlaylist:(NSArray*)recommendedTracks
 {
     DDLogInfo(@"Creating new spotify playlist: %@", recommendedTracks);
     @weakify(self);
@@ -162,53 +172,177 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
      waitUntilLoaded:[[SPSession sharedSession] userPlaylists]
      timeout:5.f
      then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+         @strongify(self);
+         if (!self) {
+             return;
+         }
          if ([loadedItems count] < 1) {
              return;
          }
 
          SPPlaylistContainer *userPlaylists = [loadedItems lastObject];
 
-         if (self.playlist) {
-             SPPlaylist *playlist = self.playlist;
-             [userPlaylists removeItem:playlist callback:^(NSError *error) {
-                 if (error) {
-                     DDLogError(@"Failed to remove playilst %@", playlist.spotifyURL);
-                 }
-             }];
+         if (self.tripModel.spotifyPlaylistURL) {
+             SPPlaylist *targetPlaylist = [userPlaylists.flattenedPlaylists.rac_sequence
+                                           objectPassingTest:^BOOL(SPPlaylist* playlist) {
+                                               return [playlist.spotifyURL isEqual:self.tripModel.spotifyPlaylistURL];
+                                           }];
+             if (targetPlaylist) {
+                 [self mergeTracks:recommendedTracks intoPlaylist:targetPlaylist];
+                 return;
+             }
          }
 
-         self.playlist = nil;
+         [self createNewPlaylistWithTracks:recommendedTracks inContainer:userPlaylists];
+     }];
+}
 
-         [userPlaylists
-          createPlaylistWithName:_tripModel.location
-          callback:^(SPPlaylist *createdPlaylist) {
-              [SPAsyncLoading waitUntilLoaded:createdPlaylist timeout:10.f then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
-                  @strongify(self);
-                  if (!self) {
-                      return;
-                  }
-                  if ([loadedItems count] < 1) {
-                      return;
-                  }
+- (void)mergeTracks:(NSArray*)tracksToMerge intoPlaylist:(SPPlaylist*)playlist
+{
+    NSMutableSet *addedTrackIDs = [[NSSet setWithArray:[tracksToMerge valueForKey:@"spotifyURL"]] mutableCopy];
+    NSSet *existingTrackIDs = [NSSet setWithArray:[playlist.items valueForKey:@"itemURL"]];
+    NSMutableSet *removedTrackIDs = [existingTrackIDs mutableCopy];
+    [removedTrackIDs minusSet:addedTrackIDs];
+    [addedTrackIDs minusSet:existingTrackIDs];
 
-                  SPPlaylist *loadedPlaylist = [loadedItems lastObject];
+    RACSignal *trackModificationSignal = [RACSignal return:playlist];
+    if ([addedTrackIDs count]) {
+        NSArray *addedTracks = [[self class] extractTracksWithIdentifiers:addedTrackIDs from:tracksToMerge];
+        trackModificationSignal = [[self class] appendTracks:addedTracks toPlaylist:playlist];
+    }
 
-                  NSArray *nonNullTracks = [[recommendedTracks.rac_sequence filter:^BOOL(id value) {
-                      return ![[NSNull null] isEqual:value];
-                  }] array];
+    if ([removedTrackIDs count]) {
+        NSArray *removedTracks = [[self class] extractTracksWithIdentifiers:removedTrackIDs
+                                                                       from:[playlist.items valueForKey:@"item"]];
+        trackModificationSignal = [trackModificationSignal then:^RACSignal *{
+            return [[self class] removeTracks:removedTracks fromPlaylist:playlist];
+        }];
+    }
 
-                  @weakify(loadedPlaylist);
-                  [loadedPlaylist addItems:nonNullTracks atIndex:0 callback:^(NSError *error) {
-                      @strongify(loadedPlaylist);
-                      if (error) {
-                          DDLogError(@"Failed to add tracks to playlist %@. %@", loadedPlaylist, error);
-                      } else {
-                          DDLogInfo(@"Added new tracks to playlist %@. %@", loadedPlaylist, nonNullTracks);
-                          self.playlist = loadedPlaylist;
-                      }
-                  }];
-              }];
-          }];
+    @weakify(self);
+    [trackModificationSignal subscribeCompleted:^{
+        @strongify(self);
+        DDLogInfo(@"Merged new tracks into prexisting playlist: %@", playlist.spotifyURL);
+        [self didUpdateOrCreatePlaylist:playlist];
+    }];
+}
+
++ (RACSignal*)appendTracks:(NSArray*)tracksToAdd toPlaylist:(SPPlaylist*)playlist
+{
+    @weakify(playlist);
+    return [RACSignal
+            startEagerlyWithScheduler:[RACScheduler mainThreadScheduler]
+            block:^(id<RACSubscriber> subscriber) {
+                @weakify(subscriber);
+                [playlist addItems:tracksToAdd atIndex:[playlist.items count] callback:^(NSError *error) {
+                    @strongify(playlist);
+                    @strongify(subscriber);
+                    if (playlist && !error) {
+                        [subscriber sendNext:playlist];
+                    } else if (error) {
+                        DDLogError(@"Failed to add tracks %@ to playlist %@",
+                                   tracksToAdd, playlist.spotifyURL);
+                        [subscriber sendError:error];
+                    }
+                    [subscriber sendCompleted];
+                }];
+            }];
+}
+
++ (RACSignal*)removeTracks:(NSArray*)tracksToRemove fromPlaylist:(SPPlaylist*)playlist
+{
+    return [[RACSignal
+             merge:[tracksToRemove.rac_sequence
+                    foldLeftWithStart:[RACSignal return:playlist]
+                    reduce:^id(RACSignal *chainedSignal, SPTrack *track) {
+                        return [chainedSignal then:^RACSignal *{
+                            return [[self class] removeTrack:track fromPlaylist:playlist];
+                        }];
+                    }]] collect];
+}
+
++ (RACSignal*)removeTrack:(SPTrack*)track fromPlaylist:(SPPlaylist*)playlist
+{
+    @weakify(playlist)
+    return [RACSignal
+            startEagerlyWithScheduler:[RACScheduler mainThreadScheduler]
+            block:^(id<RACSubscriber> subscriber) {
+                @strongify(playlist);
+                NSUInteger index = [playlist.items indexOfObjectPassingTest:
+                                    ^BOOL(SPPlaylistItem *item, NSUInteger idx, BOOL *stop) {
+                                        return [item.itemURL isEqual:track.spotifyURL];
+                                    }];
+                if (index == NSNotFound) {
+                    [subscriber sendCompleted];
+                    return;
+                }
+                @weakify(playlist);
+                @weakify(subscriber);
+                [playlist removeItemAtIndex:index callback:^(NSError *error) {
+                    @strongify(subscriber);
+                    @strongify(playlist);
+
+                    if (playlist && !error) {
+                        DDLogInfo(@"Removed track %@ from playlist %@", track.spotifyURL, playlist.spotifyURL);
+                        [subscriber sendNext:playlist];
+                    } else if (error) {
+                        DDLogError(@"Failed to remove track %@ from playlist %@",
+                                   track, playlist.spotifyURL);
+                        [subscriber sendError:error];
+                    }
+                    [subscriber sendCompleted];
+                }];
+            }];
+}
+
++ (NSArray*)extractTracksWithIdentifiers:(NSSet*)trackIDs from:(NSArray*)tracks
+{
+    NSMutableArray *extractedTracks = [[NSMutableArray alloc] initWithCapacity:[trackIDs count]];
+    return [tracks.rac_sequence foldLeftWithStart:extractedTracks
+                                           reduce:^id(NSMutableArray *extractedTracks, SPTrack *track) {
+                                               if (![[NSNull null] isEqual:track]
+                                                   && [trackIDs containsObject:track.spotifyURL]) {
+                                                   [extractedTracks addObject:track];
+                                               }
+                                               return extractedTracks;
+                                           }];
+}
+
+- (void)createNewPlaylistWithTracks:(NSArray*)tracks inContainer:(SPPlaylistContainer*)userPlaylists
+{
+    @weakify(self);
+    [userPlaylists
+     createPlaylistWithName:_tripModel.location
+     callback:^(SPPlaylist *createdPlaylist) {
+         [SPAsyncLoading waitUntilLoaded:createdPlaylist timeout:10.f then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+             @strongify(self);
+             if (!self) {
+                 return;
+             }
+             if ([loadedItems count] < 1) {
+                 return;
+             }
+
+             SPPlaylist *loadedPlaylist = [loadedItems lastObject];
+
+             NSArray *nonNullTracks = [[tracks.rac_sequence filter:^BOOL(id value) {
+                 return ![[NSNull null] isEqual:value];
+             }] array];
+
+             @weakify(loadedPlaylist);
+             [loadedPlaylist addItems:nonNullTracks atIndex:0 callback:^(NSError *error) {
+                 @strongify(loadedPlaylist);
+                 if (!loadedPlaylist) {
+                     return;
+                 }
+                 if (error) {
+                     DDLogError(@"Failed to add tracks to playlist %@. %@", loadedPlaylist, error);
+                 } else {
+                     DDLogInfo(@"Created new playlist %@ with tracks: %@", loadedPlaylist, nonNullTracks);
+                     [self didUpdateOrCreatePlaylist:loadedPlaylist];
+                 }
+             }];
+         }];
      }];
 }
 
@@ -246,7 +380,7 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
                  }];
              }]] collect] subscribeNext:^(NSArray *tracks) {
                  @strongify(self);
-                 [self createSpotifyPlaylist:tracks];
+                 [self createOrAddTracksToSpotifyPlaylist:tracks];
              } error:^(NSError *error) {
                  DDLogVerbose(@"Failed to accumulate all tracks: %@", error);
              }];
@@ -372,12 +506,12 @@ static int ddLogLevel = LOG_LEVEL_DEBUG;
 
 #pragma mark - UICollectionViewDataSource
 
-- (int)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+- (long)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
 
-- (int)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (long)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [self.aggregateArtists count];
 }
